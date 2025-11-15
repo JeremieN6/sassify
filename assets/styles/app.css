@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom styles from original Sassify */
+.text-gradient {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.bg-gradient-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+/* Animation de collapse/expand pour les sections avancées */
+.expand-transition {
+    transition: max-height 0.3s ease-out;
+    overflow: hidden;
+}
+
+.collapsed {
+    max-height: 0;
+}
+
+.expanded {
+    max-height: 5000px; /* Valeur suffisamment grande pour contenir tout le contenu */
+}

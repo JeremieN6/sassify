@@ -1,0 +1,11 @@
+easy_admin:
+    site_name: 'Sassify'
+
+    assets:
+        importmap: false
+        css: []
+        js: []
+
+    design:
+        brand:
+            color: '#1f2937'

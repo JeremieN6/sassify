@@ -1,0 +1,6 @@
+<h1>Activez votre compte Sassify</h1>
+<p>Bonjour 🙂, vous avez récemment créé un compte sur le site Sassify avec l'adresse : {{ user.email }},</p>
+<p>Votre inscription sur le site est à valider en cliquant sur le lien ci-dessous :</p>
+<p><a href="{{ absolute_url(path('verification_user', {token: token})) }}">Cliquez ici</a></p>
+<p>❗Attention, ce lien expirera dans 3 heures.</p>
+<p>Merci,<br>L’équipe Sassify™</p>

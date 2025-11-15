@@ -1,0 +1,53 @@
+###> symfony/framework-bundle ###
+/.env.local
+/.env.local.php
+/.env.*.local
+/config/secrets/prod/prod.decrypt.private.php
+/public/bundles/
+/var/
+/vendor/
+###< symfony/framework-bundle ###
+
+
+###> phpunit/phpunit ###
+/phpunit.xml
+.phpunit.result.cache
+###< phpunit/phpunit ###
+
+
+###> symfony/phpunit-bridge ###
+.phpunit.result.cache
+/phpunit.xml
+###< symfony/phpunit-bridge ###
+/public/upload/images/profil/*
+
+
+###> remove doc project ###
+/saas-airfryer
+/tjm-calculator
+/air-fryer-calculator
+/documents
+###> remove doc project ###
+
+###> test files ###
+test-*.pdf
+test_*.json
+test*.pdf
+test*.json
+###< test files ###
+
+###> remove guide test file ###
+# /docs
+# /docs/*
+# /archive
+/GUIDE_TEST.md
+/GUIDE_TEST_ENTREPRISE.md
+###> remove guide test file ###
+
+# Local Netlify folder
+.netlify
+.env
+
+.specstory
+.cursorindexingignore
+node_modules

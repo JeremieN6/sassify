@@ -1,0 +1,85 @@
+<header class="bg-white border-b border-gray-200 dark:bg-gray-900 dark:border-gray-700">
+    <nav class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+        <!-- Logo -->
+        <a href="{{ path('app_home') }}" class="flex items-center space-x-3">
+            <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Sassify</span>
+        </a>
+
+        <!-- Navigation Desktop -->
+        <div class="hidden md:flex md:items-center md:space-x-8">
+            <a href="{{ path('app_home') }}" class="text-gray-900 hover:text-blue-700 px-3 py-2 text-sm font-medium dark:text-white dark:hover:text-blue-500">
+                Accueil
+            </a>
+            <a href="/#" class="text-gray-900 hover:text-blue-700 px-3 py-2 text-sm font-medium dark:text-white dark:hover:text-blue-500">
+                Projets
+            </a>
+            <a href="{{ path('app_blog') }}" class="text-gray-900 hover:text-blue-700 px-3 py-2 text-sm font-medium dark:text-white dark:hover:text-blue-500">
+                Blog
+            </a>
+        </div>
+
+        <!-- Boutons CTA Desktop -->
+        <div class="hidden md:flex items-center space-x-3">
+                <a href="mailto:contact@sassify.fr" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700">
+                    Contact
+                </a>
+        </div>
+
+        <!-- Bouton Mobile -->
+        <button type="button" aria-label="Ouvrir le menu" title="Ouvrir le menu" class="md:hidden inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" id="mobile-menu-button">
+            <span class="sr-only">Ouvrir le menu</span>
+            <svg class="w-5 h-5" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+        </button>
+
+        <!-- Menu Mobile -->
+        <div class="hidden w-full md:hidden" id="mobile-menu">
+            <ul class="flex flex-col font-medium mt-4 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
+                <li>
+                    <a href="{{ path('app_home') }}" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+                        Accueil
+                    </a>
+                </li>
+                <li>
+                    <a href="/#faq" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+                        Faq
+                    </a>
+                </li>
+                {% if app.user %}
+                <li>
+                    <a href="{{ path('quote_index') }}" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+                        Mes Devis
+                    </a>
+                </li>
+                {% endif %}
+                <li>
+                    <a href="{{path('app_blog')}}" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+                        Blog
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Boutons CTA Mobile -->
+            <div class="flex flex-col space-y-2 mt-4 px-3 pb-3">
+                    <a href="mailto:contact@sassify.fr" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700">
+                        Contact
+                    </a>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<script>
+// Script pour le menu mobile
+document.addEventListener('DOMContentLoaded', function() {
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    if (mobileMenuButton && mobileMenu) {
+        mobileMenuButton.addEventListener('click', function() {
+            mobileMenu.classList.toggle('hidden');
+        });
+    }
+});
+</script>

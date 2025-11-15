@@ -1,0 +1,32 @@
+{
+    "name": "sassify",
+    "version": "2.2.0",
+    "description": "Incubateur et portfolio de micro SaaS",
+    "devDependencies": {
+        "@babel/core": "^7.17.0",
+        "@babel/preset-env": "^7.16.0",
+        "@symfony/webpack-encore": "^5.1.0",
+        "autoprefixer": "^10.4.21",
+        "core-js": "^3.38.0",
+        "postcss": "^8.5.6",
+        "postcss-loader": "^8.1.1",
+        "regenerator-runtime": "^0.13.9",
+        "tailwindcss": "^3.4.17",
+        "webpack": "^5.74.0",
+        "webpack-cli": "^5.1.0"
+    },
+    "license": "UNLICENSED",
+    "private": true,
+    "scripts": {
+        "dev-server": "encore dev-server",
+        "dev": "encore dev",
+        "watch": "encore dev --watch",
+        "build": "encore production --progress"
+    },
+    "dependencies": {
+        "@vue/compiler-sfc": "^3.5.17",
+        "flowbite": "^3.1.2",
+        "vue": "^3.5.17",
+        "vue-loader": "^17.4.2"
+    }
+}

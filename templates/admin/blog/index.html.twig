@@ -1,0 +1,228 @@
+{% extends '@EasyAdmin/crud/index.html.twig' %}
+
+{% block body_javascript %}
+    {{ parent() }}
+    
+    <!-- Modal pour la génération d'article -->
+    <div class="modal fade" id="generateArticleModal" tabindex="-1" aria-labelledby="generateArticleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="generateArticleModalLabel">
+                        <i class="fas fa-magic me-2"></i>
+                        Générer un article
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-muted mb-3 text-gray-500 dark:text-gray-400">
+                        Créez un article de blog optimisé pour votre audience tech : entreprises, agences et freelances dans le développement web.
+                    </p>
+
+                    <!-- Formulaire de saisie -->
+                    <div id="topicForm">
+                        <div class="mb-3">
+                            <label for="articleTopic" class="form-label fw-bold">
+                                <i class="fas fa-pen-nib me-1"></i>
+                                Sujet de l'article
+                            </label>
+                            <textarea 
+                                class="form-control" 
+                                id="articleTopic" 
+                                rows="3" 
+                                placeholder="Ex: Comment optimiser les coûts de développement d'une application mobile..."
+                                required
+                            ></textarea>
+                            <div class="form-text">
+                                <i class="fas fa-info-circle me-1"></i>
+                                Décrivez le sujet que vous souhaitez traiter. L'article sera optimisé SEO et adapté à votre audience.
+                            </div>
+                        </div>
+
+                        <!-- Suggestions -->
+                        <div class="mb-3">
+                            <h6 class="mb-2"><i class="fas fa-lightbulb text-warning me-1"></i> Suggestions :</h6>
+                            <div class="d-flex flex-wrap gap-2">
+                                <button type="button" class="btn btn-outline-secondary btn-sm suggestion-btn">
+                                    Comment estimer précisément le coût d'un projet web en 2025
+                                </button>
+                                <button type="button" class="btn btn-outline-secondary btn-sm suggestion-btn">
+                                    Les erreurs d'estimation qui coûtent cher aux entreprises tech
+                                </button>
+                                <button type="button" class="btn btn-outline-secondary btn-sm suggestion-btn">
+                                    ROI et développement web : optimiser vos investissements tech
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Indicateur de progression -->
+                    <div id="progressSection" style="display: none;">
+                        <div class="text-center mb-3">
+                            <div class="spinner-border text-success" role="status">
+                                <span class="visually-hidden">Génération en cours...</span>
+                            </div>
+                        </div>
+                        <div class="progress mb-3">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" 
+                                 role="progressbar" style="width: 0%" id="modalProgressBar"></div>
+                        </div>
+                        <div class="text-center">
+                            <small class="text-muted" id="modalProgressText">Initialisation...</small>
+                        </div>
+                    </div>
+
+                    <!-- Message de résultat -->
+                    <div id="resultSection" style="display: none;">
+                        <div class="alert" id="resultAlert"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="cancelBtn">
+                        Annuler
+                    </button>
+                    <button type="button" class="btn btn-success" id="generateBtn">
+                        <i class="fas fa-magic me-1"></i>
+                        Générer l'article
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Gestion des suggestions
+            document.querySelectorAll('.suggestion-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.getElementById('articleTopic').value = this.textContent.trim();
+                });
+            });
+
+            // Gestion du bouton de génération
+            document.getElementById('generateBtn').addEventListener('click', function() {
+                const topic = document.getElementById('articleTopic').value.trim();
+                
+                if (!topic) {
+                    alert('Veuillez saisir un sujet pour l\'article.');
+                    return;
+                }
+
+                generateArticle(topic);
+            });
+
+            // Réinitialiser la modal à la fermeture
+            document.getElementById('generateArticleModal').addEventListener('hidden.bs.modal', function() {
+                resetModal();
+            });
+        });
+
+        function generateArticle(topic) {
+            // Masquer le formulaire et afficher la progression
+            document.getElementById('topicForm').style.display = 'none';
+            document.getElementById('progressSection').style.display = 'block';
+            document.getElementById('generateBtn').style.display = 'none';
+            document.getElementById('cancelBtn').textContent = 'Fermer';
+
+            // Simuler la progression
+            simulateProgress();
+
+            // Appel AJAX pour générer l'article
+            fetch('{{ path('admin_blog_generate') }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: 'topic=' + encodeURIComponent(topic)
+            })
+            .then(response => response.json())
+            .then(data => {
+                handleResult(data);
+            })
+            .catch(error => {
+                console.error('Erreur:', error);
+                handleResult({
+                    success: false,
+                    message: 'Erreur de connexion lors de la génération'
+                });
+            });
+        }
+
+        function simulateProgress() {
+            const progressBar = document.getElementById('modalProgressBar');
+            const progressText = document.getElementById('modalProgressText');
+            
+            const steps = [
+                { percent: 15, text: 'Connexion à OpenAI...' },
+                { percent: 30, text: 'Analyse du sujet...' },
+                { percent: 50, text: 'Génération du contenu...' },
+                { percent: 70, text: 'Structuration de l\'article...' },
+                { percent: 85, text: 'Optimisation SEO...' },
+                { percent: 95, text: 'Finalisation...' }
+            ];
+            
+            let currentStep = 0;
+            
+            const interval = setInterval(() => {
+                if (currentStep < steps.length) {
+                    const step = steps[currentStep];
+                    progressBar.style.width = step.percent + '%';
+                    progressText.textContent = step.text;
+                    currentStep++;
+                } else {
+                    clearInterval(interval);
+                }
+            }, 1000); // Changement toutes les 1 seconde (plus rapide)
+        }
+
+        function handleResult(data) {
+            // Masquer la progression
+            document.getElementById('progressSection').style.display = 'none';
+            
+            // Afficher le résultat
+            document.getElementById('resultSection').style.display = 'block';
+            const resultAlert = document.getElementById('resultAlert');
+            
+            if (data.success) {
+                resultAlert.className = 'alert alert-success';
+                resultAlert.innerHTML = `
+                    <i class="fas fa-check-circle me-2"></i>
+                    ${data.message}
+                    <br><small>Redirection vers l'édition dans 3 secondes...</small>
+                `;
+                
+                // Redirection après 3 secondes
+                setTimeout(() => {
+                    window.location.href = data.editUrl;
+                }, 3000);
+            } else {
+                resultAlert.className = 'alert alert-danger';
+                resultAlert.innerHTML = `
+                    <i class="fas fa-exclamation-circle me-2"></i>
+                    ${data.message}
+                `;
+                
+                // Réinitialiser après 5 secondes
+                setTimeout(() => {
+                    resetModal();
+                }, 5000);
+            }
+        }
+
+        function resetModal() {
+            document.getElementById('topicForm').style.display = 'block';
+            document.getElementById('progressSection').style.display = 'none';
+            document.getElementById('resultSection').style.display = 'none';
+            document.getElementById('generateBtn').style.display = 'inline-block';
+            document.getElementById('cancelBtn').textContent = 'Annuler';
+            document.getElementById('articleTopic').value = '';
+            document.getElementById('modalProgressBar').style.width = '0%';
+        }
+
+        // Fonction globale pour ouvrir la modal (appelée par le bouton EasyAdmin)
+        function openGenerateModal() {
+            const modal = new bootstrap.Modal(document.getElementById('generateArticleModal'));
+            modal.show();
+        }
+    </script>
+{% endblock %}

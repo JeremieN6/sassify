@@ -1,0 +1,33 @@
+{# animation TAOS Tailwind : delay-[300ms] duration-[600ms] taos:scale-[0.6] taos:opacity-0" data-taos-offset="400 #}
+    <section class="bg-gray-100 dark:bg-gray-800">
+            <div class="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
+                <div class="mr-auto place-self-center lg:col-span-7">
+                    <a href="#portfolio" class="inline-flex justify-start items-center py-1 px-1 pr-4 mb-7 text-sm text-gray-700 bg-gray-100 rounded-full dark:bg-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700" role="status">
+                        <span class="text-xs bg-blue-600 rounded-full text-white px-4 py-1.5 mr-3">Nouveau</span> <span class="text-sm font-medium italic">Découvrez les derniers projets incubés par Sassify ⚡</span> 
+                        <svg class="ml-2 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
+                    </a>
+                    <h1 class="mb-4 text-5xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white"><span class="text-gradient italic">L'incubateur</span> qui donne vie aux micro <span class="text-gradient italic">SaaS</span></h1>
+                    <p class="max-w-2xl mb-6 text-left font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">Sassify documente chaque idée, prototype et lancement. Suivez l'évolution de nos projets SaaS, accédez aux métriques clés et inspirez-vous de nos outils pour accélérer vos propres produits.</p>
+                    
+                    <!-- Email Signup Form -->
+                    <form class="w-full max-w-md mb-4">
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            <input type="email" placeholder="Entrez votre email" class="flex-1 px-4 py-3 text-base text-gray-900 bg-white border border-gray-300 rounded-lg focus:ring-4 focus:ring-blue-300 focus:border-blue-600 dark:bg-gray-800 dark:border-gray-600 dark:text-white dark:focus:ring-blue-800" required>
+                            <button type="submit" class="px-6 py-3 text-base font-medium text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900 whitespace-nowrap">
+                                S'inscrire
+                            </button>
+                        </div>
+                    </form>
+                    
+                    <!-- Social Proof Info -->
+                    <p class="text-sm text-gray-600 dark:text-gray-400">
+                        ⭐ 1,456+ Reviews | 💳 No Credit Card Required
+                    </p> 
+                </div>
+                <div class="hidden lg:mt-0 lg:col-span-5 lg:flex">
+                    <img src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/hero/phone-mockup.png" alt="mockup">
+                </div>                
+            </div>
+        </section>
+        <!-- Brand Logo Section -->
+        {{ include('components/brand_logo.html.twig') }}

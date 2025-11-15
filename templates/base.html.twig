@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sassify — Incubateur de projets SaaS. Explorez nos offres, technologies et exemples de réalisations pour lancer votre application SaaS avec succès.">
+        <title>{% block title %}Sassify{% endblock %}</title>
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚡</text></svg>">
+        <!-- Tailwind CDN disabled in favor of compiled assets (use Encore build) to avoid render-blocking in production -->
+        <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+        <!-- If you rely on the CDN in development, re-enable above. Prefer building Tailwind via Encore for production. -->
+
+    <!-- Preconnect to CDNs used for assets to speed up handshake -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="preconnect" href="https://flowbite.com" crossorigin>
+    <!-- Flowbite CSS: load non-blocking using preload + onload to avoid render-blocking (noscript fallback for no-JS) -->
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.css" as="style" onload="this.rel='stylesheet'">
+    <noscript><link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.css" rel="stylesheet" /></noscript>
+    <!-- Flowbite JS removed from head (loaded at end of body) to avoid render-blocking; will be deferred -->
+
+        <script>document.documentElement.classList.add('js')</script>
+
+        {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
+        {% endblock %}
+
+        <!-- Styles personnalisés pour préserver le gradient -->
+        <style>
+            .text-gradient {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+            }
+            #theme-toggle-wrapper {
+                position: fixed;
+                right: 1rem;
+                bottom: 1rem;
+                left: auto;
+                z-index: 50;
+            }
+            @media (min-width: 768px) {
+                #theme-toggle-wrapper {
+                    right: 1.5rem;
+                    bottom: 1.5rem;
+                }
+            }
+        </style>
+
+        <!-- Script pour le dark theme (doit être en premier pour éviter le flash) -->
+        <script>
+            // Vérifier le thème sauvegardé ou utiliser la préférence système
+            if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        </script>
+    </head>
+    <body class="bg-gray-50 dark:bg-gray-900 min-h-screen">
+        <a class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-white text-sm p-2 rounded" href="#main-content">Aller au contenu</a>
+        <!-- Bouton Dark Theme (toujours visible) -->
+    <div id="theme-toggle-wrapper" class="fixed right-4 bottom-4 left-auto z-50 md:right-6 md:bottom-6">
+            <button id="theme-toggle" type="button" aria-label="Basculer le thème" title="Basculer le thème" class="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 bg-white dark:bg-gray-800 shadow-lg">
+                <!-- Icône lune (mode dark) -->
+                <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" aria-hidden="true" focusable="false" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                </svg>
+                <!-- Icône soleil (mode light) -->
+                <svg id="theme-toggle-light-icon" class="hidden w-5 h-5" aria-hidden="true" focusable="false" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path>
+                </svg>
+            </button>
+        </div>
+        <!-- Header -->
+        {% include 'header.html.twig' %}
+        {% if app.user and app.user.isVerified == false %}
+        <div id="alert-4" class="flex items-center ring-1 ring-yellow-500 p-4 mb-4 text-yellow-800 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300 fixed top-20 right-2 z-50" role="alert">
+            <svg class="shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+            </svg>
+            <span class="sr-only">Info</span>
+            <div class="ms-3 text-sm font-medium">
+                 <strong>Bonjour, {{app.user.prenom}}</strong>, <br> votre compte n'est pas encore activé. <br> Un lien d'activation vous a été envoyé par mail.<br>
+                <a href="{{path('resend_verif')}}" target="_blank">Pas de lien ? <span class="font-semibold underline hover:no-underline">Renvoyez le lien d'activation.</span></a>
+            </div>
+            <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-yellow-50 text-yellow-500 rounded-lg focus:ring-2 focus:ring-yellow-400 p-1.5 hover:bg-yellow-200 inline-flex items-center justify-center h-8 w-8 dark:bg-gray-800 dark:text-yellow-300 dark:hover:bg-gray-700" data-dismiss-target="#alert-4" aria-label="Close">
+                <span class="sr-only">Close</span>
+                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                </svg>
+            </button>
+        </div>
+        {% endif %}
+
+        <main id="main-content" role="main">
+            {% block body %}{% endblock %}
+        </main>
+
+        <!-- Footer -->
+        {% include 'footer.html.twig' %}
+        {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+        {% endblock %}
+    <!-- Flowbite JS (deferred to avoid blocking parsing) -->
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js" defer></script>
+
+    {# Removed taos: causes runtime errors on some DOM mutations (className not always a string) #}
+
+        <!-- Script pour le fonctionnement du dark theme -->
+        <script>
+            var themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+            var themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+
+            // Changer les icônes selon le thème actuel
+            if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                themeToggleLightIcon.classList.remove('hidden');
+            } else {
+                themeToggleDarkIcon.classList.remove('hidden');
+            }
+
+            var themeToggleBtn = document.getElementById('theme-toggle');
+
+            themeToggleBtn.addEventListener('click', function() {
+                // Basculer les icônes
+                themeToggleDarkIcon.classList.toggle('hidden');
+                themeToggleLightIcon.classList.toggle('hidden');
+
+                // Si défini dans localStorage
+                if (localStorage.getItem('color-theme')) {
+                    if (localStorage.getItem('color-theme') === 'light') {
+                        document.documentElement.classList.add('dark');
+                        localStorage.setItem('color-theme', 'dark');
+                    } else {
+                        document.documentElement.classList.remove('dark');
+                        localStorage.setItem('color-theme', 'light');
+                    }
+                } else {
+                    if (document.documentElement.classList.contains('dark')) {
+                        document.documentElement.classList.remove('dark');
+                        localStorage.setItem('color-theme', 'light');
+                    } else {
+                        document.documentElement.classList.add('dark');
+                        localStorage.setItem('color-theme', 'dark');
+                    }
+                }
+            });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,30 @@
+
+{% extends '@EasyAdmin/layout.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('app') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('app') }}
+{% endblock %}
+
+{% block title %}Administration{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1 class="my-4">Tableau de bord</h1>
+        <p>Bienvenue dans l'interface d'administration de Sassify.</p>
+        <p>Utilisez le menu latéral pour naviguer entre les différentes sections.</p>
+    </div>
+{% endblock %}
+
+{# {% block content %}
+
+<div class="jumbotron">
+    <h1 class="display-4">Administration</h1>
+    <p class="lead">Bienvenue sur l'interface d'administration de Sassify.</p>
+</div>
+
+{% endblock %} #}

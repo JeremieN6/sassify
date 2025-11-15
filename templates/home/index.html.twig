@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block body %}
+<div id="homepage-app">
+
+    <!-- Hero Section -->
+    {{ include('components/hero.html.twig') }}
+
+    <!-- About Section -->
+    {{ include('components/about_us.html.twig') }}
+
+    <!-- Features Section -->
+    {{ include('components/features.html.twig') }}
+
+    <!-- Portfolio Section -->
+    {{ include('components/portfolio.html.twig') }}
+
+    <!-- Testimonials Section -->
+    {{ include('components/testimonials.html.twig') }}
+
+    <!-- Pricing Section -->
+    {# {{ include('components/pricing.html.twig') }}     #}
+
+    <!-- FAQ Section -->
+    {{ include('components/faq.html.twig') }}
+
+</div>
+{% endblock %}
