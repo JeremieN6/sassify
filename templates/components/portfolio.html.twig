@@ -1,4 +1,4 @@
-{# Portfolio section with data from JSON file and paginated thematic sections #}
+{# Portfolio section with data from JSON file and filter system #}
 {% set jsonData = projects_data|default({saas: [], technologies: {}}) %}
 {% set allProjects = jsonData.saas %}
 
@@ -11,6 +11,27 @@
             <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Créations et études de cas</h2>
             <p class="text-gray-500 text-center sm:text-xl dark:text-gray-400">Je conçois des dashboards, outils SaaS et expériences web centrées sur l'usage. Chaque projet est construit pour délivrer rapidement de la valeur, offrir une interface maîtrisée et rester simple à faire évoluer.</p>
         </header>
+
+        {# Filter buttons #}
+        <div class="mt-12 text-sm font-medium text-center text-body border-b border-default mb-12">
+            <ul class="flex flex-wrap -mb-px justify-center md:justify-start">
+                <li class="me-2">
+                    <a href="#" class="portfolio-filter-btn inline-block px-4 py-3 border-b-2 border-transparent rounded-t-md text-gray-500 dark:text-gray-300 hover:text-blue-600 hover:border-blue-500 dark:hover:text-blue-400 dark:hover:border-blue-400 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500 focus-visible:ring-offset-white dark:focus-visible:ring-offset-gray-900 text-blue-600 dark:text-blue-400 border-blue-600 dark:border-blue-400" data-filter="all" aria-current="page">Tous les projets</a>
+                </li>
+                <li class="me-2">
+                    <a href="#" class="portfolio-filter-btn inline-block px-4 py-3 border-b-2 border-transparent rounded-t-md text-gray-500 dark:text-gray-300 hover:text-blue-600 hover:border-blue-500 dark:hover:text-blue-400 dark:hover:border-blue-400 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500 focus-visible:ring-offset-white dark:focus-visible:ring-offset-gray-900" data-filter="saas">SaaS</a>
+                </li>
+                <li class="me-2">
+                    <a href="#" class="portfolio-filter-btn inline-block px-4 py-3 border-b-2 border-transparent rounded-t-md text-gray-500 dark:text-gray-300 hover:text-blue-600 hover:border-blue-500 dark:hover:text-blue-400 dark:hover:border-blue-400 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500 focus-visible:ring-offset-white dark:focus-visible:ring-offset-gray-900" data-filter="mes-projets">Mes projets</a>
+                </li>
+                <li class="me-2">
+                    <a href="#" class="portfolio-filter-btn inline-block px-4 py-3 border-b-2 border-transparent rounded-t-md text-gray-500 dark:text-gray-300 hover:text-blue-600 hover:border-blue-500 dark:hover:text-blue-400 dark:hover:border-blue-400 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500 focus-visible:ring-offset-white dark:focus-visible:ring-offset-gray-900" data-filter="micro-projet">Micro-projets</a>
+                </li>
+                <li>
+                    <a href="#" class="portfolio-filter-btn inline-block px-4 py-3 border-b-2 border-transparent rounded-t-md text-gray-500 dark:text-gray-300 hover:text-blue-600 hover:border-blue-500 dark:hover:text-blue-400 dark:hover:border-blue-400 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500 focus-visible:ring-offset-white dark:focus-visible:ring-offset-gray-900" data-filter="autres">Autres</a>
+                </li>
+            </ul>
+        </div>
 
         {% set statusConfig = {
             'en ligne': {
@@ -60,245 +81,131 @@
             }
         } %}
 
-        {% set categoryConfig = {
-            'saas': {
-                'title': 'Produits SaaS',
-                'description': 'Applications SaaS en ligne et maintenues, prêtes à l\'emploi.'
-            },
-            'micro-projet': {
-                'title': 'Micro-projets',
-                'description': 'Expérimentations rapides pour tester des idées ou MVP sectoriels.'
-            },
-            'autres': {
-                'title': 'Autres projets',
-                'description': 'Outils spécialisés ou one-shots construits pour répondre à un besoin précis.'
-            },
-            'mes-projets': {
-                'title': 'Mes projets techniques',
-                'description': 'Projets internes, R&D et outils personnels utilisés au quotidien.'
-            }
-        } %}
+        <div class="mt-16" id="portfolio-grid">
+            {% for project in allProjects %}
+                <article class="portfolio-item mb-32" data-category="{{ project.category }}" data-status="{{ project.status }}">
+                    {% set fallbackImage = 'https://placehold.co/1200x800/f8fafc/1f2937?text=Preview+SaaS' %}
+                    {% set baseIllustration = project.illustration ?? '' %}
 
-        <div class="mt-16 space-y-24">
-            {% for categoryKey, categoryMeta in categoryConfig %}
-                {% set categoryProjects = allProjects|filter(project => project.category == categoryKey) %}
-                {% if categoryProjects|length > 0 %}
-                    {% set paginatedProjects = categoryProjects|batch(4, null) %}
+                    {% set lightImage = project.illustration_light ?? '' %}
+                    {% if lightImage is empty %}
+                        {% if '-dark' in baseIllustration %}
+                            {% set lightImage = baseIllustration|replace({'-dark': '-light'}) %}
+                        {% elseif '_dark' in baseIllustration %}
+                            {% set lightImage = baseIllustration|replace({'_dark': '_light'}) %}
+                        {% elseif baseIllustration %}
+                            {% set lightImage = baseIllustration %}
+                        {% else %}
+                            {% set lightImage = fallbackImage %}
+                        {% endif %}
+                    {% endif %}
 
-                    <section class="space-y-10" data-category-section="{{ categoryKey }}">
-                        <header class="flex flex-col gap-3 text-left">
-                            <div class="flex items-center gap-3 text-sm font-semibold uppercase tracking-widest text-blue-600 dark:text-blue-300">
-                                <span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-blue-600/10 text-blue-600 dark:bg-blue-400/20 dark:text-blue-300">{{ categoryProjects|length }}</span>
-                                {{ categoryMeta.title }}
-                            </div>
-                            <p class="text-base text-gray-600 dark:text-gray-300">{{ categoryMeta.description }}</p>
+                    {% set darkImage = project.illustration_dark ?? '' %}
+                    {% if darkImage is empty %}
+                        {% if '-light' in baseIllustration %}
+                            {% set darkImage = baseIllustration|replace({'-light': '-dark'}) %}
+                        {% elseif '_light' in baseIllustration %}
+                            {% set darkImage = baseIllustration|replace({'_light': '_dark'}) %}
+                        {% elseif baseIllustration %}
+                            {% set darkImage = baseIllustration %}
+                        {% else %}
+                            {% set darkImage = fallbackImage %}
+                        {% endif %}
+                    {% endif %}
+                    {% set altText = project.alt ?? 'Illustration du projet ' ~ project.name %}
+
+                    <figure class="overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-[0_25px_50px_-12px_rgba(15,23,42,0.25)] dark:border-gray-700 dark:bg-gray-900 dark:shadow-[0_25px_50px_-12px_rgba(15,23,42,0.55)]">
+                        <img class="block w-full dark:hidden" src="{{ lightImage }}" alt="{{ altText }}">
+                        <img class="hidden w-full dark:block" src="{{ darkImage }}" alt="{{ altText }}">
+                    </figure>
+
+                    <div class="mt-12 space-y-10 text-left">
+                        <header class="flex flex-col gap-4">
+                            {% set normalizedStatus = project.status|default('')|trim|lower|replace({'é':'e','è':'e','ê':'e','à':'a','â':'a'}) %}
+                            {% set status = statusConfig[normalizedStatus] ?? (project.status ? {
+                                'label': project.status,
+                                'badge': 'bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-300',
+                                'dot': 'bg-slate-500 dark:bg-slate-400'
+                            } : null) %}
+                            {% if status %}
+                                <span class="inline-flex items-center gap-2 px-3 py-1.5 text-xs font-semibold rounded-full text-gray-700 dark:text-gray-300 w-fit">
+                                    <span class="inline-flex flex-shrink-0 w-2.5 h-2.5 rounded-full {{ status.dot }}"></span>
+                                    {{ status.label }}
+                                </span>
+                            {% endif %}
+                            <h3 class="text-3xl font-bold tracking-tight text-gray-900 md:text-4xl dark:text-white">{{ project.name }}</h3>
                         </header>
 
-                        <div class="space-y-12">
-                            {% for pageProjects in paginatedProjects %}
-                                {% set pageIndex = loop.index %}
-                                <div class="grid gap-8 md:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-4 {{ not loop.first ? 'hidden' }}" data-page="{{ pageIndex }}">
-                                    {% for project in pageProjects %}
-                                        {% if project %}
-                                            {% set fallbackImage = 'https://placehold.co/1200x800/f8fafc/1f2937?text=Preview+SaaS' %}
-                                            {% set baseIllustration = project.illustration ?? '' %}
+                        <p class="text-left leading-relaxed text-gray-600 md:text-lg dark:text-gray-300">{{ project.long_description }}</p>
 
-                                            {% set lightImage = project.illustration_light ?? '' %}
-                                            {% if lightImage is empty %}
-                                                {% if '-dark' in baseIllustration %}
-                                                    {% set lightImage = baseIllustration|replace({'-dark': '-light'}) %}
-                                                {% elseif '_dark' in baseIllustration %}
-                                                    {% set lightImage = baseIllustration|replace({'_dark': '_light'}) %}
-                                                {% elseif baseIllustration %}
-                                                    {% set lightImage = baseIllustration %}
-                                                {% else %}
-                                                    {% set lightImage = fallbackImage %}
-                                                {% endif %}
+                        <div>
+                            {# <h4 class="text-xs font-semibold tracking-widest text-blue-600 uppercase dark:text-blue-300">Technologies utilisées</h4> #}
+                            <ul class="flex flex-wrap items-center gap-4 mt-4">
+                                {% for tech in project.technologies %}
+                                    {% set techInfo = jsonData.technologies[tech] ?? null %}
+                                    <li>
+                                        <div> <!--inline-flex items-center gap-3 px-4 py-2 bg-white border border-gray-200 rounded-lg shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg dark:bg-gray-800 dark:border-gray-700-->
+                                            {% if techInfo and techInfo.logo %}
+                                                <span class="flex items-center justify-center w-8 h-8 p-1 rounded-md bg-gray-50 dark:bg-gray-900">
+                                                    <img src="{{ techInfo.logo }}" alt="Logo {{ tech }}" class="object-contain w-full h-full">
+                                                </span>
                                             {% endif %}
-
-                                            {% set darkImage = project.illustration_dark ?? '' %}
-                                            {% if darkImage is empty %}
-                                                {% if '-light' in baseIllustration %}
-                                                    {% set darkImage = baseIllustration|replace({'-light': '-dark'}) %}
-                                                {% elseif '_light' in baseIllustration %}
-                                                    {% set darkImage = baseIllustration|replace({'_light': '_dark'}) %}
-                                                {% elseif baseIllustration %}
-                                                    {% set darkImage = baseIllustration %}
-                                                {% else %}
-                                                    {% set darkImage = fallbackImage %}
-                                                {% endif %}
-                                            {% endif %}
-                                            {% set altText = project.alt ?? 'Illustration du projet ' ~ project.name %}
-
-                                            {% set normalizedStatus = project.status|default('')|trim|lower|replace({'é':'e','è':'e','ê':'e','à':'a','â':'a'}) %}
-                                            {% set status = statusConfig[normalizedStatus] ?? (project.status ? {
-                                                'label': project.status,
-                                                'badge': 'bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-300',
-                                                'dot': 'bg-slate-500 dark:bg-slate-400'
-                                            } : null) %}
-
-                                            <article class="flex flex-col overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-[0_25px_50px_-12px_rgba(15,23,42,0.15)] transition hover:-translate-y-1 hover:shadow-[0_35px_70px_-20px_rgba(15,23,42,0.25)] dark:border-gray-700 dark:bg-gray-900 dark:shadow-[0_25px_50px_-12px_rgba(15,23,42,0.55)]">
-                                                <figure class="relative aspect-video overflow-hidden">
-                                                    <img class="absolute inset-0 h-full w-full object-cover object-center dark:hidden" src="{{ lightImage }}" alt="{{ altText }}">
-                                                    <img class="absolute inset-0 hidden h-full w-full object-cover object-center dark:block" src="{{ darkImage }}" alt="{{ altText }}">
-                                                </figure>
-
-                                                <div class="flex flex-1 flex-col gap-6 p-6">
-                                                    <header class="space-y-3">
-                                                        {% if status %}
-                                                            <span class="inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-semibold text-gray-700 dark:text-gray-300">
-                                                                <span class="inline-flex h-2.5 w-2.5 flex-shrink-0 rounded-full {{ status.dot }}"></span>
-                                                                {{ status.label }}
-                                                            </span>
-                                                        {% endif %}
-                                                        <h3 class="text-2xl font-semibold text-gray-900 dark:text-white">{{ project.name }}</h3>
-                                                        <p class="text-sm leading-relaxed text-gray-600 dark:text-gray-300">{{ project.short_description }}</p>
-                                                    </header>
-
-                                                    {% if project.tags is defined and project.tags %}
-                                                        <ul class="flex flex-wrap items-center gap-2 text-xs font-medium text-blue-700 dark:text-blue-300">
-                                                            {% for tag in project.tags %}
-                                                                <li class="rounded-full bg-blue-600/10 px-3 py-1 text-blue-700 dark:bg-blue-400/15 dark:text-blue-200">#{{ tag }}</li>
-                                                            {% endfor %}
-                                                        </ul>
-                                                    {% endif %}
-
-                                                    <div class="mt-auto">
-                                                        <div class="flex flex-wrap items-center gap-3">
-                                                            <ul class="flex -space-x-2">
-                                                                {% for tech in project.technologies %}
-                                                                    {% set techInfo = jsonData.technologies[tech] ?? null %}
-                                                                    {% if techInfo and techInfo.logo %}
-                                                                        <li class="flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-800">
-                                                                            <img src="{{ techInfo.logo }}" alt="Logo {{ tech }}" class="h-6 w-6 object-contain" loading="lazy">
-                                                                        </li>
-                                                                    {% endif %}
-                                                                {% endfor %}
-                                                            </ul>
-                                                            <a href="{{ project.url }}" target="_blank" class="inline-flex items-center justify-center gap-2 rounded-lg bg-blue-700 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-blue-900/30 transition hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                                                Explorer l'outil
-                                                                <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M12.293 3.293a1 1 0 011.414 0l4 4a1 1 0 01.083 1.32l-.083.094-4 4a1 1 0 01-1.497-1.32l.083-.094L14.586 9H4a1 1 0 01-.117-1.993L4 7h10.586l-2.293-2.293a1 1 0 01-.083-1.32l.083-.094z" clip-rule="evenodd"></path></svg>
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </article>
-                                        {% endif %}
-                                    {% endfor %}
-                                </div>
-                            {% endfor %}
-
-                            {% if paginatedProjects|length > 1 %}
-                                <nav aria-label="Pagination des projets {{ categoryMeta.title }}" data-pagination class="mx-auto flex justify-center">
-                                    <ul class="flex -space-x-px text-sm">
-                                        <li>
-                                            <button type="button" data-action="prev" class="flex items-center justify-center text-body bg-neutral-secondary-medium box-border border border-default-medium hover:bg-neutral-tertiary-medium hover:text-heading font-medium rounded-s-base text-sm px-3 h-10 focus:outline-none">Previous</button>
-                                        </li>
-                                        {% for i in 1..paginatedProjects|length %}
-                                            <li>
-                                                <button type="button" data-page-target="{{ i }}" class="flex items-center justify-center text-body bg-neutral-secondary-medium box-border border border-default-medium hover:bg-neutral-tertiary-medium hover:text-heading font-medium text-sm w-10 h-10 focus:outline-none">{{ i }}</button>
-                                            </li>
-                                        {% endfor %}
-                                        <li>
-                                            <button type="button" data-action="next" class="flex items-center justify-center text-body bg-neutral-secondary-medium box-border border border-default-medium hover:bg-neutral-tertiary-medium hover:text-heading font-medium rounded-e-base text-sm px-3 h-10 focus:outline-none">Next</button>
-                                        </li>
-                                    </ul>
-                                </nav>
-                            {% endif %}
+                                            {# <span class="text-sm font-medium text-gray-700 dark:text-gray-200">{{ tech }}</span> #}
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                            </ul>
                         </div>
-                    </section>
-                {% endif %}
+
+                        <div class="flex flex-wrap items-center gap-4 mt-6">
+                            <a href="{{ project.url }}" target="_blank" class="inline-flex items-center justify-center gap-2 px-4 py-2 text-sm font-semibold text-white bg-blue-700 rounded-lg shadow-lg shadow-blue-900/30 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                Explorer l'outil
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M12.293 3.293a1 1 0 011.414 0l4 4a1 1 0 01.083 1.32l-.083.094-4 4a1 1 0 01-1.497-1.32l.083-.094L14.586 9H4a1 1 0 01-.117-1.993L4 7h10.586l-2.293-2.293a1 1 0 01-.083-1.32l.083-.094z" clip-rule="evenodd"></path></svg>
+                            </a>
+                        </div>
+
+                        {% if not loop.last %}
+                            <div class="mt-10 border-t border-gray-200 dark:border-gray-700"></div>
+                        {% endif %}
+                    </div>
+                </article>
             {% endfor %}
         </div>
     </div>
 </section>
 
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('[data-category-section]').forEach(section => {
-        const pageWrappers = Array.from(section.querySelectorAll('[data-page]'));
-        if (!pageWrappers.length) {
-            return;
-        }
-
-        const pagination = section.querySelector('[data-pagination]');
-        let currentIndex = 0;
-
-        const toggleDisabledState = (button, disabled) => {
-            if (!button) {
-                return;
-            }
-            button.disabled = disabled;
-            button.setAttribute('aria-disabled', disabled ? 'true' : 'false');
-            button.classList.toggle('opacity-50', disabled);
-            button.classList.toggle('pointer-events-none', disabled);
-        };
-
-        const updateView = () => {
-            pageWrappers.forEach((page, index) => {
-                if (index === currentIndex) {
-                    page.classList.remove('hidden');
+// Portfolio filter system
+document.addEventListener('DOMContentLoaded', function() {
+    const filterBtns = document.querySelectorAll('.portfolio-filter-btn');
+    const portfolioItems = document.querySelectorAll('.portfolio-item');
+    const activeClasses = ['text-blue-600', 'dark:text-blue-400', 'border-blue-600', 'dark:border-blue-400'];
+    const inactiveClasses = ['text-gray-500', 'dark:text-gray-300', 'border-transparent'];
+    
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', function(event) {
+            event.preventDefault();
+            const filter = this.getAttribute('data-filter');
+            
+            // Update active tab styling
+            filterBtns.forEach(b => {
+                b.classList.remove(...activeClasses);
+                b.classList.add(...inactiveClasses);
+                b.removeAttribute('aria-current');
+            });
+            this.classList.remove(...inactiveClasses);
+            this.classList.add(...activeClasses);
+            this.setAttribute('aria-current', 'page');
+            
+            // Filter items
+            portfolioItems.forEach(item => {
+                if (filter === 'all' || item.getAttribute('data-category') === filter) {
+                    item.style.display = 'block';
                 } else {
-                    page.classList.add('hidden');
+                    item.style.display = 'none';
                 }
             });
-
-            if (!pagination) {
-                return;
-            }
-
-            const prevBtn = pagination.querySelector('[data-action="prev"]');
-            const nextBtn = pagination.querySelector('[data-action="next"]');
-            const pageButtons = Array.from(pagination.querySelectorAll('[data-page-target]'));
-
-            pageButtons.forEach(button => {
-                const targetIndex = parseInt(button.dataset.pageTarget, 10) - 1;
-                if (targetIndex === currentIndex) {
-                    button.setAttribute('aria-current', 'page');
-                    button.classList.add('text-fg-brand', 'bg-neutral-tertiary-medium');
-                    button.classList.remove('text-body', 'bg-neutral-secondary-medium');
-                } else {
-                    button.removeAttribute('aria-current');
-                    button.classList.add('text-body', 'bg-neutral-secondary-medium');
-                    button.classList.remove('text-fg-brand', 'bg-neutral-tertiary-medium');
-                }
-            });
-
-            toggleDisabledState(prevBtn, currentIndex === 0);
-            toggleDisabledState(nextBtn, currentIndex === pageWrappers.length - 1);
-        };
-
-        if (pagination) {
-            const prevBtn = pagination.querySelector('[data-action="prev"]');
-            const nextBtn = pagination.querySelector('[data-action="next"]');
-            const pageButtons = Array.from(pagination.querySelectorAll('[data-page-target]'));
-
-            prevBtn?.addEventListener('click', () => {
-                if (currentIndex > 0) {
-                    currentIndex -= 1;
-                    updateView();
-                }
-            });
-
-            nextBtn?.addEventListener('click', () => {
-                if (currentIndex < pageWrappers.length - 1) {
-                    currentIndex += 1;
-                    updateView();
-                }
-            });
-
-            pageButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    const targetIndex = parseInt(button.dataset.pageTarget, 10);
-                    if (!Number.isNaN(targetIndex)) {
-                        currentIndex = Math.min(Math.max(targetIndex - 1, 0), pageWrappers.length - 1);
-                        updateView();
-                    }
-                });
-            });
-        }
-
-        updateView();
+        });
     });
 });
 </script>
