@@ -87,7 +87,7 @@ class RegistrationController extends AbstractController
                 $user->setIsVerified(true);
                 $em->flush($user);
                 $this->addFlash('success', 'Utilisateur activé 🚀 !');
-                return $this->redirectToRoute('app_account');
+                return $this->redirectToRoute('app_home');
             }
         }
         // Ici un problème se pose sur le token
@@ -108,7 +108,7 @@ class RegistrationController extends AbstractController
         if($user->isVerified())
         {
             $this->addFlash('warning', 'Cet utilisateur est déja activé !');
-            return $this->redirectToRoute('app_account');
+            return $this->redirectToRoute('app_home');
         }
 
         // On génère le jwt de l'utilisateur
@@ -139,6 +139,6 @@ class RegistrationController extends AbstractController
         );
 
         $this->addFlash('success', 'Email de vérification envoyé ✅ !');
-        return $this->redirectToRoute('app_account');
+        return $this->redirectToRoute('app_home');
     }
 }
