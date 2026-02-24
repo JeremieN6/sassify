@@ -18,7 +18,8 @@
     "beautifulsoup": {"logo": "https://i0.wp.com/funthon.wordpress.com/wp-content/uploads/2017/05/bs.png", "type": "Web Scraping Library"},
     "nodejs": {"logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Node.js_logo.svg/2560px-Node.js_logo.svg.png", "type": "Backend"},
     "requests": {"logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/1869px-Python-logo-notext.svg.png", "type": "Python Library"},
-    "supabase": {"logo": "https://cf-assets.www.cloudflare.com/slt3lc6tev37/5vMYBVrhOqLniCaMQoeCK2/d57cf9e4cf31c3a12f89a0e3e89ee95e/supabase_logo.png", "type": "Backend as a Service"}
+    "supabase": {"logo": "https://cf-assets.www.cloudflare.com/slt3lc6tev37/5vMYBVrhOqLniCaMQoeCK2/d57cf9e4cf31c3a12f89a0e3e89ee95e/supabase_logo.png", "type": "Backend as a Service"},
+    "shadcn/ui": {"logo": "https://justmytools.com/wp-content/uploads/2025/06/shadcn.webp", "type": "UI Component Library"}
   },
   "saas": [
     {
@@ -284,7 +285,7 @@
       "long_description": "SkinCareAI utilise l'intelligence artificielle pour analyser votre peau à partir de photos et fournir un diagnostic complet en quelques secondes. L'outil identifie les problèmes cutanés (imperfections, rougeurs, texture, grain de peau) et propose des conseils personnalisés ainsi que des recommandations de produits avec les meilleurs ingrédients actifs adaptés à chaque type de peau. Le plan Premium offre des diagnostics illimités, un historique des analyses, un suivi de progression et des conseils avancés. Les photos sont analysées en temps réel via une API sécurisée et ne sont jamais stockées, conformément au RGPD.",
       "illustration": "https://sassify.fr/sassify/illu-projects/skincareai-dark.png", "alt": "Capture d'écran de l'application SkinCareAI",
       "url": "https://skincareai.sassify.fr",
-      "technologies": ["vue", "tailwind", "flowbite"],
+      "technologies": ["vue", "tailwind", "shadcn/ui"],
       "tags": ["skincare", "ia", "santé", "beauté", "diagnostic"],
       "status": "Beta",
       "category": "saas",
