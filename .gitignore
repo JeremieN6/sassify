@@ -1,0 +1,12 @@
+node_modules
+.nuxt
+.output
+dist
+.env
+.env.local
+*.log
+
+# Dossier Temporaire
+/tmp
+/tmp/*
+/temp
