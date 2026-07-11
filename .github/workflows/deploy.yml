@@ -32,14 +32,14 @@ jobs:
         run: |
           ssh -o StrictHostKeyChecking=yes ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
           set -euo pipefail
-          cd /srv/saas/sassify-home || exit 1
+          cd /srv/saas/home || exit 1
           git fetch --all --prune
           git reset --hard origin/main
           npm ci
           rm -rf .output
           npm run build
-          if pm2 describe sassify-home > /dev/null 2>&1; then
-            pm2 reload sassify-home --update-env
+          if pm2 describe home > /dev/null 2>&1; then
+            pm2 reload home --update-env
           else
             pm2 start ecosystem.config.cjs
           fi
