@@ -22,10 +22,11 @@ Pas de success porn. Pas de "10x votre MRR en 30 jours". Les vrais chiffres, les
 
 ## Les projets actuellement en construction
 
-- **Skinalyze** — diagnostics peau B2B pour instituts de beauté, acquisition en cours
-- **Tifo** — gestion de club amateur + conformité FFF, acquisition en cours  
-- **Plotline** — cohérence visuelle pour influenceuses IA, en build
-- **Clippeak** — clipping automatique de VOD Twitch, brief validé
+- **Skinalyze** — diagnostic peau personnalisé en 60 secondes, acquisition en cours
+- **Tifo** — affiches de match pro générées en quelques secondes, acquisition en cours
+- **FlySmart** — analyse de prix billets B2B, jusqu'à 40% d'économies, acquisition en cours
+- **Plotline** — ton influenceuse IA, même visage, chaque post, démarrage aqucisition
+- **Clippeak** — clipping automatique de VOD Twitch, streamers contactés, brief validé
 
 ---
 

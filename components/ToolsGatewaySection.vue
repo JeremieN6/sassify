@@ -12,7 +12,7 @@
             Les outils que j'utilise au quotidien
           </h2>
           <p class="text-slate-400 max-w-lg text-sm leading-relaxed">
-            SnapUI, Prospector, et les prochains — le détail de l'infrastructure que je construis pour faire tourner tout ça.
+            SnapUI, Prospector, et les prochains — le détail de l'infrastructure qui fait tourner Skinalyze, Tifo, Plotline et FlySmart.
           </p>
         </div>
 

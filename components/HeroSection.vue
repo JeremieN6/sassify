@@ -19,7 +19,7 @@
         </h1>
 
         <p class="text-slate-400 text-lg leading-relaxed max-w-md">
-          Ici je documente la construction de vrais produits SaaS — Skinalyze, Tifo, Plotline — de l'idée au marché.
+          Ici je documente la construction de vrais produits SaaS — Skinalyze, Tifo, Plotline, FlySmart — de l'idée au marché.
           Les décisions, les pivots, les chiffres, les abandons.
         </p>
 
@@ -76,35 +76,42 @@
 const projects = [
   {
     name: 'Skinalyze',
-    tagline: 'Diagnostics peau B2B pour instituts',
+    tagline: 'Diagnostic peau personnalisé en 60 secondes',
     status: 'active',
     statusLabel: 'Acquisition',
     stack: ['Nuxt', 'Brevo'],
   },
   {
     name: 'Tifo',
-    tagline: 'Gestion club amateur + conformité FFF',
+    tagline: 'Affiches de match pro générées en secondes',
     status: 'active',
     statusLabel: 'Acquisition',
     stack: ['Nuxt', 'PostHog'],
   },
   {
+    name: 'FlySmart',
+    tagline: 'Analyse de prix vols B2B jusqu\'à 40% d\'économies',
+    status: 'active',
+    statusLabel: 'Acquisition',
+    stack: ['Nuxt', 'B2B'],
+  },
+  {
     name: 'Plotline',
-    tagline: "Cohérence visuelle pour influenceuses IA",
+    tagline: 'Ton influenceuse IA. Même visage. Chaque post.',
     status: 'build',
-    statusLabel: 'En build',
+    statusLabel: 'Démarrage aqucisition',
     stack: ['Gemini', 'Vue'],
   },
   {
     name: 'Clippeak',
-    tagline: 'Clipping auto VOD Twitch par pics de chat',
+    tagline: 'Clipping auto Twitch, premiers streamers contactés',
     status: 'brief',
     statusLabel: 'Brief validé',
     stack: ['Node.js'],
   },
   {
     name: 'Stellara',
-    tagline: 'Astrologie + IA · canal à revoir',
+    tagline: 'Rapport natal complet en quelques secondes',
     status: 'later',
     statusLabel: 'Plus tard',
     stack: [],

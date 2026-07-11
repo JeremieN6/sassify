@@ -54,7 +54,7 @@ const phases = [
       {
         title: 'Tifo, v1',
         description:
-          "Un générateur d'affiches de match pour clubs amateurs (tifo.nanocorp.app). Un outil simple pour tester une niche.",
+          "Un générateur d'affiches de match pour clubs amateurs. Le point de départ du produit qui deviendra ensuite la brique média de Tifo.",
         status: 'launched' as const,
         statusLabel: 'Lancé',
       },
@@ -95,16 +95,16 @@ const phases = [
       {
         title: 'Pivot Skinalyze',
         description:
-          "Repositionnement B2B vers les instituts de beauté, avec un pipeline d'acquisition automatisé (scraping Google Places → CSV → séquences Brevo).",
+          "Repositionnement B2B vers une promesse claire: en 60 secondes, chaque client repart avec un diagnostic peau personnalisé, sans installation ni engagement.",
         status: 'pivot' as const,
         statusLabel: 'Pivot',
       },
       {
         title: 'Pivot Plotline',
         description:
-          "Erreur de compréhension produit corrigée en profondeur : Plotline devient un outil de cohérence visuelle pour influenceuses IA (référence de visage, reproduction de scène image-to-JSON, génération via Gemini).",
-        status: 'pivot' as const,
-        statusLabel: 'Pivot',
+          "Pivot vers une promesse simple: ton influenceuse IA, même visage, chaque post. L'image de référence est injectée automatiquement dans les générations.",
+        status: 'active' as const,
+        statusLabel: 'Démarrage aqucisition',
       },
       {
         title: 'AstroInsight → Stellara',
@@ -123,9 +123,16 @@ const phases = [
       {
         title: 'Clippeak',
         description:
-          "Idéation complète d'un outil de clipping automatique de VOD Twitch par détection de pics de chat, validé par une landing page avant tout code.",
+          "Idéation complète d'un outil de clipping automatique de VOD Twitch par détection de pics de chat, validé par une landing page avant tout code. Quelques streamers ont été contactés pour tester l'outil.",
         status: 'brief' as const,
         statusLabel: 'Brief validé',
+      },
+      {
+        title: 'FlySmart',
+        description:
+          "Projet B2B pour agences, comités d'entreprise et influenceurs: vos clients achètent leurs billets au bon moment, pas au mauvais prix. Jusqu'à 40% d'économies sans effort opérationnel côté équipe.",
+        status: 'active' as const,
+        statusLabel: 'Acquisition active',
       },
     ],
   },

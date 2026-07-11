@@ -6,7 +6,7 @@
         <h2 class="font-display text-4xl md:text-5xl font-bold text-white mt-3">Questions fréquentes.</h2>
       </div>
 
-      <div class="max-w-3xl space-y-2">
+      <div class="max-w-5xl space-y-2">
         <div
           v-for="(item, i) in faqs"
           :key="i"

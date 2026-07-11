@@ -24,3 +24,9 @@
 **Cause racine** : Un profile PowerShell de projet lance un prompt "Initialiser le MCP memoire ? (O/n)" avant execution normale, ce qui bloque l automatisation.
 **Solution** : Noter explicitement cette contrainte, demander a l utilisateur de repondre au prompt dans un terminal manuel pour les executions interactives.
 **Regle** : Quand un profile shell injecte un Read-Host, valider runtime via terminal utilisateur ou neutraliser le profile avant d automatiser des commandes de lancement.
+
+### [2026-07-11] URLs et promesses produit incorrectes dans la section Projets
+**Probleme** : Certaines URLs de projets etaient incorrectes ou absentes, et des descriptions ne correspondaient pas au positionnement reel des produits.
+**Cause racine** : Utilisation de valeurs par defaut / placeholders au lieu d attendre la source de verite metier.
+**Solution** : Remplacer toutes les URLs par les domaines reels fournis et mettre a jour les descriptions avec la promesse marketing validee par l utilisateur.
+**Regle** : Pour toute section produit publique, ne jamais publier d URL ou de copy sans validation explicite des domaines et messages cle avec l utilisateur.

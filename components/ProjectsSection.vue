@@ -29,56 +29,65 @@ const projects = [
   {
     name: 'Skinalyze',
     description:
-      "Diagnostics peau B2B pour instituts de beauté. Pipeline d'acquisition automatisé : scraping Google Places → CSV → séquences Brevo.",
+      "En 60 secondes, chaque client repart avec un diagnostic peau personnalisé. Co-analysé par un dermatologue, un cosmétologue et un coach bien-être. Sans installation. Sans engagement.",
     status: 'active',
     statusLabel: 'Acquisition active',
     stack: ['Nuxt 3', 'Brevo', 'Google Places API', 'PostHog'],
-    url: undefined as string | undefined,
+    url: 'https://skinalyze.sassify.fr',
   },
   {
     name: 'Tifo',
     description:
-      "Gestion de club de foot amateur + conformité administrative pré-match. Vérificateur d'éligibilité joueurs FFF intégré.",
+      "Une affiche pro avant chaque match de ton club. Tifo génère automatiquement des affiches visuelles qui s'adaptent à l'enjeu du match, derby, finale, match décisif (maintien, relégation, titre en jeu). En quelques secondes, pour tous les réseaux. Feature/Pivot potentiel : analyse de feuille de match pour prévention d'erreur.",
     status: 'active',
     statusLabel: 'Acquisition active',
     stack: ['Nuxt 3', 'Node.js', 'PostHog'],
-    url: 'https://tifo.nanocorp.app',
+    url: 'https://tifo.sassify.fr',
+  },
+  {
+    name: 'FlySmart',
+    description:
+      "Vos clients achètent leurs billets au bon moment, pas au mauvais prix. Agences, comités d'entreprise et influenceurs : offrez l'analyse de prix FlySmart à vos clients. Ils économisent, vous faites la différence. Jusqu'à 40% d'économies sans effort de votre part.",
+    status: 'active',
+    statusLabel: 'Acquisition active',
+    stack: ['Nuxt 3', 'B2B'],
+    url: 'https://flysmart.sassify.fr/',
   },
   {
     name: 'Plotline',
     description:
-      "L'influenceuse IA au visage cohérent, poste après poste. Référence de visage, reproduction de scène image-to-JSON, génération via Gemini.",
+      "Ton influenceuse IA. Même visage. Chaque post. Plotline injecte automatiquement l'image de référence de ton influenceuse dans chaque génération pour que la cohérence visuelle ne dépende plus de toi.",
     status: 'build',
-    statusLabel: 'En build',
+    statusLabel: 'Démarrage aqucisition',
     stack: ['Gemini', 'Vue 3', 'Node.js'],
-    url: undefined as string | undefined,
+    url: 'https://plotline.sassify.fr',
   },
   {
     name: 'Clippeak',
     description:
-      "Clipping automatique de VOD Twitch par détection de pics de chat. Brief validé, landing page testée avant tout code.",
+      "Clipping automatique de VOD Twitch par détection de pics de chat. Brief validé, landing page testée avant tout code. Quelques streamers contactés pour tester l'outil.",
     status: 'brief',
     statusLabel: 'Brief validé',
     stack: ['Node.js', 'Twitch API'],
-    url: undefined as string | undefined,
+    url: 'https://clippeak.sassify.fr',
   },
   {
     name: 'Stellara',
     description:
-      "Astrologie + IA. Rebrandée depuis AstroInsight. Canal d'acquisition à revoir — automation-first incompatible avec la création de contenu pour l'instant.",
+      "Découvrez ce que les étoiles révèlent de vous. Générez votre rapport natal complet : positions planétaires, maisons astrologiques et analyse personnalisée en quelques secondes.",
     status: 'later',
     statusLabel: 'Plus tard',
     stack: ['Vue 3', 'OpenAI'],
-    url: undefined as string | undefined,
+    url: 'https://stellara.sassify.fr',
   },
   {
     name: 'CSVtoPPT™',
     description:
-      "CSV/Excel → PowerPoint prêt à présenter. En pause : founder-market-fit à confirmer, automation complète à trouver avant relance.",
+      "Transformez vos CSV en PPT en quelques secondes. Uploadez votre fichier CSV ou Excel et obtenez instantanément une présentation PowerPoint formatée, structurée et prête à présenter. En pause : founder-market-fit à confirmer, automation complète à trouver avant relance.",
     status: 'pause',
     statusLabel: 'En pause',
     stack: ['Python', 'Node.js'],
-    url: undefined as string | undefined,
+    url: 'https://csvtoppt.fr',
   },
 ]
 </script>
