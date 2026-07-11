@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 env:
-  REMOTE_DIR: /srv/saas/sassify-home
+  REMOTE_DIR: /srv/saas/home
 
 jobs:
   deploy:
