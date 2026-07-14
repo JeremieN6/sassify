@@ -6,7 +6,7 @@
         <span class="text-accent text-xs font-semibold tracking-widest uppercase font-display">03 — Histoire</span>
         <h2 class="font-display text-4xl md:text-5xl font-bold text-white mt-3">La timeline.</h2>
         <p class="text-slate-500 mt-3 max-w-lg text-sm">
-          Chaque jalon est réel. Les pivots, les pauses, les lancements — jamais "abandonné" sauf si c'est réellement le cas.
+          Chaque jalon est réel. Les pivots, les pauses, les lancements, jamais "abandonné" sauf si c'est réellement le cas.
         </p>
       </div>
 
@@ -54,7 +54,7 @@ const phases = [
       {
         title: 'Tifo, v1',
         description:
-          "Un générateur d'affiches de match pour clubs amateurs. Le point de départ du produit qui deviendra ensuite la brique média de Tifo.",
+          "Un générateur d'affiches de match pour clubs amateurs. Le point de départ du produit qui deviendra peut être la brique média de Tifo.",
         status: 'launched' as const,
         statusLabel: 'Lancé',
       },
@@ -75,7 +75,7 @@ const phases = [
       {
         title: 'AstroInsight',
         description:
-          "Astrologie + IA pour générer des analyses de personnalité et de compatibilité.",
+          "Astrologie pour générer des analyses de personnalité, de compatibilité : orienté objectif, développement personnel.",
         status: 'pivot' as const,
         statusLabel: 'Pivot → Stellara',
       },
@@ -88,9 +88,9 @@ const phases = [
       {
         title: 'Pivot Tifo',
         description:
-          "D'un simple générateur d'affiches vers une plateforme de gestion de club amateur, avec un vérificateur de conformité administrative pré-match (éligibilité joueurs FFF). Le poster generator devient la porte d'entrée, la conformité devient le vrai moteur de rétention.",
+          "D'un simple générateur d'affiches, pour avoir un support de communication des évènements du club sur les réseaux, vers une plateforme de gestion de club amateur, avec un vérificateur de conformité administrative pré-match (éligibilité joueurs FFF). Le poster generator deviendrai la porte d'entrée, la conformité deviendrai le vrai moteur de rétention.",
         status: 'pivot' as const,
-        statusLabel: 'Pivot',
+        statusLabel: 'Pivot Potentiel',
       },
       {
         title: 'Pivot Skinalyze',
@@ -103,13 +103,13 @@ const phases = [
         title: 'Pivot Plotline',
         description:
           "Pivot vers une promesse simple: ton influenceuse IA, même visage, chaque post. L'image de référence est injectée automatiquement dans les générations.",
-        status: 'active' as const,
-        statusLabel: 'Démarrage aqucisition',
+        status: 'done' as const,
+        statusLabel: 'Fin de développement',
       },
       {
         title: 'AstroInsight → Stellara',
         description:
-          "Rebrandée pour un nom plus fort, plus proche de sa niche. Son canal d'acquisition naturel — la création de contenu — ne colle pas (pour l'instant) à mon approche automation-first. Pas abandonné, juste priorisé plus tard.",
+          "Rebrandée pour un nom plus fort, plus proche de sa niche. Son canal d'acquisition naturel, la création de contenu, ne colle pas (pour l'instant) à mon approche automation-first. Pas abandonné, juste priorisé plus tard.",
         status: 'later' as const,
         statusLabel: 'Plus tard',
       },
@@ -130,9 +130,9 @@ const phases = [
       {
         title: 'FlySmart',
         description:
-          "Projet B2B pour agences, comités d'entreprise et influenceurs: vos clients achètent leurs billets au bon moment, pas au mauvais prix. Jusqu'à 40% d'économies sans effort opérationnel côté équipe.",
-        status: 'active' as const,
-        statusLabel: 'Acquisition active',
+          "Projet B2B pour agences, comités d'entreprise et influenceurs: vos clients achètent leurs billets au bon moment, pas au mauvais prix. Jusqu'à 40% d'économies possibles. La priorité actuelle sur ce projet est de définir une stratégie d'acquisition et de déploiement B2B robuste avant l'activation commerciale.",
+        status: 'strategy' as const,
+        statusLabel: 'GTM B2B à définir',
       },
     ],
   },
@@ -157,14 +157,14 @@ const phases = [
       {
         title: 'SnapUI',
         description:
-          "Un outil de scraping que j'utilisais en CLI pour préparer mes projets, transformé en interface web. Premier outil du catalogue /tools.",
+          "Un outil de récupération d'UI que j'utilisais en CLI pour préparer mes projets, transformé en interface web. Premier outil du catalogue /tools.",
         status: 'launched' as const,
         statusLabel: 'Lancé',
       },
       {
         title: 'Prospector',
         description:
-          "L'infra de scraping et d'outreach automatisé construite pour Skinalyze et Tifo, packagée en outil réutilisable.",
+          "L'infra de génération de Leads et d'outreach automatisé construite pour Skinalyze et Tifo, packagée en outil réutilisable.",
         status: 'launched' as const,
         statusLabel: 'Lancé',
       },

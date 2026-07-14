@@ -33,7 +33,7 @@ const items = [
     number: '01',
     title: "Qu'est-ce que Sassify ?",
     content:
-      "Un laboratoire public. J'y construis et documente des produits SaaS réels — de l'idée au marché — en solo. Pas un incubateur, pas une agence. Un builder qui ship.",
+      "Un laboratoire public. J'y construis et documente des produits SaaS réels, de l'idée au marché, en solo. Pas un incubateur, pas une agence. Un builder qui ship.",
   },
   {
     number: '02',
@@ -45,7 +45,7 @@ const items = [
     number: '03',
     title: 'Comment je fonctionne ?',
     content:
-      "Des cycles courts, une exécution rapide, une obsession pour l'automatisation plutôt que l'opérationnel manuel. Chaque produit est pensé pour tourner avec le minimum d'intervention — de l'acquisition (scraping + séquences email automatisées) au pilotage (Sassify OS, mon infra interne avec agent IA).",
+      "Des cycles courts, une exécution rapide, une obsession pour l'automatisation plutôt que l'opérationnel manuel. Chaque produit est pensé pour tourner avec le minimum d'intervention, de l'acquisition (génératioon de lead + séquences email automatisées) au pilotage (Sassify OS, mon infra interne avec agent IA).",
   },
   {
     number: '04',

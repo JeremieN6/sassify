@@ -73,7 +73,9 @@ const statusClass = computed(() => {
   const map: Record<string, string> = {
     active: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/25',
     build: 'bg-blue-500/15 text-blue-400 border-blue-500/25',
+    done: 'bg-lime-500/15 text-lime-400 border-lime-500/25',
     pivot: 'bg-amber-500/15 text-amber-400 border-amber-500/25',
+    strategy: 'bg-orange-500/15 text-orange-400 border-orange-500/25',
     pause: 'bg-slate-500/15 text-slate-500 border-slate-500/25',
     later: 'bg-purple-500/15 text-purple-400 border-purple-500/25',
     brief: 'bg-cyan-500/15 text-cyan-400 border-cyan-500/25',

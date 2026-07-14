@@ -52,7 +52,7 @@ const faqs = [
   {
     question: "Qu'est-ce que Sassify exactement ?",
     answer:
-      "Sassify est mon laboratoire public. J'y construis des produits SaaS réels en solo, et je documente tout le processus : les décisions, les pivots, les chiffres, les abandons. Pas un incubateur, pas une agence — un builder qui ship.",
+      "Sassify est mon laboratoire public. J'y construis des produits SaaS réels en solo, et je documente tout le processus : les décisions, les pivots, les chiffres, les abandons. Pas un incubateur, pas une agence, un builder qui ship.",
   },
   {
     question: 'Est-ce un incubateur ?',
@@ -62,7 +62,7 @@ const faqs = [
   {
     question: 'Quels types de projets construis-tu ?',
     answer:
-      "Des micro-SaaS B2B ou B2C avec des besoins réels identifiés. Chaque produit doit pouvoir fonctionner de manière largement automatisée — de l'acquisition à l'opérationnel.",
+      "Des micro-SaaS B2B ou B2C avec des besoins réels identifiés. Chaque produit doit pouvoir fonctionner de manière largement automatisée, de l'acquisition à l'opérationnel.",
   },
   {
     question: "Comment puis-je suivre l'avancement ?",
@@ -70,19 +70,19 @@ const faqs = [
       "En t'abonnant via le formulaire en haut de la page. Je partage les updates significatives : pivots, lancements, chiffres, décisions. Pas de newsletter weekly vide — seulement quand il se passe quelque chose.",
   },
   {
-    question: "Certains projets sont 'en pause' — ils sont abandonnés ?",
+    question: "Certains projets sont 'en pause', ils sont abandonnés ?",
     answer:
       "Non. 'En pause' signifie que je n'ai pas trouvé le bon levier (automation, founder-market-fit, canal d'acquisition) pour les faire avancer sans y consacrer du temps manuel. Ils reviendront quand le contexte sera favorable.",
   },
   {
     question: 'Peut-on collaborer ou rejoindre un projet ?',
     answer:
-      "Je suis ouvert aux discussions. Si tu as une expertise complémentaire sur un projet spécifique et une approche automation-first, contacte-moi via le blog ou LinkedIn.",
+      "Je suis ouvert aux discussions. Si tu as une expertise complémentaire sur un projet spécifique et une approche automation-first, contacte-moi ici (contact@sassify.fr) ou sur X (Twitter - @jeremiecode).",
   },
   {
     question: "Est-ce que tu cherches des investisseurs ?",
     answer:
-      "Pas activement. L'objectif est de bootstrapper jusqu'à la rentabilité. Si une opportunité de financement s'aligne avec la vision, ça pourrait changer — mais ce n'est pas l'axe prioritaire.",
+      "Pas activement. L'objectif est de bootstrapper jusqu'à la rentabilité. Si une opportunité de financement s'aligne avec la vision, ça pourrait changer, mais ce n'est pas l'axe prioritaire.",
   },
   {
     question: 'Fais-tu du coaching ou consulting ?',

@@ -47,9 +47,9 @@ const projects = [
   {
     name: 'FlySmart',
     description:
-      "Vos clients achètent leurs billets au bon moment, pas au mauvais prix. Agences, comités d'entreprise et influenceurs : offrez l'analyse de prix FlySmart à vos clients. Ils économisent, vous faites la différence. Jusqu'à 40% d'économies sans effort de votre part.",
-    status: 'active',
-    statusLabel: 'Acquisition active',
+      "Projet B2B orienté agences, comités d'entreprise et influenceurs. Promesse: aider leurs clients à acheter leurs billets au bon moment avec jusqu'à 40% d'économies. Priorité actuelle: cadrer une stratégie go-to-market B2B solide avant l'acquisition.",
+    status: 'strategy',
+    statusLabel: 'GTM B2B à définir',
     stack: ['Nuxt 3', 'B2B'],
     url: 'https://flysmart.sassify.fr/',
   },
@@ -57,8 +57,8 @@ const projects = [
     name: 'Plotline',
     description:
       "Ton influenceuse IA. Même visage. Chaque post. Plotline injecte automatiquement l'image de référence de ton influenceuse dans chaque génération pour que la cohérence visuelle ne dépende plus de toi.",
-    status: 'build',
-    statusLabel: 'Démarrage aqucisition',
+    status: 'done',
+    statusLabel: 'Fin de développement',
     stack: ['Gemini', 'Vue 3', 'Node.js'],
     url: 'https://plotline.sassify.fr',
   },

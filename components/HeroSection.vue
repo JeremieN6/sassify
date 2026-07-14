@@ -19,7 +19,7 @@
         </h1>
 
         <p class="text-slate-400 text-lg leading-relaxed max-w-md">
-          Ici je documente la construction de vrais produits SaaS — Skinalyze, Tifo, Plotline, FlySmart — de l'idée au marché.
+          Ici je documente la construction de vrais produits SaaS : Skinalyze, Tifo, Plotline, FlySmart, de l'idée au marché.
           Les décisions, les pivots, les chiffres, les abandons.
         </p>
 
@@ -91,15 +91,15 @@ const projects = [
   {
     name: 'FlySmart',
     tagline: 'Analyse de prix vols B2B jusqu\'à 40% d\'économies',
-    status: 'active',
-    statusLabel: 'Acquisition',
+    status: 'strategy',
+    statusLabel: 'GTM B2B à définir',
     stack: ['Nuxt', 'B2B'],
   },
   {
     name: 'Plotline',
     tagline: 'Ton influenceuse IA. Même visage. Chaque post.',
-    status: 'build',
-    statusLabel: 'Démarrage aqucisition',
+    status: 'done',
+    statusLabel: 'Fin de développement',
     stack: ['Gemini', 'Vue'],
   },
   {
@@ -118,7 +118,7 @@ const projects = [
   },
   {
     name: 'CSVtoPPT™',
-    tagline: "CSV → PowerPoint · en attente d'automation",
+    tagline: "CSV → PowerPoint · Développement terminé. En pause.",
     status: 'pause',
     statusLabel: 'En pause',
     stack: [],
@@ -129,7 +129,9 @@ function statusClass(status: string) {
   const map: Record<string, string> = {
     active: 'bg-emerald-500/15 text-emerald-400',
     build: 'bg-blue-500/15 text-blue-400',
+    done: 'bg-lime-500/15 text-lime-400',
     pivot: 'bg-amber-500/15 text-amber-400',
+    strategy: 'bg-orange-500/15 text-orange-400',
     pause: 'bg-slate-500/15 text-slate-500',
     later: 'bg-purple-500/15 text-purple-400',
     brief: 'bg-cyan-500/15 text-cyan-400',

@@ -18,7 +18,7 @@ useHead({
     {
       name: 'description',
       content:
-        "Je construis de vrais produits SaaS — Skinalyze, Tifo, Plotline, FlySmart — de l'idée au marché. Les décisions, les pivots, les chiffres, les abandons.",
+        "Je construis de vrais produits SaaS — Skinalyze, Tifo, Plotline, FlySmart, de l'idée au marché. Les décisions, les pivots, les chiffres, les abandons.",
     },
   ],
 })

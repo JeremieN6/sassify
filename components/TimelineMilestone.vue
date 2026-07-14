@@ -20,7 +20,7 @@
 </template>
 
 <script setup lang="ts">
-type StatusType = 'launched' | 'pivot' | 'pause' | 'build' | 'active' | 'later' | 'brief' | 'infra'
+type StatusType = 'launched' | 'pivot' | 'pause' | 'build' | 'active' | 'later' | 'brief' | 'infra' | 'done' | 'strategy'
 
 const props = defineProps<{
   title: string
@@ -34,7 +34,9 @@ const statusClass = computed(() => {
   const map: Record<StatusType, string> = {
     launched: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/25',
     active: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/25',
+    done: 'bg-lime-500/15 text-lime-400 border-lime-500/25',
     pivot: 'bg-amber-500/15 text-amber-400 border-amber-500/25',
+    strategy: 'bg-orange-500/15 text-orange-400 border-orange-500/25',
     pause: 'bg-slate-500/15 text-slate-400 border-slate-500/25',
     build: 'bg-blue-500/15 text-blue-400 border-blue-500/25',
     later: 'bg-purple-500/15 text-purple-400 border-purple-500/25',
