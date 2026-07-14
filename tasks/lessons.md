@@ -30,3 +30,9 @@
 **Cause racine** : Utilisation de valeurs par defaut / placeholders au lieu d attendre la source de verite metier.
 **Solution** : Remplacer toutes les URLs par les domaines reels fournis et mettre a jour les descriptions avec la promesse marketing validee par l utilisateur.
 **Regle** : Pour toute section produit publique, ne jamais publier d URL ou de copy sans validation explicite des domaines et messages cle avec l utilisateur.
+
+### [2026-07-14] Mapping des URLs archives et narration timeline insuffisants
+**Probleme** : La section archives n exposait pas tous les liens reels et la timeline ne racontait pas clairement l origine Datagraph -> CSVtoPPT.
+**Cause racine** : Donnees historiques laissees en placeholders et absence d alignement narratif avec la source utilisateur.
+**Solution** : Associer chaque projet archive a son domaine valide, ajouter le jalon Datagraph en phase 03 et reformuler la narration avec une syntaxe claire, orientee valeur.
+**Regle** : Quand l utilisateur fournit un mapping URL + storytelling, appliquer exhaustivement les correspondances et harmoniser le recit dans la timeline sans simplifier le fond.

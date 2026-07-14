@@ -52,6 +52,13 @@ const phases = [
         statusLabel: 'Lancé',
       },
       {
+        title: 'Datagraph',
+        description:
+          "L'idée est née en observant des créateurs de contenu business partager leurs résultats via des tableaux Excel complexes. Je me suis dit qu'un outil capable de récupérer ces données et de les transformer en graphiques rendrait tout ça beaucoup plus lisible. Puis, en en parlant autour de moi, un ami m'a fait remarquer qu'un simple graphique n'apporte pas assez de valeur. Pourquoi ne pas générer directement un PPT clair, avec une IA qui donne du sens aux données via du texte précis orienté résultats, analyse, projections et axes d'amélioration ? CSVtoPPT est né comme ça.",
+        status: 'pivot' as const,
+        statusLabel: 'Datagraph → CSVtoPPT',
+      },
+      {
         title: 'Tifo, v1',
         description:
           "Un générateur d'affiches de match pour clubs amateurs. Le point de départ du produit qui deviendra peut être la brique média de Tifo.",
@@ -116,7 +123,7 @@ const phases = [
       {
         title: 'CSVtoPPT™',
         description:
-          "Question de founder-market-fit. En attente d'un moyen de l'automatiser complètement plutôt que d'y consacrer du temps manuel.",
+          "Question de founder-market-fit. Suis-je la bonne personne pour développer ce genre d'outil ?",
         status: 'pause' as const,
         statusLabel: 'En pause',
       },

@@ -18,18 +18,18 @@
 
 <script setup lang="ts">
 const tools = [
-  { name: 'Voyageur+', url: undefined as string | undefined },
-  { name: 'Datagraph' },
-  { name: 'Podcast IA' },
-  { name: 'QuickEsti' },
-  { name: 'Tajimo' },
-  { name: 'Match Meuble' },
+  { name: 'Voyageur+', url: 'https://voyageur-plus.sassify.fr' },
+  { name: 'Datagraph', url: 'https://datagraph.sassify.fr' },
+  { name: 'Podcast IA', url: 'https://podcastia.sassify.fr' },
+  { name: 'QuickEsti', url: 'https://quickesti.sassify.fr' },
+  { name: 'Tajimo', url: 'https://tajimo.sassify.fr' },
+  { name: 'Match Meuble', url: 'https://matchmeuble.sassify.fr' },
   { name: 'BabyDose' },
-  { name: 'NutriMeal' },
+  { name: 'NutriMeal', url: 'https://nutrimeal.sassify.fr/' },
   { name: 'Air Fryer Calculator' },
   { name: 'BotCrypto' },
   { name: 'HTML Template Automation' },
-  { name: 'PreviewFast' },
-  { name: 'SkinCareAI' },
+  { name: 'PreviewFast', url: 'https://previewfast.sassify.fr' },
+  { name: 'SkinGlow', url: 'https://skinglow.sassify.fr' },
 ]
 </script>
