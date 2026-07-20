@@ -89,6 +89,16 @@ tag: Meta
 
 Le listing lit queryContent('/blog') et trie par date descendante.
 
+## Sitemap
+
+Le sitemap est genere automatiquement par @nuxtjs/sitemap.
+
+- Les pages Nuxt publiques sont detectees automatiquement.
+- Les articles markdown dans content/blog sont ajoutes via une source serveur dediee.
+- Les routes /admin/** sont exclues du sitemap et marquees noindex.
+
+Il n y a pas de fichier sitemap a versionner ou a ajouter dans .gitignore: la sortie est generee par Nuxt au build / runtime.
+
 ## Deploiement VPS / Nginx (cible)
 
 Approche recommandee:

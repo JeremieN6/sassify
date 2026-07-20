@@ -19,6 +19,12 @@
 
 <!-- Les entrees seront ajoutees ici au fil du temps -->
 
+### [2026-07-20] Sitemap généré manuellement au lieu d'être automatisé
+**Probleme** : Le projet n'avait pas de sitemap exploitable pour le référencement et aucune règle claire pour les nouvelles pages ou les articles blog.
+**Cause racine** : Le site dépendait uniquement des routes existantes sans source dédiée pour les contenus Nuxt Content et sans exclusion explicite des routes d'administration.
+**Solution** : Ajout de @nuxtjs/sitemap, source serveur pour les articles blog et règles de route pour exclure /admin/**.
+**Regle** : Pour un sitemap Nuxt, preferer une generation automatique branchee sur les routes publiques et les contenus, pas un fichier XML versionné à la main.
+
 ### [2026-07-11] Profile PowerShell interactif et commandes automatisees
 **Probleme** : Les commandes de run (npm run dev / npx nuxt dev) lancees par l agent ne demarraient pas, et la commande etait consommee comme reponse a une invite interactive.
 **Cause racine** : Un profile PowerShell de projet lance un prompt "Initialiser le MCP memoire ? (O/n)" avant execution normale, ce qui bloque l automatisation.

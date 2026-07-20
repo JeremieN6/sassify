@@ -40,6 +40,7 @@ Refondre home.sassify.fr en full JS (Nuxt 3) avec une home narrative moderne, un
 - [ ] Remplacer les placeholders visuels par de vraies captures projets
 - [ ] Ajuster les contenus finaux (abonnements, compteurs, liens live)
 - [ ] Preparer config Nginx finale pour /, /tools, /blog sur la meme app Nuxt
+- [x] Sitemap automatique branche sur les pages publiques et les articles blog
 
 ---
 

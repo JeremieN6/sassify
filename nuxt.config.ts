@@ -2,6 +2,10 @@ export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
 
+  site: {
+    url: 'https://sassify.fr',
+  },
+
   app: {
     head: {
       meta: [
@@ -14,10 +18,22 @@ export default defineNuxtConfig({
   },
 
   modules: [
+    '@nuxtjs/sitemap',
     '@nuxt/content',
     '@nuxtjs/tailwindcss',
     '@nuxtjs/google-fonts',
   ],
+
+  routeRules: {
+    '/admin/**': {
+      robots: false,
+    },
+  },
+
+  sitemap: {
+    sources: ['/api/__sitemap__/urls'],
+    exclude: ['/admin/**'],
+  },
 
   googleFonts: {
     families: {

@@ -14,6 +14,7 @@
 - [x] Decision architecture: nouveau projet Nuxt dans sassify/, sans toucher backups/sassify
 - [x] Initialisation du scaffold Nuxt 3 + Tailwind + Nuxt Content
 - [x] Creation des routes /, /tools, /blog, /blog/[slug]
+- [x] Mise en place du sitemap automatique (pages publiques + articles blog, exclusion /admin/**)
 - [x] Creation des composants layout (navbar/footer)
 - [x] Creation des composants sections home
 - [x] Creation des composants UI imposes par le brief (TimelineMilestone, ProjectCard, ArchiveCard, SassifyOSBlock)
@@ -24,3 +25,8 @@
 - But de la session: poser une base full JS moderne et modulaire pour la refonte complete de home.sassify.fr.
 - Resultat: la structure applicative et les composants principaux sont en place, avec separation claire du projet backup.
 - Risque restant: verification runtime non faite en terminal automatise a cause du profile PowerShell interactif.
+
+## Revue session (2026-07-20)
+- But de la session: brancher un sitemap maintenable sans fichier manuel.
+- Resultat: sitemap auto-genere via Nuxt Sitemap avec articles blog inclus et routes admin exclues.
+- Point de vigilance: verifier le build local apres integration du module.
