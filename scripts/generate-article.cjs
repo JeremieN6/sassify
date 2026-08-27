@@ -83,6 +83,14 @@ statut: brouillon
   fs.writeFileSync(BACKLOG_FILE, JSON.stringify(backlog, null, 2), 'utf-8');
 
   console.log(`✅ Article généré : ${outputPath}`);
+
+  const { execSync } = require('child_process');
+  execSync('git add content/blog content/backlog.json', { cwd: ROOT });
+  execSync(`git commit -m "Article généré : ${sujet.titre}"`, { cwd: ROOT });
+  execSync('git push', { cwd: ROOT });
+  console.log('✅ Commit + push effectués');
+
+  return { slug, titre: sujet.titre, outputPath };
 }
 
 main().catch(err => {
