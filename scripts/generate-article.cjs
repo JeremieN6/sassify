@@ -64,16 +64,16 @@ async function main() {
   const date = new Date().toISOString().split('T')[0];
 
   const frontmatter = `---
-title: "${sujet.titre.replace(/"/g, '\\"')}"
-slug: ${slug}
-date: ${date}
-pilier: ${sujet.pilier}
-type: ${sujet.type}
-hookVideo: "${sujet.hookVideo.replace(/"/g, '\\"')}"
-statut: brouillon
----
+    title: "${sujet.titre.replace(/"/g, '\\"')}"
+    slug: ${slug}
+    date: ${date}
+    pilier: ${sujet.pilier}
+    type: ${sujet.type}
+    hookVideo: "${sujet.hookVideo.replace(/"/g, '\\"')}"
+    statut: brouillon
+    ---
 
-`;
+    `;
 
   fs.mkdirSync(BLOG_DIR, { recursive: true });
   const outputPath = path.join(BLOG_DIR, `${slug}.md`);
@@ -84,11 +84,23 @@ statut: brouillon
 
   console.log(`✅ Article généré : ${outputPath}`);
 
+  if (process.env.AUTO_PUBLISH === 'true') {
+    const contenuActuel = fs.readFileSync(outputPath, 'utf-8');
+    fs.writeFileSync(outputPath, contenuActuel.replace('statut: brouillon', 'statut: publie'), 'utf-8');
+    console.log('✅ Publication automatique (AUTO_PUBLISH=true)');
+    }
+
   const { execSync } = require('child_process');
   execSync('git add content/blog content/backlog.json', { cwd: ROOT });
   execSync(`git commit -m "Article généré : ${sujet.titre}"`, { cwd: ROOT });
   execSync('git push', { cwd: ROOT });
   console.log('✅ Commit + push effectués');
+
+    if (process.env.AUTO_PUBLISH !== 'true') {
+        const { notifierNouvelArticle } = require('./telegram-notify.cjs');
+        await notifierNouvelArticle({ slug, titre: sujet.titre });
+        console.log('✅ Notification Telegram envoyée');
+    }
 
   return { slug, titre: sujet.titre, outputPath };
 }

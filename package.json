@@ -14,6 +14,7 @@
     "@nuxt/content": "^2.13.4",
     "@nuxtjs/sitemap": "^8.2.3",
     "dotenv": "^17.4.2",
+    "node-telegram-bot-api": "^2.1.0",
     "nuxt": "^3.13.2"
   },
   "devDependencies": {
