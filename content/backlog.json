@@ -1,0 +1,86 @@
+[
+  {
+    "titre": "Pourquoi j'ai refait mon propre site en dernier",
+    "pilier": "process",
+    "type": "specifique",
+    "hookVideo": "Pourquoi t'as attendu si longtemps pour refaire ton propre site ?",
+    "statut": "genere"
+  },
+  {
+    "titre": "19 interviews plus tard, j'ai compris que je vendais le mauvais problème",
+    "pilier": "decisions",
+    "type": "specifique",
+    "hookVideo": "C'est quoi la pire erreur que t'as faite sur FlySmart ?",
+    "statut": "a_faire"
+  },
+  {
+    "titre": "Ce que j'ai mis en place pour définir un ICP qui tient la route",
+    "pilier": "decisions",
+    "type": "general",
+    "hookVideo": "Comment on sait qu'on a trouvé le bon client ?",
+    "statut": "a_faire"
+  },
+  {
+    "titre": "J'ai mis Stellara en pause alors que ça marchait",
+    "pilier": "decisions",
+    "type": "specifique",
+    "hookVideo": "Pourquoi mettre en pause un truc qui fonctionne ?",
+    "statut": "a_faire"
+  },
+  {
+    "titre": "Une clé SSH exposée, une rotation complète en urgence",
+    "pilier": "coulisses-techniques",
+    "type": "specifique",
+    "hookVideo": "C'est quoi la pire alerte sécurité que t'as eue ?",
+    "statut": "a_faire"
+  },
+  {
+    "titre": "Pourquoi je ne donne jamais les pleins pouvoirs à mes agents IA",
+    "pilier": "coulisses-techniques",
+    "type": "general",
+    "hookVideo": "Tu laisses vraiment une IA toucher à ton infra ?",
+    "statut": "a_faire"
+  },
+  {
+    "titre": "Ce que la vérification d'identité change pour un compte 100% IA",
+    "pilier": "coulisses-techniques",
+    "type": "general",
+    "hookVideo": "Pourquoi un compte IA peut se faire bloquer, même honnête ?",
+    "statut": "a_faire"
+  },
+  {
+    "titre": "Timide, réservé, syndrome de l'imposteur — comment j'adapte mon GTM en conséquence",
+    "pilier": "process",
+    "type": "general",
+    "hookVideo": "Pourquoi tu refuses de faire des appels à froid ?",
+    "statut": "a_faire"
+  },
+  {
+    "titre": "Skinalyze : m'adapter à une cible qui ne fonctionne pas comme moi",
+    "pilier": "decisions",
+    "type": "specifique",
+    "hookVideo": "Qu'est-ce qui t'a forcé à changer ta façon de vendre ?",
+    "statut": "a_faire"
+  },
+  {
+    "titre": "Pourquoi je ne dis jamais qu'un produit est mort",
+    "pilier": "decisions",
+    "type": "general",
+    "hookVideo": "Pourquoi tu n'abandonnes jamais vraiment un projet ?",
+    "statut": "a_faire"
+  },
+  {
+    "titre": "Pourquoi je construis mes propres outils avant même mon premier produit",
+    "pilier": "process",
+    "type": "specifique",
+    "hookVideo": "Ton premier outil, personne ne l'a jamais vu tourner ?",
+    "statut": "a_faire"
+  },
+  {
+    "titre": "Construire un agent IA pour piloter mes propres priorités",
+    "pilier": "process",
+    "type": "specifique",
+    "hookVideo": "Pourquoi laisser une IA décider de tes priorités business ?",
+    "statut": "a_faire"
+  }
+]

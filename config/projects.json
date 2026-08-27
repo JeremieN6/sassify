@@ -1,0 +1,9 @@
+[
+  {"nom": "flysmart", "repo": "git@github.com:jeremien6/flysmart.git"},
+  {"nom": "skinalyze", "repo": "git@github.com:jeremien6/skinalyze.git"},
+  {"nom": "tifo", "repo": "git@github.com:jeremien6/tifo.git"},
+  {"nom": "plotline", "repo": "git@github.com:jeremien6/plotline.git"},
+  {"nom": "stellara", "repo": "git@github.com:jeremien6/stellara.git"},
+  {"nom": "csvtoppt", "repo": "git@github.com:jeremien6/csvtoppt.git"},
+  {"nom": "clippeak", "repo": "git@github.com:jeremien6/clippeak.git"}
+]

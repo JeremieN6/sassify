@@ -10,3 +10,4 @@ dist
 /tmp
 /tmp/*
 /temp
+.env.local
