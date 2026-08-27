@@ -1,6 +1,5 @@
 require('dotenv').config({ path: '.env.local' });
-const TelegramBotModule = require('node-telegram-bot-api');
-const TelegramBot = TelegramBotModule.default || TelegramBotModule;
+const TelegramBot = require('node-telegram-bot-api');
 const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
