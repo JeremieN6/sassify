@@ -1,14 +1,16 @@
 ---
-    title: "19 interviews plus tard, j'ai compris que je vendais le mauvais problème"
-    slug: 19-interviews-plus-tard-j-ai-compris-que-je-vendais-le-mauvais-probleme
-    date: 2026-08-27
-    pilier: decisions
-    type: specifique
-    hookVideo: "C'est quoi la pire erreur que t'as faite sur FlySmart ?"
-    statut: brouillon
-    ---
+title: "19 interviews plus tard, j'ai compris que je vendais le mauvais problème"
+description: "Dix-neuf entretiens plus tard, j'ai découvert que FlySmart ne résolvait pas le problème que je pensais résoudre."
+slug: 19-interviews-plus-tard-j-ai-compris-que-je-vendais-le-mauvais-probleme
+date: 2026-08-27
+tag: Décisions
+pilier: decisions
+type: specifique
+hookVideo: "C'est quoi la pire erreur que t'as faite sur FlySmart ?"
+statut: brouillon
+---
 
-    Il y a une chose que j'aurais pu éviter si j'avais interviewé des utilisateurs avant de coder. Ou même avant de définir le produit.
+Il y a une chose que j'aurais pu éviter si j'avais interviewé des utilisateurs avant de coder. Ou même avant de définir le produit.
 
 FlySmart est parti d'une intuition simple : les prix des billets d'avion varient beaucoup, et personne ne sait vraiment quand acheter. J'ai codé sur cette intuition. J'ai construit une landing page sur cette intuition. Et pendant un bon moment, j'ai pensé que le problème que je résolvais, c'était l'accès à l'information — donner aux gens des données sur l'historique des prix pour qu'ils prennent de meilleures décisions.
 
