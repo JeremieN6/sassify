@@ -7,7 +7,7 @@ tag: Décisions
 pilier: decisions
 type: specifique
 hookVideo: "Pourquoi mettre en pause un truc qui fonctionne ?"
-statut: brouillon
+statut: publie
 ---
 
 Il y a quelques semaines, Stellara était dans un état que j'aurais volontiers appelé "stable" : le backend tourne, les paiements passent, le contenu gratuit commence à attirer du monde, et le système d'affiliation est en place. Par tous les indicateurs habituels, c'est le bon moment pour appuyer sur l'accélérateur.
