@@ -1,4 +1,4 @@
-const TelegramBot = require('node-telegram-bot-api');
+require('dotenv').config({ path: require('path').join(__dirname, '..', '.env.local') });
 
 function notifierNouvelArticle({ slug, titre }) {
   const bot = new TelegramBot(process.env.TELEGRAM_BOT_TOKEN);
