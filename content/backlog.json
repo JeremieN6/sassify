@@ -25,7 +25,7 @@
     "pilier": "decisions",
     "type": "specifique",
     "hookVideo": "Pourquoi mettre en pause un truc qui fonctionne ?",
-    "statut": "a_faire"
+    "statut": "genere"
   },
   {
     "titre": "Une clé SSH exposée, une rotation complète en urgence",
