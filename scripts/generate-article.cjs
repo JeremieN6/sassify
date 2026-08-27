@@ -18,7 +18,17 @@ Tu reçois deux sources de contexte :
 
 Base-toi sur knowledge-base-generated.md pour les faits précis sur le projet concerné — c'est la source la plus à jour. Respecte STRICTEMENT les garde-fous de knowledge-base.md, qui s'appliquent quel que soit le projet traité. En cas de doute sur un sujet sensible, reste plus vague plutôt que plus précis.
 
-Réponds UNIQUEMENT avec le corps de l'article en markdown, sans frontmatter, sans titre en H1 (le titre est déjà géré séparément), sans préambule ni commentaire.`;
+Réponds selon ce format exact, sans rien ajouter avant ou après :
+
+RÉSUMÉ: une phrase d'accroche (160 caractères max), distincte de la première phrase du corps — elle sert de teaser affiché séparément au-dessus de l'article, elle ne doit donc jamais répéter mot pour mot la première phrase du corps.
+---
+Le corps de l'article en markdown, sans frontmatter, sans titre en H1 (le titre est déjà géré séparément), sans préambule ni commentaire.`;
+
+const TAGS = {
+  process: 'Process',
+  decisions: 'Décisions',
+  'coulisses-techniques': 'Coulisses techniques',
+};
 
 function slugify(str) {
   return str.toLowerCase()
@@ -58,22 +68,33 @@ async function main() {
     messages: [{ role: 'user', content: userPrompt }]
   });
 
-  const corps = response.content.map(b => b.text || '').join('\n').trim();
+  const rawText = response.content.map(b => b.text || '').join('\n').trim();
+
+  const separatorIndex = rawText.indexOf('\n---\n');
+  if (separatorIndex === -1) {
+    throw new Error('Réponse du modèle mal formée : séparateur "---" introuvable entre le résumé et le corps.');
+  }
+
+  const description = rawText.slice(0, separatorIndex).replace(/^RÉSUMÉ:\s*/i, '').trim();
+  const corps = rawText.slice(separatorIndex + 5).trim();
 
   const slug = slugify(sujet.titre);
   const date = new Date().toISOString().split('T')[0];
+  const tag = TAGS[sujet.pilier] || sujet.pilier;
 
   const frontmatter = `---
-    title: "${sujet.titre.replace(/"/g, '\\"')}"
-    slug: ${slug}
-    date: ${date}
-    pilier: ${sujet.pilier}
-    type: ${sujet.type}
-    hookVideo: "${sujet.hookVideo.replace(/"/g, '\\"')}"
-    statut: brouillon
-    ---
+title: "${sujet.titre.replace(/"/g, '\\"')}"
+description: "${description.replace(/"/g, '\\"')}"
+slug: ${slug}
+date: ${date}
+tag: ${tag}
+pilier: ${sujet.pilier}
+type: ${sujet.type}
+hookVideo: "${sujet.hookVideo.replace(/"/g, '\\"')}"
+statut: brouillon
+---
 
-    `;
+`;
 
   fs.mkdirSync(BLOG_DIR, { recursive: true });
   const outputPath = path.join(BLOG_DIR, `${slug}.md`);

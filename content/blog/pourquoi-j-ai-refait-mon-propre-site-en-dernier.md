@@ -1,7 +1,9 @@
 ---
 title: "Pourquoi j'ai refait mon propre site en dernier"
+description: "Le cordonnier est toujours le plus mal chaussé — pendant que je soignais les sites de mes clients, le mien attendait en dernier de la liste."
 slug: pourquoi-j-ai-refait-mon-propre-site-en-dernier
 date: 2026-08-27
+tag: Process
 pilier: process
 type: specifique
 hookVideo: "Pourquoi t'as attendu si longtemps pour refaire ton propre site ?"
