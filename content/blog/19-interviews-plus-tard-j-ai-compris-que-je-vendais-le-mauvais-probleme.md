@@ -1,14 +1,9 @@
 ---
 title: "19 interviews plus tard, j'ai compris que je vendais le mauvais problème"
-<<<<<<< HEAD
 description: "Dix-neuf entretiens plus tard, j'ai découvert que FlySmart ne résolvait pas le problème que je pensais résoudre."
 slug: 19-interviews-plus-tard-j-ai-compris-que-je-vendais-le-mauvais-probleme
 date: 2026-08-27
 tag: Décisions
-=======
-slug: 19-interviews-plus-tard-j-ai-compris-que-je-vendais-le-mauvais-probleme
-date: 2026-08-27
->>>>>>> 3f5e0c8 (fix: format front matter in blog articles for consistency)
 pilier: decisions
 type: specifique
 hookVideo: "C'est quoi la pire erreur que t'as faite sur FlySmart ?"

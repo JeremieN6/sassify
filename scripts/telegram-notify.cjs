@@ -25,4 +25,20 @@ async function notifierNouvelArticle({ slug, titre }) {
   return data;
 }
 
-module.exports = { notifierNouvelArticle };
+async function notifierSujetBloque({ titre, raison }) {
+  const res = await fetch(API('sendMessage'), {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      chat_id: process.env.TELEGRAM_CHAT_ID,
+      text: `🛑 Sujet bloqué par les garde-fous :\n\n*${titre}*\n\n${raison}\n\nÀ retravailler manuellement dans content/backlog.json (statut actuel : \`bloque\`).`,
+      parse_mode: 'Markdown'
+    })
+  });
+
+  const data = await res.json();
+  if (!data.ok) throw new Error(`Telegram: ${data.description}`);
+  return data;
+}
+
+module.exports = { notifierNouvelArticle, notifierSujetBloque };

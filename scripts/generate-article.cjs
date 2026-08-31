@@ -18,7 +18,11 @@ Tu reçois deux sources de contexte :
 
 Base-toi sur knowledge-base-generated.md pour les faits précis sur le projet concerné — c'est la source la plus à jour. Respecte STRICTEMENT les garde-fous de knowledge-base.md, qui s'appliquent quel que soit le projet traité. En cas de doute sur un sujet sensible, reste plus vague plutôt que plus précis.
 
-Réponds selon ce format exact, sans rien ajouter avant ou après :
+Si le sujet demandé ne peut pas être traité sans violer un garde-fou de knowledge-base.md — quel que soit l'angle ou la reformulation — ne rédige aucun article. Réponds uniquement par :
+
+REFUS: une ou deux phrases expliquant précisément quel garde-fou est en cause et pourquoi aucune reformulation ne suffit.
+
+Sinon, réponds selon ce format exact, sans rien ajouter avant ou après :
 
 RÉSUMÉ: une phrase d'accroche (160 caractères max), distincte de la première phrase du corps — elle sert de teaser affiché séparément au-dessus de l'article, elle ne doit donc jamais répéter mot pour mot la première phrase du corps.
 ---
@@ -69,6 +73,27 @@ async function main() {
   });
 
   const rawText = response.content.map(b => b.text || '').join('\n').trim();
+
+  if (/^REFUS\s*:/i.test(rawText)) {
+    const raison = rawText.replace(/^REFUS\s*:\s*/i, '').trim();
+    console.log(`🛑 Le modèle a refusé le sujet : ${raison}`);
+
+    backlog[sujetIndex].statut = 'bloque';
+    backlog[sujetIndex].raisonBlocage = raison;
+    fs.writeFileSync(BACKLOG_FILE, JSON.stringify(backlog, null, 2), 'utf-8');
+
+    const { execSync } = require('child_process');
+    execSync('git add content/backlog.json', { cwd: ROOT });
+    execSync(`git commit -m "Sujet bloqué par les garde-fous : ${sujet.titre}"`, { cwd: ROOT });
+    execSync('git push', { cwd: ROOT });
+    console.log('✅ Backlog mis à jour (sujet bloqué) et poussé');
+
+    const { notifierSujetBloque } = require('./telegram-notify.cjs');
+    await notifierSujetBloque({ titre: sujet.titre, raison });
+    console.log('✅ Notification Telegram envoyée (sujet bloqué)');
+
+    return { bloque: true, titre: sujet.titre, raison };
+  }
 
   const separatorIndex = rawText.indexOf('\n---\n');
   if (separatorIndex === -1) {

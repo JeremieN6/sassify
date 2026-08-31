@@ -1,14 +1,9 @@
 ---
 title: "Ce que j'ai mis en place pour définir un ICP qui tient la route"
-<<<<<<< HEAD
 description: "Après plusieurs projets à écrire des ICP vagues qui sonnaient bien sur le papier, j'ai changé de méthode."
 slug: ce-que-j-ai-mis-en-place-pour-definir-un-icp-qui-tient-la-route
 date: 2026-08-27
 tag: Décisions
-=======
-slug: ce-que-j-ai-mis-en-place-pour-definir-un-icp-qui-tient-la-route
-date: 2026-08-27
->>>>>>> 3f5e0c8 (fix: format front matter in blog articles for consistency)
 pilier: decisions
 type: general
 hookVideo: "Comment on sait qu'on a trouvé le bon client ?"
