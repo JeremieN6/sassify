@@ -7,7 +7,7 @@ tag: Coulisses techniques
 pilier: coulisses-techniques
 type: general
 hookVideo: "Tu laisses vraiment une IA toucher à ton infra ?"
-statut: brouillon
+statut: publie
 ---
 
 La question revient souvent quand je parle de mes projets : tu laisses vraiment une IA toucher à ton infra ?

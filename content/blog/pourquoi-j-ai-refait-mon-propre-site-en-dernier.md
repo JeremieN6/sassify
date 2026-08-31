@@ -7,7 +7,7 @@ tag: Process
 pilier: process
 type: specifique
 hookVideo: "Pourquoi t'as attendu si longtemps pour refaire ton propre site ?"
-statut: brouillon
+statut: publie
 ---
 
 Le cordonnier et ses chaussures. Je l'ai vécu.

@@ -7,7 +7,7 @@ tag: Décisions
 pilier: decisions
 type: specifique
 hookVideo: "C'est quoi la pire erreur que t'as faite sur FlySmart ?"
-statut: brouillon
+statut: publie
 ---
 
 Il y a une chose que j'aurais pu éviter si j'avais interviewé des utilisateurs avant de coder. Ou même avant de définir le produit.

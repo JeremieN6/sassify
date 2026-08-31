@@ -7,7 +7,7 @@ tag: Décisions
 pilier: decisions
 type: general
 hookVideo: "Comment on sait qu'on a trouvé le bon client ?"
-statut: brouillon
+statut: publie
 ---
 
 Définir un ICP, j'avais l'impression de savoir faire. Huit ans de dev, quelques projets lancés, j'avais lu les posts LinkedIn sur le sujet. En pratique, à chaque nouveau projet Sassify, je me retrouvais à écrire "PME qui veulent aller vite" ou "créateurs qui manquent de temps" — des formulations qui sonnent bien et ne servent à rien.
