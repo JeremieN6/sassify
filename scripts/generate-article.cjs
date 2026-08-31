@@ -41,11 +41,11 @@ function slugify(str) {
     .replace(/(^-|-$)/g, '');
 }
 
-function trouverBrouillonEnAttente() {
-  if (!fs.existsSync(BLOG_DIR)) return null;
+function listerBrouillonsEnAttente() {
+  if (!fs.existsSync(BLOG_DIR)) return [];
   const fichiers = fs.readdirSync(BLOG_DIR).filter(f => f.endsWith('.md'));
 
-  const brouillons = fichiers
+  return fichiers
     .map(fichier => {
       const filePath = path.join(BLOG_DIR, fichier);
       const contenu = fs.readFileSync(filePath, 'utf-8');
@@ -59,11 +59,6 @@ function trouverBrouillonEnAttente() {
     })
     .filter(Boolean)
     .sort((a, b) => a.mtime - b.mtime);
-
-  if (brouillons.length === 0) return null;
-
-  const [plusAncien, ...autres] = brouillons;
-  return { ...plusAncien, total: brouillons.length, autres: autres.map(a => a.titre) };
 }
 
 async function main() {
@@ -72,14 +67,15 @@ async function main() {
     process.exit(1);
   }
 
-  const enAttente = trouverBrouillonEnAttente();
-  if (enAttente) {
-    const suffixe = enAttente.total > 1 ? ` (+${enAttente.total - 1} autre(s) : ${enAttente.autres.join(', ')})` : '';
-    console.log(`⏸️  Un article est déjà en attente de validation ("${enAttente.titre}"${suffixe}) — aucune génération tant qu'il n'est ni publié ni rejeté.`);
+  const enAttente = listerBrouillonsEnAttente();
+  if (enAttente.length > 0) {
+    console.log(`⏸️  ${enAttente.length} article(s) déjà en attente de validation — aucune génération tant qu'ils ne sont pas tous publiés ou rejetés.`);
     const { notifierRappelEnAttente } = require('./telegram-notify.cjs');
-    await notifierRappelEnAttente(enAttente);
-    console.log('✅ Rappel Telegram envoyé');
-    return { enAttente: true, ...enAttente };
+    for (const brouillon of enAttente) {
+      await notifierRappelEnAttente(brouillon);
+    }
+    console.log(`✅ ${enAttente.length} rappel(s) Telegram envoyé(s), chacun avec ses boutons Publier/Rejeter`);
+    return { enAttente: true, articles: enAttente };
   }
 
   const backlog = JSON.parse(fs.readFileSync(BACKLOG_FILE, 'utf-8'));
