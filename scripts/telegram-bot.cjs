@@ -2,6 +2,7 @@ require('dotenv').config({ path: require('path').join(__dirname, '..', '.env.loc
 const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
+const { shortId } = require('./article-id.cjs');
 
 const ROOT = path.join(__dirname, '..');
 const BLOG_DIR = path.join(ROOT, 'content', 'blog');
@@ -19,7 +20,16 @@ async function call(method, body) {
   return res.json();
 }
 
-function traiter(action, slug) {
+function trouverSlugParId(id) {
+  const fichiers = fs.readdirSync(BLOG_DIR).filter(f => f.endsWith('.md'));
+  const match = fichiers.find(f => shortId(f.slice(0, -3)) === id);
+  return match ? match.slice(0, -3) : null;
+}
+
+function traiter(action, id) {
+  const slug = trouverSlugParId(id);
+  if (!slug) return { ok: false, msg: 'Article introuvable.' };
+
   const filePath = path.join(BLOG_DIR, `${slug}.md`);
   if (!fs.existsSync(filePath)) return { ok: false, msg: 'Fichier introuvable.' };
 
@@ -50,8 +60,8 @@ async function boucle() {
         if (!update.callback_query) continue;
 
         const query = update.callback_query;
-        const [action, slug] = query.data.split(':');
-        const resultat = traiter(action, slug);
+        const [action, id] = query.data.split(':');
+        const resultat = traiter(action, id);
 
         await call('answerCallbackQuery', {
           callback_query_id: query.id,

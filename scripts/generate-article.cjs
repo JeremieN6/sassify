@@ -41,10 +41,45 @@ function slugify(str) {
     .replace(/(^-|-$)/g, '');
 }
 
+function trouverBrouillonEnAttente() {
+  if (!fs.existsSync(BLOG_DIR)) return null;
+  const fichiers = fs.readdirSync(BLOG_DIR).filter(f => f.endsWith('.md'));
+
+  const brouillons = fichiers
+    .map(fichier => {
+      const filePath = path.join(BLOG_DIR, fichier);
+      const contenu = fs.readFileSync(filePath, 'utf-8');
+      if (!/^statut:\s*brouillon\s*$/m.test(contenu)) return null;
+      const titreMatch = contenu.match(/^title:\s*"?(.*?)"?\s*$/m);
+      return {
+        slug: fichier.slice(0, -3),
+        titre: titreMatch ? titreMatch[1] : fichier,
+        mtime: fs.statSync(filePath).mtimeMs,
+      };
+    })
+    .filter(Boolean)
+    .sort((a, b) => a.mtime - b.mtime);
+
+  if (brouillons.length === 0) return null;
+
+  const [plusAncien, ...autres] = brouillons;
+  return { ...plusAncien, total: brouillons.length, autres: autres.map(a => a.titre) };
+}
+
 async function main() {
   if (!process.env.ANTHROPIC_API_KEY) {
     console.error('❌ ANTHROPIC_API_KEY manquant dans .env.local');
     process.exit(1);
+  }
+
+  const enAttente = trouverBrouillonEnAttente();
+  if (enAttente) {
+    const suffixe = enAttente.total > 1 ? ` (+${enAttente.total - 1} autre(s) : ${enAttente.autres.join(', ')})` : '';
+    console.log(`⏸️  Un article est déjà en attente de validation ("${enAttente.titre}"${suffixe}) — aucune génération tant qu'il n'est ni publié ni rejeté.`);
+    const { notifierRappelEnAttente } = require('./telegram-notify.cjs');
+    await notifierRappelEnAttente(enAttente);
+    console.log('✅ Rappel Telegram envoyé');
+    return { enAttente: true, ...enAttente };
   }
 
   const backlog = JSON.parse(fs.readFileSync(BACKLOG_FILE, 'utf-8'));
