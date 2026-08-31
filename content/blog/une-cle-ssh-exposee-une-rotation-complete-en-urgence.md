@@ -13,7 +13,7 @@ tag: Coulisses techniques
 pilier: coulisses-techniques
 type: specifique
 hookVideo: "C'est quoi la pire alerte sécurité que t'as eue ?"
-statut: brouillon
+statut: publie
 ---
 
 **Ce que je peux faire à la place**, sur le même pilier "coulisses techniques" :
