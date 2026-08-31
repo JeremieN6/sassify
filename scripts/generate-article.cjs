@@ -41,25 +41,7 @@ function slugify(str) {
     .replace(/(^-|-$)/g, '');
 }
 
-function listerBrouillonsEnAttente() {
-  if (!fs.existsSync(BLOG_DIR)) return [];
-  const fichiers = fs.readdirSync(BLOG_DIR).filter(f => f.endsWith('.md'));
-
-  return fichiers
-    .map(fichier => {
-      const filePath = path.join(BLOG_DIR, fichier);
-      const contenu = fs.readFileSync(filePath, 'utf-8');
-      if (!/^statut:\s*brouillon\s*$/m.test(contenu)) return null;
-      const titreMatch = contenu.match(/^title:\s*"?(.*?)"?\s*$/m);
-      return {
-        slug: fichier.slice(0, -3),
-        titre: titreMatch ? titreMatch[1] : fichier,
-        mtime: fs.statSync(filePath).mtimeMs,
-      };
-    })
-    .filter(Boolean)
-    .sort((a, b) => a.mtime - b.mtime);
-}
+const { listerBrouillons } = require('./article-status.cjs');
 
 async function main() {
   if (!process.env.ANTHROPIC_API_KEY) {
@@ -67,7 +49,7 @@ async function main() {
     process.exit(1);
   }
 
-  const enAttente = listerBrouillonsEnAttente();
+  const enAttente = listerBrouillons();
   if (enAttente.length > 0) {
     console.log(`⏸️  ${enAttente.length} article(s) déjà en attente de validation — aucune génération tant qu'ils ne sont pas tous publiés ou rejetés.`);
     const { notifierRappelEnAttente } = require('./telegram-notify.cjs');

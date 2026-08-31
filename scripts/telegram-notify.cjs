@@ -39,13 +39,17 @@ async function notifierRappelEnAttente({ slug, titre }) {
 }
 
 async function notifierSujetBloque({ titre, raison }) {
+  const id = shortId(titre);
   const res = await fetch(API('sendMessage'), {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       chat_id: process.env.TELEGRAM_CHAT_ID,
-      text: `🛑 Sujet bloqué par les garde-fous :\n\n*${titre}*\n\n${raison}\n\nÀ retravailler manuellement dans content/backlog.json (statut actuel : \`bloque\`).`,
-      parse_mode: 'Markdown'
+      text: `🛑 Sujet bloqué par les garde-fous, rien n'a été généré :\n\n*${titre}*\n\n${raison}\n\nPour le débloquer : reformule l'angle dans content/backlog.json (nouvel essai au prochain run), ou ajuste un garde-fou dans knowledge-base.md / generate-article.cjs si le refus est trop strict.`,
+      parse_mode: 'Markdown',
+      reply_markup: {
+        inline_keyboard: [[{ text: '🗑 Retirer du backlog', callback_data: `drop:${id}` }]]
+      }
     })
   });
 
