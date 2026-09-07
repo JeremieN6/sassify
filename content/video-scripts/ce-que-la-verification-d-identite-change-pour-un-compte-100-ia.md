@@ -4,7 +4,7 @@ titre: "Ce que la vérification d'identité change pour un compte 100% IA"
 mode: court
 nbMots: 22
 dateGeneration: 2026-09-07
-plotlineStatus: demande
+plotlineStatus: pret
 plotlineContentId: cmtrexns70000htl1dzssu7xy
 ---
 
