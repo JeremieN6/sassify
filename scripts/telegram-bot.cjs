@@ -4,6 +4,9 @@ const path = require('path');
 const { execSync } = require('child_process');
 const { shortId } = require('./article-id.cjs');
 const { listerBrouillons, listerBloques, ROOT, BLOG_DIR, BACKLOG_FILE } = require('./article-status.cjs');
+const { readMarkdownWithFrontmatter } = require('./lib/markdown-frontmatter.cjs');
+
+const VIDEO_DIR = path.join(ROOT, 'content', 'video-scripts');
 
 const API = (method) =>
   `https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/${method}`;
@@ -116,7 +119,82 @@ async function envoyerStatus(chatId) {
   }
 }
 
+// La validation et la publication de la video restent entierement dans
+// Plotline (boutons Valider/Publier deja existants sur "Mes creations") --
+// ce bot ne fait qu'avertir que c'est pret, il ne decide de rien. Genere par
+// generate-video-script.cjs, qui pousse le job a Plotline de facon
+// asynchrone : la generation prend 1-2 minutes, donc on ne peut pas attendre
+// la reponse dans le meme appel sans bloquer la boucle Telegram. On verifie
+// ici, a chaque tour de boucle, si un job en attente est termine.
+async function verifierVideosPretes() {
+  const apiKey = process.env.PLOTLINE_API_KEY;
+  const baseUrl = process.env.PLOTLINE_BASE_URL || 'https://plotline.sassify.fr';
+  if (!apiKey || !fs.existsSync(VIDEO_DIR)) return;
+
+  const fichiers = fs.readdirSync(VIDEO_DIR).filter(f => f.endsWith('.md'));
+
+  for (const fichier of fichiers) {
+    const filePath = path.join(VIDEO_DIR, fichier);
+    let frontmatter;
+    try {
+      ({ frontmatter } = readMarkdownWithFrontmatter(filePath));
+    } catch {
+      continue;
+    }
+
+    // "demande" = job pousse a Plotline, pas encore de reponse connue.
+    // Tout autre statut (non_configure, echec, pret, echec_generation) est
+    // deja stable : rien a revalider a chaque tour de boucle.
+    if (frontmatter.plotlineStatus !== 'demande' || !frontmatter.plotlineContentId) continue;
+
+    let statusData;
+    try {
+      const res = await fetch(`${baseUrl}/api/external/video-jobs/${frontmatter.plotlineContentId}/status`, {
+        headers: { 'x-api-key': apiKey },
+      });
+      if (!res.ok) continue; // reessaie au prochain tour
+      statusData = await res.json();
+    } catch {
+      continue; // panne reseau transitoire, on reessaie au prochain tour
+    }
+
+    if (!statusData.done) continue;
+
+    const slug = frontmatter.sourceSlug || fichier.replace(/\.md$/, '');
+    const titre = frontmatter.titre || slug;
+    const contenu = fs.readFileSync(filePath, 'utf-8');
+
+    if (statusData.failed) {
+      fs.writeFileSync(filePath, contenu.replace('plotlineStatus: demande', 'plotlineStatus: echec_generation'), 'utf-8');
+      await call('sendMessage', {
+        chat_id: process.env.TELEGRAM_CHAT_ID,
+        text: `❌ Vidéo échouée pour "${titre}" : ${statusData.errorMessage || 'raison inconnue'}`,
+      });
+    } else {
+      fs.writeFileSync(filePath, contenu.replace('plotlineStatus: demande', 'plotlineStatus: pret'), 'utf-8');
+      await call('sendMessage', {
+        chat_id: process.env.TELEGRAM_CHAT_ID,
+        text: `🎥 Vidéo prête pour "${titre}" — à valider et publier depuis Plotline.`,
+      });
+    }
+
+    try {
+      execSync(`git add "${filePath}"`, { cwd: ROOT });
+      execSync(`git commit -m "Statut video mis a jour : ${slug}"`, { cwd: ROOT });
+      execSync('git push', { cwd: ROOT });
+    } catch (err) {
+      console.error(`Git a echoue pour le statut video de ${slug} :`, err.message);
+    }
+  }
+}
+
 async function boucle() {
+  try {
+    await verifierVideosPretes();
+  } catch (err) {
+    console.error('Verification des videos en attente echouee :', err.message);
+  }
+
   try {
     const res = await fetch(API('getUpdates') + `?offset=${offset}&timeout=30`);
     const data = await res.json();

@@ -8,6 +8,7 @@ const ROOT = path.join(__dirname, '..');
 const BLOG_DIR = path.join(ROOT, 'content', 'blog');
 const VIDEO_DIR = path.join(ROOT, 'content', 'video-scripts');
 const KB_STATIC = path.join(ROOT, 'content', 'knowledge-base.md');
+const DECORS_FILE = path.join(ROOT, 'config', 'decors.json');
 
 // Deux formats de contraintes. "court" est le format de test actuel : le
 // modèle vidéo utilisé pour l'instant (Omni Flash) ne génère que 10s par
@@ -60,12 +61,14 @@ function trouverArticleSansScript() {
 
       const titreMatch = contenu.match(/^title:\s*"?(.*?)"?\s*$/m);
       const hookMatch = contenu.match(/^hookVideo:\s*"?(.*?)"?\s*$/m);
+      const pilierMatch = contenu.match(/^pilier:\s*"?(.*?)"?\s*$/m);
       const corps = contenu.replace(/^---[\s\S]*?---\s*/, '').trim();
 
       return {
         slug,
         titre: titreMatch ? titreMatch[1] : slug,
         hookVideo: hookMatch ? hookMatch[1] : '',
+        pilier: pilierMatch ? pilierMatch[1] : '',
         corps,
         mtime: fs.statSync(filePath).mtimeMs,
       };
@@ -74,6 +77,45 @@ function trouverArticleSansScript() {
     .sort((a, b) => a.mtime - b.mtime);
 
   return candidats[0] || null;
+}
+
+function resoudreDecor(pilier) {
+  if (!fs.existsSync(DECORS_FILE)) return '';
+  const decors = JSON.parse(fs.readFileSync(DECORS_FILE, 'utf-8'));
+  return decors[pilier] || '';
+}
+
+// Le script parle est genere ici, mais la video elle-meme est produite par
+// Plotline (pipeline persona/identity lock deja eprouve la-bas). Un echec de
+// cette etape ne doit jamais faire perdre le script deja ecrit et commit :
+// on le journalise dans le frontmatter plutot que de faire echouer tout le
+// script (meme logique que le hook telegram-bot.cjs -> generate-video-script.cjs,
+// qui traite deja cette generation comme un a-cote non bloquant).
+async function demanderVideoAPlotline({ slug, decorPrompt, scriptText }) {
+  const apiKey = process.env.PLOTLINE_API_KEY;
+  const influencerId = process.env.PLOTLINE_INFLUENCER_ID;
+  const baseUrl = process.env.PLOTLINE_BASE_URL || 'https://plotline.sassify.fr';
+
+  if (!apiKey || !influencerId) {
+    return { statut: 'non_configure', raison: 'PLOTLINE_API_KEY ou PLOTLINE_INFLUENCER_ID manquant dans .env.local' };
+  }
+
+  try {
+    const response = await fetch(`${baseUrl}/api/external/video-jobs`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-api-key': apiKey },
+      body: JSON.stringify({ influencerId, decorPrompt, scriptText, slug, sourceProject: 'home' }),
+    });
+
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok) {
+      return { statut: 'echec', raison: `${response.status} ${data?.statusMessage || data?.message || 'erreur inconnue'}` };
+    }
+
+    return { statut: 'demande', contentId: data.contentId };
+  } catch (err) {
+    return { statut: 'echec', raison: err.message };
+  }
 }
 
 async function main() {
@@ -123,12 +165,34 @@ async function main() {
     console.warn(`⚠️  Le script fait ${nbMots} mots, hors de la cible ${minMots}-${maxMots} pour le mode "${MODE}" (généré quand même).`);
   }
 
+  const decorPrompt = resoudreDecor(article.pilier);
+  if (!decorPrompt) {
+    console.warn(`⚠️  Aucun décor connu pour le pilier "${article.pilier}" -- la vidéo sera demandée sans décor spécifique.`);
+  }
+
+  if (MODE === 'long') {
+    console.warn('⚠️  Mode "long" : Plotline ne sait aujourd\'hui produire que des vidéos Omni Flash de 10s -- la voix off dépassera la durée réelle de la vidéo tant que l\'extension de scène n\'est pas branchée côté Plotline.');
+  }
+
+  console.log('🎥 Demande de génération vidéo à Plotline...');
+  const plotlineResult = await demanderVideoAPlotline({ slug: article.slug, decorPrompt, scriptText: script });
+
+  if (plotlineResult.statut === 'demande') {
+    console.log(`✅ Vidéo demandée (contentId Plotline : ${plotlineResult.contentId})`);
+  } else if (plotlineResult.statut === 'non_configure') {
+    console.warn(`⚠️  ${plotlineResult.raison} -- script généré mais aucune vidéo demandée.`);
+  } else {
+    console.error(`❌ Échec de la demande vidéo à Plotline : ${plotlineResult.raison}`);
+  }
+
   const frontmatter = `---
 sourceSlug: ${article.slug}
 titre: "${article.titre.replace(/"/g, '\\"')}"
 mode: ${MODE}
 nbMots: ${nbMots}
 dateGeneration: ${new Date().toISOString().split('T')[0]}
+plotlineStatus: ${plotlineResult.statut}
+plotlineContentId: ${plotlineResult.contentId || ''}
 ---
 
 `;
