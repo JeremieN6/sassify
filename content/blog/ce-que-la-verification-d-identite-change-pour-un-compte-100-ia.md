@@ -7,7 +7,7 @@ tag: Coulisses techniques
 pilier: coulisses-techniques
 type: general
 hookVideo: "Pourquoi un compte IA peut se faire bloquer, même honnête ?"
-statut: brouillon
+statut: publie
 ---
 
 ## Le vrai problème avec les identités IA : pas la génération, la cohérence
