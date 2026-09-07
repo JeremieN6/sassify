@@ -56,6 +56,16 @@ function traiterArticle(action, id) {
     return { ok: false, msg: `Git a échoué : ${err.message.split('\n')[0]}` };
   }
 
+  if (action === 'publish') {
+    // Le script vidéo est un a-côté : s'il plante (API down, article mal
+    // forme...), la publication de l'article ne doit jamais en dépendre.
+    try {
+      execSync(`node "${path.join(ROOT, 'scripts', 'generate-video-script.cjs')}" ${slug}`, { cwd: ROOT, stdio: 'pipe' });
+    } catch (err) {
+      console.error(`Génération du script vidéo échouée pour ${slug} :`, err.message);
+    }
+  }
+
   return { ok: true, msg: action === 'publish' ? `✅ Publié : ${slug}` : `❌ Rejeté : ${slug}` };
 }
 
