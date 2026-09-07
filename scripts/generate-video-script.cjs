@@ -46,37 +46,61 @@ REFUS: une ou deux phrases expliquant précisément quel garde-fou est en cause.
 
 Sinon, réponds uniquement avec le texte du script parlé, rien d'autre : pas de titre, pas de guillemets, pas de commentaire, pas de didascalie.`;
 
+function parseArticleCandidat(fichier) {
+  const filePath = path.join(BLOG_DIR, fichier);
+  const contenu = fs.readFileSync(filePath, 'utf-8');
+  if (!/^statut:\s*publie\s*$/m.test(contenu)) return null;
+
+  const slug = fichier.slice(0, -3);
+  const titreMatch = contenu.match(/^title:\s*"?(.*?)"?\s*$/m);
+  const hookMatch = contenu.match(/^hookVideo:\s*"?(.*?)"?\s*$/m);
+  const pilierMatch = contenu.match(/^pilier:\s*"?(.*?)"?\s*$/m);
+  const corps = contenu.replace(/^---[\s\S]*?---\s*/, '').trim();
+
+  return {
+    slug,
+    titre: titreMatch ? titreMatch[1] : slug,
+    hookVideo: hookMatch ? hookMatch[1] : '',
+    pilier: pilierMatch ? pilierMatch[1] : '',
+    corps,
+    mtime: fs.statSync(filePath).mtimeMs,
+  };
+}
+
 function trouverArticleSansScript() {
   if (!fs.existsSync(BLOG_DIR)) return null;
   const fichiers = fs.readdirSync(BLOG_DIR).filter(f => f.endsWith('.md'));
 
   const candidats = fichiers
     .map(fichier => {
-      const filePath = path.join(BLOG_DIR, fichier);
-      const contenu = fs.readFileSync(filePath, 'utf-8');
-      if (!/^statut:\s*publie\s*$/m.test(contenu)) return null;
-
-      const slug = fichier.slice(0, -3);
-      if (fs.existsSync(path.join(VIDEO_DIR, `${slug}.md`))) return null; // déjà traité
-
-      const titreMatch = contenu.match(/^title:\s*"?(.*?)"?\s*$/m);
-      const hookMatch = contenu.match(/^hookVideo:\s*"?(.*?)"?\s*$/m);
-      const pilierMatch = contenu.match(/^pilier:\s*"?(.*?)"?\s*$/m);
-      const corps = contenu.replace(/^---[\s\S]*?---\s*/, '').trim();
-
-      return {
-        slug,
-        titre: titreMatch ? titreMatch[1] : slug,
-        hookVideo: hookMatch ? hookMatch[1] : '',
-        pilier: pilierMatch ? pilierMatch[1] : '',
-        corps,
-        mtime: fs.statSync(filePath).mtimeMs,
-      };
+      const article = parseArticleCandidat(fichier);
+      if (!article) return null;
+      if (fs.existsSync(path.join(VIDEO_DIR, `${article.slug}.md`))) return null; // déjà traité
+      return article;
     })
     .filter(Boolean)
     .sort((a, b) => a.mtime - b.mtime);
 
   return candidats[0] || null;
+}
+
+// Override manuel pour cibler un article precis (tests, rattrapage) plutot que
+// de subir la selection automatique par date de modification -- inutile pour
+// le cron du lundi, qui n'a jamais besoin de choisir un article en particulier.
+function trouverArticleParSlug(slug) {
+  const fichier = `${slug}.md`;
+  if (!fs.existsSync(path.join(BLOG_DIR, fichier))) {
+    console.error(`❌ Article introuvable : ${slug}`);
+    process.exit(1);
+  }
+
+  const article = parseArticleCandidat(fichier);
+  if (!article) {
+    console.error(`❌ "${slug}" n'est pas en statut "publie" -- impossible d'en tirer un script vidéo.`);
+    process.exit(1);
+  }
+
+  return article;
 }
 
 function resoudreDecor(pilier) {
@@ -126,7 +150,8 @@ async function main() {
 
   console.log(`🎬 Mode : ${label}`);
 
-  const article = trouverArticleSansScript();
+  const slugImpose = process.argv[2];
+  const article = slugImpose ? trouverArticleParSlug(slugImpose) : trouverArticleSansScript();
   if (!article) {
     console.log('ℹ️  Aucun article publié sans script vidéo en attente.');
     return;
