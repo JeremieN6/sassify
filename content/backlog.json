@@ -32,7 +32,7 @@
     "pilier": "coulisses-techniques",
     "type": "general",
     "hookVideo": "Comment tu gères tes clés et mots de passe sur autant de projets ?",
-    "statut": "bloque",
+    "statut": "ecarte",
     "raisonBlocage": "Le sujet demande de détailler la gestion des secrets et variables d'environnement — soit exactement la mécanique de protection des clés et identifiants. Quel que soit l'angle ou la reformulation, tout article utile sur ce thème implique de révéler suffisamment de détail sur l'organisation des secrets pour constituer une information exploitable, ce qui viole le garde-fou strict interdisant de détailler ce qui touche aux clés et identifiants. Aucune reformulation ne permet de traiter ce sujet avec suffisamment de substance sans franchir cette limite."
   },
   {
