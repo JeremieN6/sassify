@@ -23,23 +23,22 @@
           Les décisions, les pivots, les chiffres, les abandons.
         </p>
 
-        <!-- Subscribe form -->
-        <div id="subscribe" class="flex flex-col sm:flex-row gap-3 max-w-md">
-          <input
-            type="email"
-            placeholder="ton@email.com"
-            class="flex-1 px-4 py-3 rounded-lg bg-surface border border-divider text-white placeholder:text-slate-600 focus:outline-none focus:border-accent/60 transition-colors text-sm"
-          />
-          <button
-            class="px-6 py-3 rounded-lg bg-accent text-white font-semibold text-sm hover:bg-accent-hover transition-colors whitespace-nowrap font-display"
+        <!-- CTA -->
+        <div class="flex flex-col sm:flex-row gap-3">
+          <NuxtLink
+            to="/blog"
+            class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-accent text-white font-semibold text-sm hover:bg-accent-hover transition-colors whitespace-nowrap font-display"
           >
-            S'abonner
-          </button>
+            Lire le journal de bord
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </NuxtLink>
         </div>
 
         <p class="text-slate-600 text-xs flex items-center gap-2">
           <span class="text-amber-400">⭐</span>
-          Rejoins les builders qui suivent l'aventure · Aucune carte requise
+          Décisions, pivots et chiffres réels — mis à jour chaque semaine
         </p>
       </div>
 

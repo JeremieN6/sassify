@@ -67,7 +67,7 @@ const faqs = [
   {
     question: "Comment puis-je suivre l'avancement ?",
     answer:
-      "En t'abonnant via le formulaire en haut de la page. Je partage les updates significatives : pivots, lancements, chiffres, décisions. Pas de newsletter weekly vide — seulement quand il se passe quelque chose.",
+      "En lisant le journal de bord. J'y partage les updates significatives : pivots, lancements, chiffres, décisions. Pas de newsletter weekly vide — seulement quand il se passe quelque chose.",
   },
   {
     question: "Certains projets sont 'en pause', ils sont abandonnés ?",

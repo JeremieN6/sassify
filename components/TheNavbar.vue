@@ -34,12 +34,12 @@
       </div>
 
       <!-- Desktop CTA -->
-      <a
-        href="#subscribe"
+      <NuxtLink
+        to="/blog"
         class="hidden md:inline-flex items-center gap-2 px-4 py-2 rounded-md bg-accent text-white text-sm font-semibold hover:bg-accent-hover transition-colors duration-200"
       >
-        S'abonner
-      </a>
+        Lire le blog
+      </NuxtLink>
 
       <!-- Mobile menu toggle -->
       <button
@@ -63,13 +63,13 @@
           <NuxtLink to="/" class="text-sm font-medium text-slate-400 hover:text-white transition-colors" @click="menuOpen = false">Home</NuxtLink>
           <NuxtLink to="/tools" class="text-sm font-medium text-slate-400 hover:text-white transition-colors" @click="menuOpen = false">Tools</NuxtLink>
           <NuxtLink to="/blog" class="text-sm font-medium text-slate-400 hover:text-white transition-colors" @click="menuOpen = false">Blog</NuxtLink>
-          <a
-            href="#subscribe"
+          <NuxtLink
+            to="/blog"
             class="inline-flex items-center justify-center px-4 py-2 rounded-md bg-accent text-white text-sm font-semibold hover:bg-accent-hover transition-colors"
             @click="menuOpen = false"
           >
-            S'abonner
-          </a>
+            Lire le blog
+          </NuxtLink>
         </div>
       </div>
     </Transition>
