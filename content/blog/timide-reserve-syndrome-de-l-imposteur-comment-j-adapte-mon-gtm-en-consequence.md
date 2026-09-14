@@ -7,7 +7,7 @@ tag: Process
 pilier: process
 type: general
 hookVideo: "Pourquoi tu refuses de faire des appels à froid ?"
-statut: brouillon
+statut: publie
 ---
 
 Je ne fais pas d'appels à froid. Pas de démos Zoom non sollicitées, pas de visite terrain, pas de cold call. Ce n'est pas une posture — c'est simplement qui je suis, et j'ai mis du temps à arrêter de traiter ça comme un problème à corriger.
