@@ -10,12 +10,12 @@ const VIDEO_DIR = path.join(ROOT, 'content', 'video-scripts');
 const KB_STATIC = path.join(ROOT, 'content', 'knowledge-base.md');
 const DECORS_FILE = path.join(ROOT, 'config', 'decors.json');
 
-// Deux formats de contraintes. "court" est le format de test actuel : le
-// modèle vidéo utilisé pour l'instant (Omni Flash) ne génère que 10s par
-// appel et c'est coûteux, donc on ne teste qu'avec une seule vidéo courte.
-// "long" est l'objectif réel une fois qu'on ne sera plus limité à ces
-// générations de 10s. Bascule avec VIDEO_SCRIPT_MODE=long ; "court" par
-// défaut.
+// Deux formats de contraintes. "court" : une seule génération Omni Flash de
+// 10s. "long" : Plotline découpe le script PAR PHRASE et enchaîne jusqu'à 4
+// segments de 10s (plafond dur Google : 40s cumulés). Un script long doit donc
+// tenir en 4 phrases d'environ 20-24 mots : au-delà, Plotline tronque la fin --
+// donc la chute -- (constaté avec l'ancien format 90-140 mots : 61 mots gardés
+// sur 138). Bascule avec VIDEO_SCRIPT_MODE=long ; "court" par défaut.
 const MODES = {
   court: {
     label: 'court (10s, test Omni Flash)',
@@ -26,12 +26,12 @@ Le persona à l'écran répond directement à la question affichée en haut de l
 Contraintes : 15 à 25 mots MAXIMUM, une seule phrase choc et percutante — pas un développement, pas d'explication complète, juste l'essentiel qui donne envie d'aller lire l'article complet. Tutoiement, adresse directe à la caméra. Ton avec du caractère, jamais dramatisé ni auto-dénigrant. Termine sur une chute nette. Respecte les garde-fous de knowledge-base.md.`,
   },
   long: {
-    label: 'long (40-60s, objectif cible)',
-    minMots: 90,
-    maxMots: 140,
-    contraintes: `Tu transformes un article de blog en script parlé pour une vidéo courte (40 à 60 secondes).
+    label: 'long (4 phrases, ~40s)',
+    minMots: 70,
+    maxMots: 96,
+    contraintes: `Tu transformes un article de blog en script parlé pour une vidéo courte (40 secondes maximum, contrainte technique stricte du modèle vidéo utilisé).
 Le persona à l'écran répond directement à la question affichée en haut de l'écran (fournie séparément, ne la répète pas).
-Contraintes : 90 à 140 mots, structuré comme l'article — contexte → décision/galère → résultat concret — mais condensé à l'essentiel, jamais une lecture du texte original. Tutoiement, adresse directe à la caméra. Ton avec du caractère, jamais dramatisé ni auto-dénigrant. Termine sur une chute nette qui donne envie d'aller lire l'article complet. Respecte les garde-fous de knowledge-base.md.`,
+Contraintes : EXACTEMENT 4 phrases, de 18 à 24 mots chacune (70 à 96 mots au total), chaque phrase se terminant par un point et se comprenant seule à l'oral. Structure : 1) le contexte ou la galère, 2) la décision ou ce que tu as compris, 3) le résultat concret, 4) une chute nette qui donne envie d'aller lire l'article complet. Condensé à l'essentiel, jamais une lecture du texte original. Tutoiement, adresse directe à la caméra. Ton avec du caractère, jamais dramatisé ni auto-dénigrant. Respecte les garde-fous de knowledge-base.md.`,
   },
 };
 
@@ -117,18 +117,23 @@ function resoudreDecor(pilier) {
 // qui traite deja cette generation comme un a-cote non bloquant).
 async function demanderVideoAPlotline({ slug, decorPrompt, scriptText }) {
   const apiKey = process.env.PLOTLINE_API_KEY;
-  const influencerId = process.env.PLOTLINE_INFLUENCER_ID;
+  // Profil Plotline qui RECOIT la video (marque, persona...): un dossier de
+  // rangement, pas la personne a l'ecran (le personnage est invente par le
+  // modele). PLOTLINE_INFLUENCER_ID est l'ancien nom de la variable, toujours lu.
+  const profileId = process.env.PLOTLINE_PROFILE_ID || process.env.PLOTLINE_INFLUENCER_ID;
   const baseUrl = process.env.PLOTLINE_BASE_URL || 'https://plotline.sassify.fr';
 
-  if (!apiKey || !influencerId) {
-    return { statut: 'non_configure', raison: 'PLOTLINE_API_KEY ou PLOTLINE_INFLUENCER_ID manquant dans .env.local' };
+  if (!apiKey || !profileId) {
+    return { statut: 'non_configure', raison: 'PLOTLINE_API_KEY ou PLOTLINE_PROFILE_ID manquant dans .env.local' };
   }
 
   try {
     const response = await fetch(`${baseUrl}/api/external/video-jobs`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'x-api-key': apiKey },
-      body: JSON.stringify({ influencerId, decorPrompt, scriptText, slug, sourceProject: 'home' }),
+      // `influencerId` = ancien nom du parametre, envoye en double tant que
+      // Plotline n'est pas deploye avec `profileId` (a retirer ensuite).
+      body: JSON.stringify({ profileId, influencerId: profileId, decorPrompt, scriptText, slug, sourceProject: 'home' }),
     });
 
     const data = await response.json().catch(() => ({}));
@@ -196,7 +201,10 @@ async function main() {
   }
 
   if (MODE === 'long') {
-    console.warn('⚠️  Mode "long" : Plotline ne sait aujourd\'hui produire que des vidéos Omni Flash de 10s -- la voix off dépassera la durée réelle de la vidéo tant que l\'extension de scène n\'est pas branchée côté Plotline.');
+    const nbPhrases = script.split(/(?<=[.!?])\s+/).filter(Boolean).length;
+    if (nbPhrases > 4) {
+      console.warn(`⚠️  Mode "long" : ${nbPhrases} phrases générées, Plotline n'en enchaîne que 4 (40s max) -- la fin du script sera tronquée.`);
+    }
   }
 
   console.log('🎥 Demande de génération vidéo à Plotline...');
