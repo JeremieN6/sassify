@@ -7,7 +7,7 @@ tag: Décisions
 pilier: decisions
 type: specifique
 hookVideo: "Qu'est-ce qui t'a forcé à changer ta façon de vendre ?"
-statut: brouillon
+statut: publie
 ---
 
 ## La tension de départ
