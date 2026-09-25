@@ -4,7 +4,7 @@ titre: "Skinalyze : m'adapter à une cible qui ne fonctionne pas comme moi"
 mode: long
 nbMots: 89
 dateGeneration: 2026-09-25
-plotlineStatus: demande
+plotlineStatus: pret
 plotlineContentId: cmugsvhb40000y6l1ivgxmk76
 ---
 
