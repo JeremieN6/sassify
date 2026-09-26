@@ -143,11 +143,13 @@ statut: brouillon
 
   console.log(`✅ Article généré : ${outputPath}`);
 
-  if (process.env.AUTO_PUBLISH === 'true') {
+  const autoPublish = process.env.AUTO_PUBLISH === 'true';
+
+  if (autoPublish) {
     const contenuActuel = fs.readFileSync(outputPath, 'utf-8');
     fs.writeFileSync(outputPath, contenuActuel.replace('statut: brouillon', 'statut: publie'), 'utf-8');
     console.log('✅ Publication automatique (AUTO_PUBLISH=true)');
-    }
+  }
 
   const { execSync } = require('child_process');
   execSync('git add content/blog content/backlog.json', { cwd: ROOT });
@@ -155,11 +157,15 @@ statut: brouillon
   execSync('git push', { cwd: ROOT });
   console.log('✅ Commit + push effectués');
 
-    if (process.env.AUTO_PUBLISH !== 'true') {
-        const { notifierNouvelArticle } = require('./telegram-notify.cjs');
-        await notifierNouvelArticle({ slug, titre: sujet.titre });
-        console.log('✅ Notification Telegram envoyée');
-    }
+  if (autoPublish) {
+    const { notifierPublicationAutomatique } = require('./telegram-notify.cjs');
+    await notifierPublicationAutomatique({ titre: sujet.titre });
+    console.log('✅ Notification Telegram envoyée (publication automatique)');
+  } else {
+    const { notifierNouvelArticle } = require('./telegram-notify.cjs');
+    await notifierNouvelArticle({ slug, titre: sujet.titre });
+    console.log('✅ Notification Telegram envoyée');
+  }
 
   return { slug, titre: sujet.titre, outputPath };
 }

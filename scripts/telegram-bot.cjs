@@ -7,11 +7,31 @@ const { listerBrouillons, listerBloques, ROOT, BLOG_DIR, BACKLOG_FILE } = requir
 const { readMarkdownWithFrontmatter } = require('./lib/markdown-frontmatter.cjs');
 
 const VIDEO_DIR = path.join(ROOT, 'content', 'video-scripts');
+const OFFSET_FILE = path.join(ROOT, '.telegram-offset');
 
 const API = (method) =>
   `https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/${method}`;
 
-let offset = 0;
+// Persiste sur disque (jamais commité) : sans ça, un redemarrage pm2 remet
+// offset a 0 en memoire, et Telegram peut rejouer d'anciens callback_query
+// jamais confirmes par un appel getUpdates avec un offset plus recent.
+function lireOffset() {
+  try {
+    return parseInt(fs.readFileSync(OFFSET_FILE, 'utf-8').trim(), 10) || 0;
+  } catch {
+    return 0;
+  }
+}
+
+function ecrireOffset(valeur) {
+  try {
+    fs.writeFileSync(OFFSET_FILE, String(valeur), 'utf-8');
+  } catch (err) {
+    console.error('Impossible de persister l\'offset Telegram :', err.message);
+  }
+}
+
+let offset = lireOffset();
 
 async function call(method, body) {
   const res = await fetch(API(method), {
@@ -202,6 +222,7 @@ async function boucle() {
     if (data.ok) {
       for (const update of data.result) {
         offset = update.update_id + 1;
+        ecrireOffset(offset);
 
         if (update.callback_query) {
           const query = update.callback_query;
