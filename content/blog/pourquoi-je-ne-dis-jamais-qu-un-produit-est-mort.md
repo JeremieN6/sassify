@@ -7,7 +7,7 @@ tag: Décisions
 pilier: decisions
 type: general
 hookVideo: "Pourquoi tu n'abandonnes jamais vraiment un projet ?"
-statut: brouillon
+statut: publie
 ---
 
 Il y a un mot que je n'utilise jamais pour parler de mes projets : abandonné.
