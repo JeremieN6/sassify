@@ -4,7 +4,7 @@ titre: "Pourquoi je ne dis jamais qu'un produit est mort"
 mode: long
 nbMots: 93
 dateGeneration: 2026-09-28
-plotlineStatus: demande
+plotlineStatus: pret
 plotlineContentId: cmullhpop00003dl10ghlohph
 ---
 
