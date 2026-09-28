@@ -63,7 +63,11 @@ useHead({
 })
 
 const { data: articles } = await useAsyncData('blog-list', () =>
-  queryContent('/blog').sort({ date: -1 }).find()
+  // statut: 'publie' est le seul vrai verrou de visibilite publique -- le push
+  // git a lieu des la generation (avant Telegram), le deploiement suit sans
+  // condition. Sans ce filtre, un brouillon devient visible des le deploiement
+  // du cron, quel que soit le clic "publier".
+  queryContent('/blog').where({ statut: 'publie' }).sort({ date: -1 }).find()
 )
 
 function formatDate(date: string) {

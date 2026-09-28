@@ -79,6 +79,12 @@ function traiterArticle(action, id) {
     return { ok: false, msg: `Git a échoué : ${err.message.split('\n')[0]}` };
   }
 
+  // Statut reel de la demande video, lu APRES coup dans le fichier que
+  // generate-video-script.cjs ecrit lui-meme (plotlineStatus) -- plus fiable
+  // que de deviner a partir du seul code de sortie du process, qui ne
+  // distingue pas "video demandee avec succes" de "cle Plotline manquante"
+  // (les deux se terminent sans exception, voir generate-video-script.cjs).
+  let statutVideo = 'aucune'; // pas de publication -> pas de demande video
   if (action === 'publish') {
     // Le script vidéo est un a-côté : s'il plante (API down, article mal
     // forme...), la publication de l'article ne doit jamais en dépendre.
@@ -87,9 +93,31 @@ function traiterArticle(action, id) {
     } catch (err) {
       console.error(`Génération du script vidéo échouée pour ${slug} :`, err.message);
     }
+
+    try {
+      const scriptPath = path.join(VIDEO_DIR, `${slug}.md`);
+      const { frontmatter } = readMarkdownWithFrontmatter(scriptPath);
+      statutVideo = frontmatter.plotlineStatus || 'echec';
+    } catch {
+      // Le fichier n existe pas (le script a plante avant de l ecrire) :
+      // aucune demande n a pu partir.
+      statutVideo = 'echec';
+    }
   }
 
-  return { ok: true, msg: action === 'publish' ? `✅ Publié : ${slug}` : `❌ Rejeté : ${slug}` };
+  const suffixesVideo = {
+    demande: ' — vidéo en cours de génération, tu seras prévenu quand elle sera prête.',
+    non_configure: ' — ⚠️ vidéo NON demandée (PLOTLINE_API_KEY ou PLOTLINE_PROFILE_ID manquant sur le VPS).',
+    echec: ' — ⚠️ échec de la demande vidéo, aucune génération en cours.',
+    aucune: '',
+  };
+
+  return {
+    ok: true,
+    msg: action === 'publish'
+      ? `✅ Publié : ${slug}${suffixesVideo[statutVideo] ?? suffixesVideo.echec}`
+      : `❌ Rejeté : ${slug}`,
+  };
 }
 
 function traiterSujetBloque(id) {

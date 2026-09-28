@@ -56,7 +56,9 @@
 const route = useRoute()
 
 const { data: article } = await useAsyncData(`blog-${route.params.slug}`, () =>
-  queryContent(`/blog/${route.params.slug as string}`).findOne()
+  // Meme filtre que blog/index.vue : sans lui, l URL directe d un brouillon
+  // reste accessible meme si la liste ne le montre plus.
+  queryContent(`/blog/${route.params.slug as string}`).where({ statut: 'publie' }).findOne()
 )
 
 if (!article.value) {
