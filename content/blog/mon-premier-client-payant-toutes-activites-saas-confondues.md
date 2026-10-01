@@ -7,7 +7,7 @@ tag: chiffres
 pilier: chiffres
 type: specifique
 hookVideo: "C'était comment ton tout premier client payant en SaaS ?"
-statut: brouillon
+statut: publie
 ---
 
 ## Ce que ça fait, concrètement
