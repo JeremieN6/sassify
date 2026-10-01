@@ -1,5 +1,12 @@
 [
   {
+    "titre": "Mon premier client payant, toutes activités SaaS confondues",
+    "pilier": "chiffres",
+    "type": "specifique",
+    "hookVideo": "C'était comment ton tout premier client payant en SaaS ?",
+    "statut": "genere"
+  },
+  {
     "titre": "Pourquoi j'ai refait mon propre site en dernier",
     "pilier": "process",
     "type": "specifique",
