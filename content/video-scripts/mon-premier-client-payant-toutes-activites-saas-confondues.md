@@ -4,7 +4,7 @@ titre: "Mon premier client payant, toutes activités SaaS confondues"
 mode: long
 nbMots: 93
 dateGeneration: 2026-10-01
-plotlineStatus: demande
+plotlineStatus: pret
 plotlineContentId: cmupiikz50000d1l1g8w83zwy
 ---
 
