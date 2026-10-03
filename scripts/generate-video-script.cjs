@@ -27,16 +27,65 @@ Contraintes : 15 à 25 mots MAXIMUM, une seule phrase choc et percutante — pas
   },
   long: {
     label: 'long (4 phrases, ~40s)',
-    minMots: 70,
-    maxMots: 96,
+    minMots: 72,
+    maxMots: 84,
+    phrases: 4,
+    phraseMin: 17,
+    phraseMax: 21,
     contraintes: `Tu transformes un article de blog en script parlé pour une vidéo courte (40 secondes maximum, contrainte technique stricte du modèle vidéo utilisé).
 Le persona à l'écran répond directement à la question affichée en haut de l'écran (fournie séparément, ne la répète pas).
-Contraintes : EXACTEMENT 4 phrases, de 18 à 24 mots chacune (70 à 96 mots au total), chaque phrase se terminant par un point et se comprenant seule à l'oral. Structure : 1) le contexte ou la galère, 2) la décision ou ce que tu as compris, 3) le résultat concret, 4) une chute nette qui donne envie d'aller lire l'article complet. Condensé à l'essentiel, jamais une lecture du texte original. Tutoiement, adresse directe à la caméra. Ton avec du caractère, jamais dramatisé ni auto-dénigrant. Respecte les garde-fous de knowledge-base.md.`,
+Chaque phrase sera dite en 10 secondes pile par le modèle vidéo : trop courte, il remplit en répétant des mots ; trop longue, il saute des mots. Contraintes : EXACTEMENT 4 phrases, de 18 à 20 mots chacune (jamais moins de 17, jamais plus de 21), chaque phrase se terminant par un point et se comprenant seule à l'oral.
+Structure : 1) l'accroche, le fait le plus surprenant de l'article, 2) ce qui s'est passé concrètement, 3) ce que ça a changé ou ce que tu en retiens, 4) une chute nette qui donne envie d'aller lire l'article complet. UNE seule idée par phrase, jamais une liste de faits. Condensé à l'essentiel, jamais une lecture du texte original.
+Écris pour l'oreille : phrases simples, pas de parenthèses, deux-points ni point-virgule ; chiffres écrits en toutes lettres ("neuf euros"), pas de sigle ni d'abréviation (dis "les assistants IA" plutôt que "LLM", "en production" plutôt que "en prod") ; au plus un nom propre ou nom de produit par phrase. Tutoiement, adresse directe à la caméra. Ton avec du caractère, jamais dramatisé ni auto-dénigrant. Respecte les garde-fous de knowledge-base.md.`,
   },
 };
 
+// Le modèle vidéo ne lit pas le texte à la lettre : il le "joue" dans un créneau
+// fixe de 10s par phrase. On valide donc ce qui peut l'être avant de dépenser
+// une génération vidéo, et on redemande un script conforme si besoin.
+const MAX_TENTATIVES = 3;
+const NON_PRONONCABLE = /[0-9%€$&@#()\[\]{}:;]|\b(?!IA\b)[A-Z]{2,}\b/g;
+
+function compterMots(texte) {
+  return texte.trim().split(/\s+/).filter(Boolean).length;
+}
+
+function decouperPhrases(script) {
+  return script.split(/(?<=[.!?])\s+/).filter(Boolean);
+}
+
+function analyserScript(script, mode) {
+  const { minMots, maxMots, phrases, phraseMin, phraseMax } = MODES[mode];
+  const nbMots = compterMots(script);
+  const problemes = [];
+
+  if (nbMots < minMots || nbMots > maxMots) {
+    problemes.push(`le script fait ${nbMots} mots, la cible est ${minMots}-${maxMots}`);
+  }
+
+  if (phrases) {
+    const liste = decouperPhrases(script);
+    if (liste.length !== phrases) {
+      problemes.push(`il faut exactement ${phrases} phrases, il y en a ${liste.length}`);
+    }
+    liste.forEach((phrase, i) => {
+      const n = compterMots(phrase);
+      if (n < phraseMin || n > phraseMax) {
+        problemes.push(`la phrase ${i + 1} fait ${n} mots (cible 18-20, jamais hors de ${phraseMin}-${phraseMax}) : "${phrase}"`);
+      }
+    });
+  }
+
+  const nonPrononcables = [...new Set(script.match(NON_PRONONCABLE) || [])];
+  if (nonPrononcables.length) {
+    problemes.push(`éléments difficiles à dire à l'oral (chiffres, sigles, ponctuation spéciale) : ${nonPrononcables.join(' ')}`);
+  }
+
+  return { nbMots, problemes };
+}
+
 const MODE = MODES[process.env.VIDEO_SCRIPT_MODE] ? process.env.VIDEO_SCRIPT_MODE : 'court';
-const { label, minMots, maxMots, contraintes } = MODES[MODE];
+const { label, contraintes } = MODES[MODE];
 
 const SYSTEM_PROMPT = `${contraintes}
 
@@ -174,37 +223,50 @@ async function main() {
 
   const userPrompt = `${kbStatic}\n\n---\n\nArticle source :\nTitre : ${article.titre}\nQuestion affichée à l'écran (hookVideo, ne pas la répéter dans le script) : ${article.hookVideo}\n\nCorps de l'article :\n${article.corps}`;
 
-  const response = await client.messages.create({
-    model: 'claude-sonnet-4-6',
-    max_tokens: 500,
-    system: SYSTEM_PROMPT,
-    messages: [{ role: 'user', content: userPrompt }]
-  });
+  let messages = [{ role: 'user', content: userPrompt }];
+  let meilleur = null;
 
-  const rawText = response.content.map(b => b.text || '').join('\n').trim();
+  for (let tentative = 1; tentative <= MAX_TENTATIVES; tentative++) {
+    const response = await client.messages.create({
+      model: 'claude-sonnet-4-6',
+      max_tokens: 500,
+      system: SYSTEM_PROMPT,
+      messages
+    });
 
-  if (/^REFUS\s*:/i.test(rawText)) {
-    const raison = rawText.replace(/^REFUS\s*:\s*/i, '').trim();
-    console.log(`🛑 Le modèle a refusé de générer ce script : ${raison}`);
-    return { bloque: true, titre: article.titre, raison };
+    const rawText = response.content.map(b => b.text || '').join('\n').trim();
+
+    if (/^REFUS\s*:/i.test(rawText)) {
+      const raison = rawText.replace(/^REFUS\s*:\s*/i, '').trim();
+      console.log(`🛑 Le modèle a refusé de générer ce script : ${raison}`);
+      return { bloque: true, titre: article.titre, raison };
+    }
+
+    const analyse = analyserScript(rawText, MODE);
+    if (!meilleur || analyse.problemes.length < meilleur.analyse.problemes.length) {
+      meilleur = { script: rawText, analyse };
+    }
+    if (!analyse.problemes.length) break;
+
+    console.warn(`⚠️  Tentative ${tentative}/${MAX_TENTATIVES} non conforme : ${analyse.problemes.join(' | ')}`);
+    if (tentative < MAX_TENTATIVES) {
+      messages = [
+        ...messages,
+        { role: 'assistant', content: rawText },
+        { role: 'user', content: `Ce script ne respecte pas les contraintes :\n- ${analyse.problemes.join('\n- ')}\nRéécris-le entièrement en respectant toutes les contraintes, sans changer le fond. Réponds uniquement avec le script.` },
+      ];
+    }
   }
 
-  const script = rawText.trim();
-  const nbMots = script.split(/\s+/).filter(Boolean).length;
-  if (nbMots < minMots || nbMots > maxMots) {
-    console.warn(`⚠️  Le script fait ${nbMots} mots, hors de la cible ${minMots}-${maxMots} pour le mode "${MODE}" (généré quand même).`);
+  const script = meilleur.script;
+  const nbMots = meilleur.analyse.nbMots;
+  if (meilleur.analyse.problemes.length) {
+    console.warn(`⚠️  Script généré quand même après ${MAX_TENTATIVES} tentatives, problèmes restants : ${meilleur.analyse.problemes.join(' | ')}`);
   }
 
   const decorPrompt = resoudreDecor(article.pilier);
   if (!decorPrompt) {
     console.warn(`⚠️  Aucun décor connu pour le pilier "${article.pilier}" -- la vidéo sera demandée sans décor spécifique.`);
-  }
-
-  if (MODE === 'long') {
-    const nbPhrases = script.split(/(?<=[.!?])\s+/).filter(Boolean).length;
-    if (nbPhrases > 4) {
-      console.warn(`⚠️  Mode "long" : ${nbPhrases} phrases générées, Plotline n'en enchaîne que 4 (40s max) -- la fin du script sera tronquée.`);
-    }
   }
 
   console.log('🎥 Demande de génération vidéo à Plotline...');
