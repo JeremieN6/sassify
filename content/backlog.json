@@ -90,7 +90,8 @@
     "pilier": "process",
     "type": "specifique",
     "hookVideo": "Pourquoi laisser une IA décider de tes priorités business ?",
-    "statut": "a_faire"
+    "statut": "bloque",
+    "raisonBlocage": "Le sujet demande de détailler la mécanique interne d'un outil de pilotage des priorités business — ce qui constituerait exactement le garde-fou \"ne jamais détailler la mécanique technique exacte d'un outil interne donnant une feuille de route à un concurrent\". Aucune reformulation ne permet d'écrire un article concret sur la construction de cet agent sans en exposer le fonctionnement, ce qui neutralise le sujet dans son ensemble."
   },
   {
     "titre": "Ma campagne de prospection Skinalyze a cassé avant même de commencer — partie 1/3",
