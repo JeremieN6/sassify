@@ -82,7 +82,7 @@
     "pilier": "process",
     "type": "specifique",
     "hookVideo": "Ton premier outil, personne ne l'a jamais vu tourner ?",
-    "statut": "bloque",
+    "statut": "ecarte",
     "raisonBlocage": "Le sujet demande d'écrire sur la construction d'outils internes \"avant même le premier produit\", ce qui contredit directement les faits vérifiables dans knowledge-base-generated.md — Jérémie a plusieurs produits en production (Tifo avec un client payant réel, Skinalyze avec une utilisatrice active, Stellara, CSVtoPPT, etc.). Publier cet article obligerait soit à ignorer ces faits soit à adopter une fausse temporalité, ce qui viole le garde-fou \"registre méthode assumée plutôt que confession d'erreur amateur\" et, plus fondamentalement, la cohérence factuelle que la base de connaissance impose."
   },
   {
