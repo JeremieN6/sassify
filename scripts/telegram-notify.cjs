@@ -14,10 +14,13 @@ async function envoyerAvecBoutons({ slug, texte }) {
       text: texte,
       parse_mode: 'Markdown',
       reply_markup: {
-        inline_keyboard: [[
-          { text: '✅ Publier', callback_data: `publish:${id}` },
-          { text: '❌ Rejeter', callback_data: `reject:${id}` }
-        ]]
+        inline_keyboard: [
+          [
+            { text: '✅ Publier', callback_data: `publish:${id}` },
+            { text: '🎬 Publier + vidéo', callback_data: `publishvideo:${id}` }
+          ],
+          [{ text: '❌ Rejeter', callback_data: `reject:${id}` }]
+        ]
       }
     })
   });

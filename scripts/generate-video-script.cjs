@@ -12,8 +12,8 @@ const DECORS_FILE = path.join(ROOT, 'config', 'decors.json');
 
 // Deux formats de contraintes. "court" : une seule génération Omni Flash de
 // 10s. "long" : Plotline découpe le script PAR PHRASE et enchaîne jusqu'à 4
-// segments de 10s (plafond dur Google : 40s cumulés). Un script long doit donc
-// tenir en 4 phrases d'environ 20-24 mots : au-delà, Plotline tronque la fin --
+// segments de 10s (plafond dur Google : 40s cumulés) ; on en utilise 3 (30s, ~2,7 €
+// de génération). Un script long doit donc tenir en 3 phrases d'environ 22-24 mots : au-delà de 4, Plotline tronque la fin --
 // donc la chute -- (constaté avec l'ancien format 90-140 mots : 61 mots gardés
 // sur 138). Bascule avec VIDEO_SCRIPT_MODE=long ; "court" par défaut.
 const MODES = {
@@ -26,16 +26,16 @@ Le persona à l'écran répond directement à la question affichée en haut de l
 Contraintes : 15 à 25 mots MAXIMUM, une seule phrase choc et percutante — pas un développement, pas d'explication complète, juste l'essentiel qui donne envie d'aller lire l'article complet. Tutoiement, adresse directe à la caméra. Ton avec du caractère, jamais dramatisé ni auto-dénigrant. Termine sur une chute nette. Respecte les garde-fous de knowledge-base.md.`,
   },
   long: {
-    label: 'long (4 phrases, ~40s)',
-    minMots: 72,
-    maxMots: 84,
-    phrases: 4,
-    phraseMin: 17,
-    phraseMax: 21,
-    contraintes: `Tu transformes un article de blog en script parlé pour une vidéo courte (40 secondes maximum, contrainte technique stricte du modèle vidéo utilisé).
+    label: 'long (3 phrases, ~30s)',
+    minMots: 64,
+    maxMots: 76,
+    phrases: 3,
+    phraseMin: 21,
+    phraseMax: 25,
+    contraintes: `Tu transformes un article de blog en script parlé pour une vidéo courte (30 secondes maximum, contrainte technique stricte du modèle vidéo utilisé).
 Le persona à l'écran répond directement à la question affichée en haut de l'écran (fournie séparément, ne la répète pas).
-Chaque phrase sera dite en 10 secondes pile par le modèle vidéo : trop courte, il remplit en répétant des mots ; trop longue, il saute des mots. Contraintes : EXACTEMENT 4 phrases, de 18 à 20 mots chacune (jamais moins de 17, jamais plus de 21), chaque phrase se terminant par un point et se comprenant seule à l'oral.
-Structure : 1) l'accroche, le fait le plus surprenant de l'article, 2) ce qui s'est passé concrètement, 3) ce que ça a changé ou ce que tu en retiens, 4) une chute nette qui donne envie d'aller lire l'article complet. UNE seule idée par phrase, jamais une liste de faits. Condensé à l'essentiel, jamais une lecture du texte original.
+Chaque phrase sera dite en 10 secondes pile par le modèle vidéo : trop courte, il remplit en répétant des mots ; trop longue, il saute des mots. Contraintes : EXACTEMENT 3 phrases, de 22 à 24 mots chacune (jamais moins de 21, jamais plus de 25), chaque phrase se terminant par un point et se comprenant seule à l'oral.
+Structure : 1) l'accroche, le fait le plus surprenant de l'article, 2) le développement : ce qui s'est passé concrètement et ce que ça change ou ce que tu en retiens, 3) une chute nette qui donne envie d'aller lire l'article complet. UNE seule idée par phrase, jamais une liste de faits. Condensé à l'essentiel, jamais une lecture du texte original.
 Écris pour l'oreille : phrases simples, pas de parenthèses, deux-points ni point-virgule ; chiffres écrits en toutes lettres ("neuf euros"), pas de sigle ni d'abréviation (dis "les assistants IA" plutôt que "LLM", "en production" plutôt que "en prod") ; au plus un nom propre ou nom de produit par phrase. Tutoiement, adresse directe à la caméra. Ton avec du caractère, jamais dramatisé ni auto-dénigrant. Respecte les garde-fous de knowledge-base.md.`,
   },
 };
@@ -71,7 +71,7 @@ function analyserScript(script, mode) {
     liste.forEach((phrase, i) => {
       const n = compterMots(phrase);
       if (n < phraseMin || n > phraseMax) {
-        problemes.push(`la phrase ${i + 1} fait ${n} mots (cible 18-20, jamais hors de ${phraseMin}-${phraseMax}) : "${phrase}"`);
+        problemes.push(`la phrase ${i + 1} fait ${n} mots (cible 22-24, jamais hors de ${phraseMin}-${phraseMax}) : "${phrase}"`);
       }
     });
   }

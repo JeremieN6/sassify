@@ -42,11 +42,17 @@ async function call(method, body) {
   return res.json();
 }
 
+// "publish" publie l'article SEUL ; "publishvideo" publie ET lance la video
+// (generation payante cote Plotline). Les anciens messages gardent leur bouton
+// "publish" : il ne declenche donc plus de video, ce qui est le choix prudent.
 function boutonsArticle(id) {
-  return [[
-    { text: '✅ Publier', callback_data: `publish:${id}` },
-    { text: '❌ Rejeter', callback_data: `reject:${id}` }
-  ]];
+  return [
+    [
+      { text: '✅ Publier', callback_data: `publish:${id}` },
+      { text: '🎬 Publier + vidéo', callback_data: `publishvideo:${id}` }
+    ],
+    [{ text: '❌ Rejeter', callback_data: `reject:${id}` }]
+  ];
 }
 
 function boutonSujetBloque(id) {
@@ -66,14 +72,16 @@ function traiterArticle(action, id) {
   const filePath = path.join(BLOG_DIR, `${slug}.md`);
   if (!fs.existsSync(filePath)) return { ok: false, msg: 'Fichier introuvable.' };
 
-  const nouveauStatut = action === 'publish' ? 'publie' : 'rejete';
+  const publication = action === 'publish' || action === 'publishvideo';
+  const avecVideo = action === 'publishvideo';
+  const nouveauStatut = publication ? 'publie' : 'rejete';
   const contenu = fs.readFileSync(filePath, 'utf-8')
     .replace('statut: brouillon', `statut: ${nouveauStatut}`);
   fs.writeFileSync(filePath, contenu, 'utf-8');
 
   try {
     execSync(`git add "${filePath}"`, { cwd: ROOT });
-    execSync(`git commit -m "${action === 'publish' ? 'Publication' : 'Rejet'} : ${slug}"`, { cwd: ROOT });
+    execSync(`git commit -m "${publication ? 'Publication' : 'Rejet'} : ${slug}"`, { cwd: ROOT });
     execSync('git push', { cwd: ROOT });
   } catch (err) {
     return { ok: false, msg: `Git a échoué : ${err.message.split('\n')[0]}` };
@@ -85,7 +93,7 @@ function traiterArticle(action, id) {
   // distingue pas "video demandee avec succes" de "cle Plotline manquante"
   // (les deux se terminent sans exception, voir generate-video-script.cjs).
   let statutVideo = 'aucune'; // pas de publication -> pas de demande video
-  if (action === 'publish') {
+  if (avecVideo) {
     // Le script vidéo est un a-côté : s'il plante (API down, article mal
     // forme...), la publication de l'article ne doit jamais en dépendre.
     try {
@@ -109,12 +117,12 @@ function traiterArticle(action, id) {
     demande: ' — vidéo en cours de génération, tu seras prévenu quand elle sera prête.',
     non_configure: ' — ⚠️ vidéo NON demandée (PLOTLINE_API_KEY ou PLOTLINE_PROFILE_ID manquant sur le VPS).',
     echec: ' — ⚠️ échec de la demande vidéo, aucune génération en cours.',
-    aucune: '',
+    aucune: ' — sans vidéo.',
   };
 
   return {
     ok: true,
-    msg: action === 'publish'
+    msg: publication
       ? `✅ Publié : ${slug}${suffixesVideo[statutVideo] ?? suffixesVideo.echec}`
       : `❌ Rejeté : ${slug}`,
   };
