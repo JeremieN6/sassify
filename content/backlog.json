@@ -86,12 +86,11 @@
     "raisonBlocage": "Le sujet demande d'écrire sur la construction d'outils internes \"avant même le premier produit\", ce qui contredit directement les faits vérifiables dans knowledge-base-generated.md — Jérémie a plusieurs produits en production (Tifo avec un client payant réel, Skinalyze avec une utilisatrice active, Stellara, CSVtoPPT, etc.). Publier cet article obligerait soit à ignorer ces faits soit à adopter une fausse temporalité, ce qui viole le garde-fou \"registre méthode assumée plutôt que confession d'erreur amateur\" et, plus fondamentalement, la cohérence factuelle que la base de connaissance impose."
   },
   {
-    "titre": "Construire un agent IA pour piloter mes propres priorités",
+    "titre": "Pourquoi j'ai laissé une IA m'aider à choisir mes priorités",
     "pilier": "process",
     "type": "specifique",
     "hookVideo": "Pourquoi laisser une IA décider de tes priorités business ?",
-    "statut": "bloque",
-    "raisonBlocage": "Le sujet demande de détailler la mécanique interne d'un outil de pilotage des priorités business — ce qui constituerait exactement le garde-fou \"ne jamais détailler la mécanique technique exacte d'un outil interne donnant une feuille de route à un concurrent\". Aucune reformulation ne permet d'écrire un article concret sur la construction de cet agent sans en exposer le fonctionnement, ce qui neutralise le sujet dans son ensemble."
+    "statut": "a_faire"
   },
   {
     "titre": "Ma campagne de prospection Skinalyze a cassé avant même de commencer — partie 1/3",
