@@ -4,7 +4,7 @@ titre: "Pourquoi j'ai laissé une IA m'aider à choisir mes priorités"
 mode: long
 nbMots: 67
 dateGeneration: 2026-10-06
-plotlineStatus: demande
+plotlineStatus: pret
 plotlineContentId: cmuw0fwpu0001ozl17wtlvzbr
 ---
 
