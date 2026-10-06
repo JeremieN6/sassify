@@ -35,7 +35,7 @@ Contraintes : 15 à 25 mots MAXIMUM, une seule phrase choc et percutante — pas
     contraintes: `Tu transformes un article de blog en script parlé pour une vidéo courte (30 secondes maximum, contrainte technique stricte du modèle vidéo utilisé).
 Le persona à l'écran répond directement à la question affichée en haut de l'écran (fournie séparément, ne la répète pas).
 Chaque phrase sera dite en 10 secondes pile par le modèle vidéo : trop courte, il remplit en répétant des mots ; trop longue, il saute des mots. Contraintes : EXACTEMENT 3 phrases, de 22 à 24 mots chacune (jamais moins de 21, jamais plus de 25), chaque phrase se terminant par un point et se comprenant seule à l'oral.
-Structure : 1) l'accroche, le fait le plus surprenant de l'article, 2) le développement : ce qui s'est passé concrètement et ce que ça change ou ce que tu en retiens, 3) une chute nette qui donne envie d'aller lire l'article complet. UNE seule idée par phrase, jamais une liste de faits. Condensé à l'essentiel, jamais une lecture du texte original.
+Structure : 1) l'accroche, le fait le plus surprenant de l'article, 2) le développement : ce qui s'est passé concrètement et ce que ça change ou ce que tu en retiens, 3) la chute : l'idée à retenir, puis une invitation EXPLICITE à lire l'article dans la même phrase (le mot « article » doit y figurer, par exemple « tout est dans l'article »). Sans invitation explicite, la vidéo se termine sans appel à l'action. UNE seule idée par phrase, jamais une liste de faits. Condensé à l'essentiel, jamais une lecture du texte original.
 Écris pour l'oreille : phrases simples, pas de parenthèses, deux-points ni point-virgule ; chiffres écrits en toutes lettres ("neuf euros"), pas de sigle ni d'abréviation (dis "les assistants IA" plutôt que "LLM", "en production" plutôt que "en prod") ; au plus un nom propre ou nom de produit par phrase. Tutoiement, adresse directe à la caméra. Ton avec du caractère, jamais dramatisé ni auto-dénigrant. Respecte les garde-fous de knowledge-base.md.`,
   },
 };
@@ -74,6 +74,13 @@ function analyserScript(script, mode) {
         problemes.push(`la phrase ${i + 1} fait ${n} mots (cible 22-24, jamais hors de ${phraseMin}-${phraseMax}) : "${phrase}"`);
       }
     });
+  }
+
+  if (phrases) {
+    const derniere = decouperPhrases(script).pop() || '';
+    if (!/article/i.test(derniere)) {
+      problemes.push(`la dernière phrase doit inviter explicitement à lire l'article (le mot « article » doit y figurer) : "${derniere}"`);
+    }
   }
 
   const nonPrononcables = [...new Set(script.match(NON_PRONONCABLE) || [])];
