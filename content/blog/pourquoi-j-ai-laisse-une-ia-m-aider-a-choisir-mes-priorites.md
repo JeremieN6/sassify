@@ -7,7 +7,7 @@ tag: Process
 pilier: process
 type: specifique
 hookVideo: "Pourquoi laisser une IA décider de tes priorités business ?"
-statut: brouillon
+statut: publie
 ---
 
 Je gère plusieurs projets en parallèle. FlySmart, Skinalyze, Tifo, Plotline, Stellara, CSVtoPPT, Clippeak. Chacun a sa liste de tâches, ses décisions en attente, ses "ça urge mais pas vraiment". Et moi, un seul cerveau, disponible le soir et le week-end.
