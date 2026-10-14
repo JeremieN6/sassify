@@ -7,7 +7,7 @@ tag: Coulisses techniques
 pilier: coulisses-techniques
 type: specifique
 hookVideo: "C'est quoi la toute première chose qui a fait rater ta prospection Skinalyze ?"
-statut: brouillon
+statut: publie
 ---
 
 Quand j'ai lancé la première vague de prospection pour Skinalyze, j'avais fait le travail visible : une liste de leads qualifiés, un message rédigé, une automatisation Brevo configurée. Ce que je n'avais pas fait, c'est vérifier que les emails arrivaient quelque part.
