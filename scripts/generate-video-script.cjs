@@ -91,6 +91,14 @@ function analyserScript(script, mode) {
   return { nbMots, problemes };
 }
 
+// Moteur de la video. "faceless" (defaut) : Plotline monte une video FACELESS a partir de l'article
+// ENTIER (script, voix de synthese, montage dans la DA de la persona) ; aucun script n'est ecrit ici.
+// "omniflash" : ancien chemin (script parle de 3 phrases ecrit ici, video generee par Omni Flash,
+// ~3 a 4,5 EUR), a reactiver avec VIDEO_ENGINE=omniflash.
+const VIDEO_ENGINE = String(process.env.VIDEO_ENGINE || 'faceless').trim().toLowerCase() === 'omniflash' ? 'omniflash' : 'faceless';
+const FACELESS_DUREE_SECONDES = 30;
+const FACELESS_TEXTE_MAX = 12000; // plafond de Plotline (sourceText) : au-dela, il refuse
+
 const MODE = MODES[process.env.VIDEO_SCRIPT_MODE] ? process.env.VIDEO_SCRIPT_MODE : 'court';
 const { label, contraintes } = MODES[MODE];
 
@@ -165,6 +173,117 @@ function resoudreDecor(pilier) {
   return decors[pilier] || '';
 }
 
+// Section "Garde-fous stricts" de la base de connaissance : jointe a la consigne faceless, pour que
+// la video (ecrite par Plotline) respecte les memes regles que les articles.
+function extraireGardeFous() {
+  if (!fs.existsSync(KB_STATIC)) return '';
+  const kb = fs.readFileSync(KB_STATIC, 'utf-8').replace(/\r\n/g, '\n');
+  const debut = kb.indexOf('## Garde-fous stricts');
+  if (debut === -1) return '';
+  const suite = kb.indexOf('\n## ', debut + 5);
+  return kb.slice(debut, suite === -1 ? undefined : suite).replace(/^## .*\n/, '').trim();
+}
+
+// Consigne envoyee avec l'article a la video faceless : l'angle, pas un script.
+function construireConsigneFaceless(article, gardeFous = extraireGardeFous()) {
+  const lignes = [
+    "Video tiree d'un article de blog de Jeremie, developpeur solo qui construit un portefeuille de SaaS en public.",
+    "Angle : defends UNE these nette, celle de l'article, sans la nuancer. Ne fais pas un resume.",
+    article.hookVideo ? `Accroche possible (la question affichee dans le blog) : "${article.hookVideo}". Inspire-t'en, mais prefere une phrase plus tranchee du texte si elle existe.` : '',
+    "Ton : direct, tutoiement, adresse a la camera, jamais dramatise ni auto-denigrant.",
+    gardeFous ? `Garde-fous a respecter strictement :\n${gardeFous}` : '',
+  ].filter(Boolean);
+  return lignes.join('\n').slice(0, 2000);
+}
+
+// Texte envoye a Plotline : titre + corps. Au-dela du plafond, on coupe AU PARAGRAPHE (jamais au milieu
+// d'une phrase) et on le dit, plutot que d'envoyer un texte que Plotline refuserait.
+function preparerTexteSource(article) {
+  const complet = `# ${article.titre}\n\n${article.corps}`;
+  if (complet.length <= FACELESS_TEXTE_MAX) return { texte: complet, coupe: false };
+  const paragraphes = complet.split(/\n{2,}/);
+  const gardes = [];
+  let taille = 0;
+  for (const p of paragraphes) {
+    if (taille + p.length + 2 > FACELESS_TEXTE_MAX) break;
+    gardes.push(p);
+    taille += p.length + 2;
+  }
+  return { texte: gardes.join('\n\n'), coupe: true };
+}
+
+// Meme principe que demanderVideoAPlotline (un echec ne fait jamais perdre le travail deja ecrit),
+// mais vers la route faceless : l'article entier part comme texte source, Plotline ecrit le script.
+async function demanderVideoFacelessAPlotline({ slug, consigne, texte }) {
+  const apiKey = process.env.PLOTLINE_API_KEY;
+  const profileId = process.env.PLOTLINE_PROFILE_ID || process.env.PLOTLINE_INFLUENCER_ID;
+  const baseUrl = process.env.PLOTLINE_BASE_URL || 'https://plotline.sassify.fr';
+
+  if (!apiKey || !profileId) {
+    return { statut: 'non_configure', raison: 'PLOTLINE_API_KEY ou PLOTLINE_PROFILE_ID manquant dans .env.local' };
+  }
+
+  try {
+    const response = await fetch(`${baseUrl}/api/external/faceless-jobs`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-api-key': apiKey },
+      body: JSON.stringify({ profileId, sourceText: texte, idea: consigne, durationSeconds: FACELESS_DUREE_SECONDES, slug, sourceProject: 'home' }),
+    });
+
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok) {
+      return { statut: 'echec', raison: `${response.status} ${data?.statusMessage || data?.message || 'erreur inconnue'}` };
+    }
+
+    return { statut: 'demande', contentId: data.contentId };
+  } catch (err) {
+    return { statut: 'echec', raison: err.message };
+  }
+}
+
+// Chemin faceless : pas de script ecrit ici. On garde le meme fichier content/video-scripts/<slug>.md
+// (c'est lui qui marque l'article comme "deja traite" et que le bot Telegram relit pour le statut).
+async function genererVideoFaceless(article) {
+  const { texte, coupe } = preparerTexteSource(article);
+  if (coupe) console.warn(`⚠️  Article plus long que ${FACELESS_TEXTE_MAX} caracteres : coupe au dernier paragraphe entier avant l'envoi.`);
+
+  const consigne = construireConsigneFaceless(article);
+  console.log('🎥 Demande de video faceless a Plotline (article entier)...');
+  const resultat = await demanderVideoFacelessAPlotline({ slug: article.slug, consigne, texte });
+
+  if (resultat.statut === 'demande') {
+    console.log(`✅ Video faceless demandee (contentId Plotline : ${resultat.contentId})`);
+  } else if (resultat.statut === 'non_configure') {
+    console.warn(`⚠️  ${resultat.raison} -- aucune video demandee.`);
+  } else {
+    console.error(`❌ Echec de la demande video faceless a Plotline : ${resultat.raison}`);
+  }
+
+  const frontmatter = `---
+sourceSlug: ${article.slug}
+titre: "${article.titre.replace(/"/g, '\\"')}"
+mode: faceless
+dateGeneration: ${new Date().toISOString().split('T')[0]}
+plotlineStatus: ${resultat.statut}
+plotlineContentId: ${resultat.contentId || ''}
+---
+
+`;
+
+  fs.mkdirSync(VIDEO_DIR, { recursive: true });
+  const outputPath = path.join(VIDEO_DIR, `${article.slug}.md`);
+  fs.writeFileSync(outputPath, `${frontmatter}Video faceless : le script est ecrit par Plotline a partir de l'article entier (voir la video dans Mes creations).\n\nConsigne envoyee :\n${consigne}\n`, 'utf-8');
+  console.log(`✅ Fiche video ecrite : ${outputPath}`);
+
+  const { execSync } = require('child_process');
+  execSync(`git add "${outputPath}"`, { cwd: ROOT });
+  execSync(`git commit -m "Video faceless demandee : ${article.titre}"`, { cwd: ROOT });
+  execSync('git push', { cwd: ROOT });
+  console.log('✅ Commit + push effectues');
+
+  return { slug: article.slug, mode: 'faceless', statut: resultat.statut };
+}
+
 // Le script parle est genere ici, mais la video elle-meme est produite par
 // Plotline (pipeline persona/identity lock deja eprouve la-bas). Un echec de
 // cette etape ne doit jamais faire perdre le script deja ecrit et commit :
@@ -204,18 +323,22 @@ async function demanderVideoAPlotline({ slug, decorPrompt, scriptText }) {
 }
 
 async function main() {
-  if (!process.env.ANTHROPIC_API_KEY) {
+  if (VIDEO_ENGINE === 'omniflash' && !process.env.ANTHROPIC_API_KEY) {
     console.error('❌ ANTHROPIC_API_KEY manquant dans .env.local');
     process.exit(1);
   }
 
-  console.log(`🎬 Mode : ${label}`);
+  console.log(VIDEO_ENGINE === 'faceless' ? '🎬 Moteur : video faceless (Plotline ecrit le script)' : `🎬 Moteur : Omni Flash, mode ${label}`);
 
   const slugImpose = process.argv[2];
   const article = slugImpose ? trouverArticleParSlug(slugImpose) : trouverArticleSansScript();
   if (!article) {
     console.log('ℹ️  Aucun article publié sans script vidéo en attente.');
     return;
+  }
+
+  if (VIDEO_ENGINE === 'faceless') {
+    return genererVideoFaceless(article);
   }
 
   if (!article.hookVideo) {
@@ -314,7 +437,11 @@ plotlineContentId: ${plotlineResult.contentId || ''}
   return { slug: article.slug, script, nbMots, mode: MODE };
 }
 
-main().catch(err => {
-  console.error('❌ Erreur :', err.message);
-  process.exit(1);
-});
+if (require.main === module) {
+  main().catch(err => {
+    console.error('❌ Erreur :', err.message);
+    process.exit(1);
+  });
+}
+
+module.exports = { construireConsigneFaceless, extraireGardeFous, preparerTexteSource, FACELESS_TEXTE_MAX };
