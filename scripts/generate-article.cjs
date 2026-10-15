@@ -3,6 +3,7 @@ require('dotenv').config({ path: require('path').join(__dirname, '..', '.env.loc
 const fs = require('fs');
 const path = require('path');
 const Anthropic = require('@anthropic-ai/sdk');
+const { REGLES_PROMPT, retirerTiretsPonctuation } = require('./lib/style-texte.cjs');
 
 const ROOT = path.join(__dirname, '..');
 const BACKLOG_FILE = path.join(ROOT, 'content', 'backlog.json');
@@ -85,7 +86,8 @@ async function main() {
   const response = await client.messages.create({
     model: 'claude-sonnet-4-6',
     max_tokens: 2000,
-    system: SYSTEM_PROMPT,
+    // Les règles d'écriture (chiffres, pas de tiret) s'ajoutent APRÈS le prompt, sans toucher à sa structure ni au format de réponse.
+    system: `${SYSTEM_PROMPT}\n\nRÈGLES D'ÉCRITURE (s'appliquent au résumé et au corps de l'article, sans changer le format de réponse ci-dessus) :\n${REGLES_PROMPT}`,
     messages: [{ role: 'user', content: userPrompt }]
   });
 
@@ -117,8 +119,9 @@ async function main() {
     throw new Error('Réponse du modèle mal formée : séparateur "---" introuvable entre le résumé et le corps.');
   }
 
-  const description = rawText.slice(0, separatorIndex).replace(/^RÉSUMÉ:\s*/i, '').trim();
-  const corps = rawText.slice(separatorIndex + 5).trim();
+  // Le modèle remet des tirets de ponctuation malgré la consigne : on les retire ici (après le découpage résumé/corps).
+  const description = retirerTiretsPonctuation(rawText.slice(0, separatorIndex).replace(/^RÉSUMÉ:\s*/i, '')).trim();
+  const corps = retirerTiretsPonctuation(rawText.slice(separatorIndex + 5).trim());
 
   const slug = slugify(sujet.titre);
   const date = new Date().toISOString().split('T')[0];
