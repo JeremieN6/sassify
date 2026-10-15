@@ -3,7 +3,7 @@ sourceSlug: ma-campagne-de-prospection-skinalyze-a-casse-avant-meme-de-commencer
 titre: "Ma campagne de prospection Skinalyze a cassé avant même de commencer — partie 1/3"
 mode: faceless
 dateGeneration: 2026-10-15
-plotlineStatus: demande
+plotlineStatus: pret
 plotlineContentId: cmv9djktu0000vul123qzlj1p
 ---
 
