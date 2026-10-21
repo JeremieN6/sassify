@@ -7,7 +7,7 @@ tag: Coulisses techniques
 pilier: coulisses-techniques
 type: specifique
 hookVideo: "Comment une automatisation peut planter sans qu'aucune erreur ne s'affiche ?"
-statut: brouillon
+statut: publie
 ---
 
 Une automatisation silencieuse est plus dangereuse qu'une erreur franche. Au moins une erreur franche, tu la vois.
