@@ -13,6 +13,10 @@ export default defineNuxtConfig({
           name: 'google-site-verification',
           content: 'dS4lDtb3GkUFSthFb5DQkzfwTUYCP_dKFWE5m1s7V8E',
         },
+        {
+          name: 'rustine-verify',
+          content: 'a838c93c38d172a14109ee0296ede879',
+        },
       ],
     },
   },
