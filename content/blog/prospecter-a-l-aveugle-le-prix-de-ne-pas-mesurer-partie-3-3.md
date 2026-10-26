@@ -7,7 +7,7 @@ tag: Décisions
 pilier: decisions
 type: specifique
 hookVideo: "Qu'est-ce qui t'a fait réaliser que tu pilotais totalement à l'aveugle ?"
-statut: brouillon
+statut: publie
 ---
 
 Lancer une campagne sans tracking, ce n'est pas "avancer vite" : c'est se priver de la seule information qui compte. J'ai fait ça pendant 6 semaines sur Skinalyze, et voici ce que ça m'a coûté concrètement.
