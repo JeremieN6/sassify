@@ -16,7 +16,7 @@ C'est là que j'ai décidé de lever le pied.
 
 ## Ce que "ça marchait" veut vraiment dire
 
-Quand je dis que Stellara fonctionnait, je parle de la mécanique du produit. Le socle technique est solide — comptes, abonnements, paiement, horoscope quotidien, blog événementiel. Plusieurs pièces ont été posées en parallèle sur plusieurs mois, et elles s'articulent correctement.
+Quand je dis que Stellara fonctionnait, je parle de la mécanique du produit. Le socle technique est solide — comptes, abonnements, paiement, [thème natal gratuit](https://stellara.sassify.fr/rapport) généré en quelques secondes, horoscope quotidien, blog événementiel. Plusieurs pièces ont été posées en parallèle sur plusieurs mois, et elles s'articulent correctement.
 
 Mais "fonctionner techniquement" et "croître de façon lisible", c'est différent. J'avais lancé le suivi d'acquisition en juillet précisément pour savoir quels canaux convertissaient réellement — blog, affiliation, trafic direct. Et honnêtement, je n'avais pas encore de réponse claire. Le signal était là, mais trop récent pour être interprétable.
 
