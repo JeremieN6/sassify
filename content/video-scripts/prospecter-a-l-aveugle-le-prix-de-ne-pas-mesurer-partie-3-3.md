@@ -3,7 +3,7 @@ sourceSlug: prospecter-a-l-aveugle-le-prix-de-ne-pas-mesurer-partie-3-3
 titre: "Prospecter à l'aveugle : le prix de ne pas mesurer — partie 3/3"
 mode: faceless
 dateGeneration: 2026-10-26
-plotlineStatus: demande
+plotlineStatus: echec_generation
 plotlineContentId: cmvpel49n0000ifl1swfn3bl4
 ---
 
