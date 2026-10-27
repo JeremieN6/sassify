@@ -2,9 +2,9 @@
 sourceSlug: prospecter-a-l-aveugle-le-prix-de-ne-pas-mesurer-partie-3-3
 titre: "Prospecter à l'aveugle : le prix de ne pas mesurer — partie 3/3"
 mode: faceless
-dateGeneration: 2026-10-26
-plotlineStatus: echec_generation
-plotlineContentId: cmvpel49n0000ifl1swfn3bl4
+dateGeneration: 2026-10-27
+plotlineStatus: demande
+plotlineContentId: cmvqfdr5q0000all1qd8sb8mi
 ---
 
 Video faceless : le script est ecrit par Plotline a partir de l'article entier (voir la video dans Mes creations).
