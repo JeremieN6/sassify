@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
 const { shortId } = require('./article-id.cjs');
-const { listerBrouillons, listerBloques, ROOT, BLOG_DIR, BACKLOG_FILE } = require('./article-status.cjs');
+const { listerBrouillons, listerBloques, listerAFaire, ROOT, BLOG_DIR, BACKLOG_FILE } = require('./article-status.cjs');
 const { readMarkdownWithFrontmatter } = require('./lib/markdown-frontmatter.cjs');
 
 const VIDEO_DIR = path.join(ROOT, 'content', 'video-scripts');
@@ -175,6 +175,36 @@ async function envoyerStatus(chatId) {
   }
 }
 
+// Sujets pas encore generes (statut a_faire), dans l'ordre ou
+// generate-article.cjs les traitera. Purement informatif : aucune action
+// possible dessus (contrairement aux brouillons/sujets bloques), donc un
+// seul message recapitulatif plutot qu'un message par sujet.
+async function envoyerBacklog(chatId) {
+  const aFaire = listerAFaire();
+
+  if (aFaire.length === 0) {
+    await call('sendMessage', { chat_id: chatId, text: 'ℹ️ Aucun sujet en attente dans le backlog.' });
+    return;
+  }
+
+  const lignes = aFaire.map((s, i) => `${i + 1}. ${s.titre}`);
+  const entete = `📋 ${aFaire.length} sujet(s) en attente de génération (dans l'ordre) :\n\n`;
+
+  // Un message Telegram est limite a 4096 caracteres ; on decoupe au besoin
+  // plutot que de risquer un envoi tronque ou refuse.
+  let bloc = entete;
+  for (const ligne of lignes) {
+    if (bloc.length + ligne.length + 1 > 4000) {
+      await call('sendMessage', { chat_id: chatId, text: bloc });
+      bloc = '';
+    }
+    bloc += ligne + '\n';
+  }
+  if (bloc) {
+    await call('sendMessage', { chat_id: chatId, text: bloc });
+  }
+}
+
 // La validation et la publication de la video restent entierement dans
 // Plotline (boutons Valider/Publier deja existants sur "Mes creations") --
 // ce bot ne fait qu'avertir que c'est pret, il ne decide de rien. Genere par
@@ -282,6 +312,9 @@ async function boucle() {
           if (commande === '/status' || commande === '/brouillons') {
             await envoyerStatus(update.message.chat.id);
             console.log(`✅ /status envoyé à ${update.message.chat.id}`);
+          } else if (commande === '/backlog' || commande === '/afaire') {
+            await envoyerBacklog(update.message.chat.id);
+            console.log(`✅ /backlog envoyé à ${update.message.chat.id}`);
           }
         }
       }

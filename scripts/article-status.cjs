@@ -37,4 +37,14 @@ function listerBloques() {
     .filter(sujet => sujet.statut === 'bloque');
 }
 
-module.exports = { listerBrouillons, listerBloques, ROOT, BLOG_DIR, BACKLOG_FILE };
+// Sujets du backlog pas encore generes, dans l'ordre ou generate-article.cjs
+// les traitera (le premier de la liste est le prochain genere).
+function listerAFaire() {
+  if (!fs.existsSync(BACKLOG_FILE)) return [];
+  const backlog = JSON.parse(fs.readFileSync(BACKLOG_FILE, 'utf-8'));
+  return backlog
+    .map((sujet, index) => ({ ...sujet, index }))
+    .filter(sujet => sujet.statut === 'a_faire');
+}
+
+module.exports = { listerBrouillons, listerBloques, listerAFaire, ROOT, BLOG_DIR, BACKLOG_FILE };
