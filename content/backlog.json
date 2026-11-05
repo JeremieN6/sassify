@@ -182,5 +182,124 @@
     "type": "specifique",
     "hookVideo": "Pourquoi laisser une IA improviser qui apparaît à l'écran ?",
     "statut": "a_faire"
+  },
+  {
+    "titre": "Mon premier client est venu d'une conversation ChatGPT, pas du démarchage",
+    "pilier": "decisions",
+    "type": "specifique",
+    "hookVideo": "D'où vient vraiment venu ton tout premier client payant ?",
+    "statut": "a_faire"
+  },
+  {
+    "titre": "Dix-sept échecs sur dix-neuf tentatives, et le client est resté quand même",
+    "pilier": "coulisses-techniques",
+    "type": "specifique",
+    "hookVideo": "Qu'est-ce qui s'est passé pendant la toute première session de ton client ?",
+    "statut": "a_faire"
+  },
+  {
+    "titre": "Onze débuts de paiement en trois jours ne voulaient rien dire",
+    "pilier": "process",
+    "type": "specifique",
+    "hookVideo": "C'est quoi le faux signal qui t'a le plus emballé pour rien ?",
+    "statut": "a_faire"
+  },
+  {
+    "titre": "Un fournisseur IA a retiré son modèle du jour au lendemain, sans prévenir",
+    "pilier": "coulisses-techniques",
+    "type": "specifique",
+    "hookVideo": "Qu'est-ce qui peut casser ton produit sans que tu y sois pour rien ?",
+    "statut": "a_faire"
+  },
+  {
+    "titre": "Le premier paiement ne prouve rien sur le reste du cycle de vie",
+    "pilier": "decisions",
+    "type": "specifique",
+    "hookVideo": "Pourquoi le premier paiement n'est que le début du vrai test ?",
+    "statut": "a_faire"
+  },
+  {
+    "titre": "Un streamer a construit mon futur produit avant moi, en live",
+    "pilier": "decisions",
+    "type": "specifique",
+    "hookVideo": "C'est quoi le signal qui t'a fait changer ton produit du jour au lendemain ?",
+    "statut": "a_faire"
+  },
+  {
+    "titre": "Pourquoi j'ai arrêté de forcer le feedback avant le téléchargement",
+    "pilier": "process",
+    "type": "specifique",
+    "hookVideo": "Pourquoi forcer un retour utilisateur peut le rendre inutile ?",
+    "statut": "a_faire"
+  },
+  {
+    "titre": "Un test d'API à vide a créé de vraies données en production",
+    "pilier": "coulisses-techniques",
+    "type": "specifique",
+    "hookVideo": "C'est quoi l'erreur la plus bête que t'as faite en testant une API ?",
+    "statut": "a_faire"
+  },
+  {
+    "titre": "78% de mes clics venaient de robots, pas de vrais lecteurs",
+    "pilier": "coulisses-techniques",
+    "type": "specifique",
+    "hookVideo": "Comment tu sais si tes statistiques d'emailing disent la vérité ?",
+    "statut": "a_faire"
+  },
+  {
+    "titre": "Le jour où mon tunnel de paiement pointait vers mon ordinateur, pas vers mon site",
+    "pilier": "coulisses-techniques",
+    "type": "specifique",
+    "hookVideo": "C'est quoi le bug qui aurait pu te coûter ton premier vrai paiement ?",
+    "statut": "a_faire"
+  },
+  {
+    "titre": "Pourquoi j'ai retiré le prénom de ma seule cliente d'une page publique",
+    "pilier": "process",
+    "type": "specifique",
+    "hookVideo": "Qu'est-ce qui t'a fait repenser à la confidentialité de tes clients ?",
+    "statut": "a_faire"
+  },
+  {
+    "titre": "Pourquoi un écart de 17 euros ne suffit pas à vendre un abonnement",
+    "pilier": "decisions",
+    "type": "specifique",
+    "hookVideo": "Comment tu as choisi quelles routes garder sur FlySmart ?",
+    "statut": "a_faire"
+  },
+  {
+    "titre": "Je n'avais pas d'historique de prix, alors je l'ai construit moi-même, jour après jour",
+    "pilier": "process",
+    "type": "specifique",
+    "hookVideo": "Que faire quand la donnée dont tu as besoin n'existe nulle part ?",
+    "statut": "a_faire"
+  },
+  {
+    "titre": "Pourquoi j'ai construit mon propre système d'affiliation plutôt que d'utiliser un outil existant",
+    "pilier": "decisions",
+    "type": "specifique",
+    "hookVideo": "Pourquoi reconstruire un système d'affiliation au lieu d'utiliser un outil tout fait ?",
+    "statut": "a_faire"
+  },
+  {
+    "titre": "Une ambassadrice virtuelle peut travailler pour plusieurs marques, mais jamais traverser deux comptes",
+    "pilier": "decisions",
+    "type": "specifique",
+    "hookVideo": "Pourquoi une même identité IA peut représenter deux marques mais jamais deux comptes différents ?",
+    "statut": "a_faire"
+  },
+  {
+    "titre": "Pourquoi je relis chaque idée de contenu avant de dépenser le moindre crédit",
+    "pilier": "process",
+    "type": "specifique",
+    "hookVideo": "Comment tu évites de payer pour des générations que tu vas jeter ?",
+    "statut": "a_faire"
+  },
+  {
+    "titre": "Comment j'ai simplifié l'inscription sur tous mes projets avec un seul copier-coller",
+    "pilier": "process",
+    "type": "specifique",
+    "hookVideo": "Comment tu réutilises une solution d'un projet à l'autre ?",
+    "statut": "a_faire"
   }
 ]
