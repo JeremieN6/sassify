@@ -112,5 +112,75 @@
     "type": "specifique",
     "hookVideo": "Qu'est-ce qui t'a fait réaliser que tu pilotais totalement à l'aveugle ?",
     "statut": "genere"
+  },
+  {
+    "titre": "Un article publié sans mon accord : ce que ça m'a appris sur mon propre pipeline",
+    "pilier": "coulisses-techniques",
+    "type": "specifique",
+    "hookVideo": "C'est quoi le bug le plus bête que t'as trouvé dans ton propre système ?",
+    "statut": "a_faire"
+  },
+  {
+    "titre": "Deux déploiements à 10 secondes d'écart ont cassé mon site",
+    "pilier": "coulisses-techniques",
+    "type": "specifique",
+    "hookVideo": "C'est quoi la panne la plus absurde que t'as eue récemment ?",
+    "statut": "a_faire"
+  },
+  {
+    "titre": "Pourquoi je préfère que mon IA refuse un sujet plutôt qu'elle écrive à moitié",
+    "pilier": "process",
+    "type": "specifique",
+    "hookVideo": "Comment tu empêches une IA d'écrire n'importe quoi à ta place ?",
+    "statut": "a_faire"
+  },
+  {
+    "titre": "Le lien que j'avais oublié entre mes propres projets",
+    "pilier": "decisions",
+    "type": "specifique",
+    "hookVideo": "Tu penses aussi au SEO entre tes propres sites ?",
+    "statut": "a_faire"
+  },
+  {
+    "titre": "Une vidéo bloquée pendant des heures m'a appris une leçon sur les tâches de fond",
+    "pilier": "coulisses-techniques",
+    "type": "specifique",
+    "hookVideo": "C'est quoi une tâche qui plante sans jamais te prévenir ?",
+    "statut": "a_faire"
+  },
+  {
+    "titre": "J'ai abandonné un bot Telegram déjà prévu, sans avoir écrit une ligne",
+    "pilier": "process",
+    "type": "specifique",
+    "hookVideo": "Pourquoi as-tu annulé un projet avant même de le commencer ?",
+    "statut": "a_faire"
+  },
+  {
+    "titre": "Pourquoi je ne publie jamais automatiquement sur TikTok",
+    "pilier": "decisions",
+    "type": "specifique",
+    "hookVideo": "Pourquoi refuser l'automatisation sur une plateforme entière ?",
+    "statut": "a_faire"
+  },
+  {
+    "titre": "Un fournisseur vidéo à zéro crédit, et personne pour le dire",
+    "pilier": "coulisses-techniques",
+    "type": "specifique",
+    "hookVideo": "C'est quoi le risque caché d'un crédit prépayé ?",
+    "statut": "a_faire"
+  },
+  {
+    "titre": "Comment un blog est devenu le second client de mon outil vidéo",
+    "pilier": "coulisses-techniques",
+    "type": "specifique",
+    "hookVideo": "Pourquoi réutiliser un outil interne plutôt que d'en reconstruire un ?",
+    "statut": "a_faire"
+  },
+  {
+    "titre": "Pourquoi j'ai arrêté de forcer la même identité visuelle partout",
+    "pilier": "decisions",
+    "type": "specifique",
+    "hookVideo": "Pourquoi laisser une IA improviser qui apparaît à l'écran ?",
+    "statut": "a_faire"
   }
 ]
