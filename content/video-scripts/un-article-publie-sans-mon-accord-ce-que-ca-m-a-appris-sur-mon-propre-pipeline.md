@@ -3,7 +3,7 @@ sourceSlug: un-article-publie-sans-mon-accord-ce-que-ca-m-a-appris-sur-mon-propr
 titre: "Un article publié sans mon accord : ce que ça m'a appris sur mon propre pipeline"
 mode: faceless
 dateGeneration: 2026-11-09
-plotlineStatus: demande
+plotlineStatus: pret
 plotlineContentId: cmw9ai46e0007k9l10yboq9ou
 ---
 
