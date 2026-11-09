@@ -7,7 +7,7 @@ tag: Coulisses techniques
 pilier: coulisses-techniques
 type: specifique
 hookVideo: "C'est quoi le bug le plus bête que t'as trouvé dans ton propre système ?"
-statut: brouillon
+statut: publie
 ---
 
 La règle fondatrice de Plotline, celle sur laquelle tout le reste repose, c'est qu'aucun contenu ne part en ligne sans une validation humaine explicite. Pas une validation "par défaut", pas un silence qui vaut accord : un clic délibéré, à chaque fois. Sur ce point, le produit n'a jamais transigé, même quand ça ralentissait le développement.
