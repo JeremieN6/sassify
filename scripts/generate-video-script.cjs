@@ -3,6 +3,7 @@ require('dotenv').config({ path: require('path').join(__dirname, '..', '.env.loc
 const fs = require('fs');
 const path = require('path');
 const Anthropic = require('@anthropic-ai/sdk');
+const { trackAnthropicResponse } = require('./lib/ops-cost.cjs');
 
 const ROOT = path.join(__dirname, '..');
 const BLOG_DIR = path.join(ROOT, 'content', 'blog');
@@ -363,6 +364,7 @@ async function main() {
       system: SYSTEM_PROMPT,
       messages
     });
+    trackAnthropicResponse('home', response, { model: 'claude-sonnet-4-6' }, { feature: 'video-script' });
 
     const rawText = response.content.map(b => b.text || '').join('\n').trim();
 

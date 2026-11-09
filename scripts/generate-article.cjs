@@ -4,6 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const Anthropic = require('@anthropic-ai/sdk');
 const { REGLES_PROMPT, retirerTiretsPonctuation } = require('./lib/style-texte.cjs');
+const { trackAnthropicResponse } = require('./lib/ops-cost.cjs');
 
 const ROOT = path.join(__dirname, '..');
 const BACKLOG_FILE = path.join(ROOT, 'content', 'backlog.json');
@@ -90,6 +91,7 @@ async function main() {
     system: `${SYSTEM_PROMPT}\n\nRÈGLES D'ÉCRITURE (s'appliquent au résumé et au corps de l'article, sans changer le format de réponse ci-dessus) :\n${REGLES_PROMPT}`,
     messages: [{ role: 'user', content: userPrompt }]
   });
+  trackAnthropicResponse('home', response, { model: 'claude-sonnet-4-6' }, { feature: 'article' });
 
   const rawText = response.content.map(b => b.text || '').join('\n').trim();
 
