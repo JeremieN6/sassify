@@ -118,7 +118,7 @@
     "pilier": "coulisses-techniques",
     "type": "specifique",
     "hookVideo": "C'est quoi le bug le plus bête que t'as trouvé dans ton propre système ?",
-    "statut": "a_faire"
+    "statut": "genere"
   },
   {
     "titre": "Deux déploiements à 10 secondes d'écart ont cassé mon site",
