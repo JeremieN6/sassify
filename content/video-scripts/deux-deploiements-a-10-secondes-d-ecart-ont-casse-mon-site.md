@@ -3,7 +3,7 @@ sourceSlug: deux-deploiements-a-10-secondes-d-ecart-ont-casse-mon-site
 titre: "Deux déploiements à 10 secondes d'écart ont cassé mon site"
 mode: faceless
 dateGeneration: 2026-11-16
-plotlineStatus: demande
+plotlineStatus: pret
 plotlineContentId: cmwj32lj700006ul1c4grg0n7
 ---
 
