@@ -219,6 +219,8 @@ async function demanderVideoFacelessAPlotline({ slug, consigne, texte }) {
   const apiKey = process.env.PLOTLINE_API_KEY;
   const profileId = process.env.PLOTLINE_PROFILE_ID || process.env.PLOTLINE_INFLUENCER_ID;
   const baseUrl = process.env.PLOTLINE_BASE_URL || 'https://plotline.sassify.fr';
+  // DA du profil a utiliser (0 = principale, 1 ou 2 = options) ; absent = principale.
+  const styleSlot = Number(process.env.PLOTLINE_STYLE_SLOT) || 0;
 
   if (!apiKey || !profileId) {
     return { statut: 'non_configure', raison: 'PLOTLINE_API_KEY ou PLOTLINE_PROFILE_ID manquant dans .env.local' };
@@ -228,7 +230,7 @@ async function demanderVideoFacelessAPlotline({ slug, consigne, texte }) {
     const response = await fetch(`${baseUrl}/api/external/faceless-jobs`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'x-api-key': apiKey },
-      body: JSON.stringify({ profileId, sourceText: texte, idea: consigne, durationSeconds: FACELESS_DUREE_SECONDES, slug, sourceProject: 'home' }),
+      body: JSON.stringify({ profileId, sourceText: texte, idea: consigne, durationSeconds: FACELESS_DUREE_SECONDES, slug, sourceProject: 'home', ...(styleSlot ? { styleSlot } : {}) }),
     });
 
     const data = await response.json().catch(() => ({}));
