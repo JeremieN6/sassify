@@ -7,7 +7,7 @@ tag: Coulisses techniques
 pilier: coulisses-techniques
 type: specifique
 hookVideo: "C'est quoi la panne la plus absurde que t'as eue récemment ?"
-statut: brouillon
+statut: publie
 ---
 
 Tester en local ne suffit pas. Ce qui casse en production, c'est rarement le code : c'est la séquence dans laquelle les opérations s'exécutent sur le serveur.
